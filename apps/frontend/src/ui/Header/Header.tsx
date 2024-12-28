@@ -4,9 +4,10 @@ export default function Header() {
   return (
     <header
       className="
-        flex justify-center items-center h-16 bg-woodsmoke-950 
+        flex justify-center items-center h-16 bg-woodsmoke-950
         lg:justify-start lg:px-4
       "
+      id="header"
     >
       <Link href="/">
         <h1 className="text-[2rem] font-black text-woodsmoke-50">Kronos</h1>

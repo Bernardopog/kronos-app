@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-layout {
+  grid-template-areas:
+    "header"
+    "main";
+  grid-template-columns: 1fr;
+  grid-template-rows: 64px calc(100% - 64px);
+}
+
+#header {
+  grid-area: header;
+}
+#nav {
+  grid-area: nav;
+}
+#main {
+  grid-area: main;
+}
+
+@media (min-width: 1024px) {
+  .main-layout {
+    grid-template-areas:
+      "header header header"
+      "nav main main"
+      "nav main main";
+    grid-template-columns: 224px repeat(2, 1fr);
+    grid-template-rows: 4rem repeat(2, 1fr);
+  }
+}
