@@ -1,7 +1,10 @@
+"use client";
+import { NavbarContext } from "@/context/NavbarContext";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 
 interface IHomeCardProps {
+  name: string;
   path: string;
   label: string;
   icon: ReactNode;
@@ -9,17 +12,25 @@ interface IHomeCardProps {
 }
 
 export default function HomeCard({
+  name,
   path,
   label,
   icon,
   animationTime,
 }: IHomeCardProps) {
+  const { currentPage, selectCurrentPage, selectedLink } =
+    useContext(NavbarContext);
+
   return (
     <Link
       href={path}
       aria-label={label}
       className="w-60 h-40 sm:w-72 sm:h-48 animate-move-in opacity-0"
       style={{ animationDelay: `${animationTime}ms` }}
+      onClick={() => {
+        selectCurrentPage(name);
+        console.log(currentPage, selectedLink);
+      }}
     >
       <article
         className={`

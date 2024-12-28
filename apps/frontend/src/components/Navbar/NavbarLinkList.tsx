@@ -1,21 +1,23 @@
 "use client";
+import { NavbarContext } from "@/context/NavbarContext";
+import linkList from "@/shared/linkList";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
 
 export default function NavbarLinkList() {
-  const [selectedPage, setSelectedPage] = useState<string>("");
-  const [selectedLink, setSelectedLink] = useState<string>("");
+  const { currentPage, selectCurrentPage, selectedLink, selectLink } =
+    useContext(NavbarContext);
 
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname.includes(selectedPage)) {
-      setSelectedLink(selectedPage);
+    if (pathname.includes(currentPage)) {
+      selectLink(currentPage);
     } else {
-      setSelectedLink("home");
+      selectLink("home");
     }
-  }, [pathname, selectedPage]);
+  }, [pathname, currentPage, selectLink]);
 
   return (
     <ul
@@ -32,7 +34,7 @@ export default function NavbarLinkList() {
           "
           key={link.name}
           onClick={() => {
-            setSelectedPage(link.name);
+            selectCurrentPage(link.name);
           }}
         >
           <Link
