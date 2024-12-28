@@ -1,5 +1,5 @@
 {
-  "name": "kronos-new-app",
+  "name": "kronos-app",
   "private": true,
   "scripts": {
     "build": "turbo build",
