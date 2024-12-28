@@ -1,24 +1,5 @@
 import HomeCard from "@/components/Card/HomeCard";
-
-import { BsKanban, BsListCheck, BsFileText } from "react-icons/bs";
-
-const cardLinkList = [
-  {
-    path: "/pages/kanban",
-    label: "Kanban",
-    icon: <BsKanban />,
-  },
-  {
-    path: "/pages/todo",
-    label: "Tarefas",
-    icon: <BsListCheck />,
-  },
-  {
-    path: "/pages/note",
-    label: "Notas",
-    icon: <BsFileText />,
-  },
-];
+import linkList from "@/shared/linkList";
 
 export default function Home() {
   return (
@@ -38,12 +19,13 @@ export default function Home() {
         lg:flex-row lg:h-[calc(100%-6rem)]
       "
       >
-        {cardLinkList.map((card, idx) => (
+        {linkList.map((link, idx) => (
           <HomeCard
-            key={card.path}
-            path={card.path}
-            label={card.label}
-            icon={card.icon}
+            key={link.path}
+            name={link.name}
+            path={link.path}
+            label={link.label}
+            icon={link.icon}
             animationTime={250 * (idx + 1)}
           />
         ))}
