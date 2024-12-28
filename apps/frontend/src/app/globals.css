@@ -35,4 +35,7 @@
     grid-template-columns: 224px repeat(2, 1fr);
     grid-template-rows: 4rem repeat(2, 1fr);
   }
+  .main-layout:has(#nav.closed) {
+    grid-template-columns: 32px repeat(2, 1fr);
+  }
 }
