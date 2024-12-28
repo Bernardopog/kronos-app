@@ -1,7 +1,7 @@
-export default function Home() {
+export default function KanbanPage() {
   return (
     <main className="page" id="main">
-      Main Page
+      Kanban page
     </main>
   );
 }

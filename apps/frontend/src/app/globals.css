@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .page {
+    @apply bg-woodsmoke-50 p-2 size-full;
+  }
+}
+
 .main-layout {
   grid-template-areas:
     "header"

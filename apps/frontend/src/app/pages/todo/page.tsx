@@ -1,7 +1,7 @@
-export default function Home() {
+export default function ToDoPage() {
   return (
     <main className="page" id="main">
-      Main Page
+      To-Do page
     </main>
   );
 }

@@ -1,7 +1,7 @@
-export default function Home() {
+export default function NotePage() {
   return (
     <main className="page" id="main">
-      Main Page
+      Notes page
     </main>
   );
 }
