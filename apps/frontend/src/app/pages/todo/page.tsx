@@ -1,3 +1,5 @@
+import ToDoTaskList from "@/ui/ToDoPage/ToDoTaskList";
+
 export default function ToDoPage() {
   return (
     <main
@@ -7,7 +9,7 @@ export default function ToDoPage() {
       "
       id="main"
     >
-      To-Do page
+      <ToDoTaskList />
     </main>
   );
 }
