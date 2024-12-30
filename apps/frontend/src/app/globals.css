@@ -16,6 +16,15 @@
   grid-template-rows: 64px calc(100% - 64px);
 }
 
+.to-do-page-layout {
+  grid-template-areas:
+    "td-header"
+    "td-task-list";
+  grid-template-columns: 1fr;
+  grid-template-rows: 64px calc(100% - 64px);
+}
+
+/** Main - Grid Area  */
 #header {
   grid-area: header;
 }
@@ -24,6 +33,20 @@
 }
 #main {
   grid-area: main;
+}
+
+/** To Do - Grid Area  */
+#td-header {
+  grid-area: td-header;
+}
+#td-filter {
+  grid-area: td-filter;
+}
+#td-task-list {
+  grid-area: td-task-list;
+}
+#td-general {
+  grid-area: td-general;
 }
 
 @media (min-width: 1024px) {
@@ -37,5 +60,17 @@
   }
   .main-layout:has(#nav.closed) {
     grid-template-columns: 32px repeat(2, 1fr);
+  }
+
+  .to-do-page-layout {
+    grid-template-areas:
+      "td-header td-header td-header"
+      "td-filter td-task-list td-general";
+    grid-template-columns: minmax(240px, 380px) minmax(400px, 1fr) minmax(
+        240px,
+        380px
+      );
+    grid-template-rows: 64px 1fr;
+    gap: 1rem;
   }
 }
