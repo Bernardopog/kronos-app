@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/ui/Header/Header";
 import Navbar from "@/ui/Navbar/Navbar";
 import { NavbarProvider } from "@/context/NavbarContext";
+import { ToDoProvider } from "@/context/ToDoContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -23,13 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <NavbarProvider>
-        <body
-          className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
-        >
-          <Header />
-          <Navbar />
-          {children}
-        </body>
+        <ToDoProvider>
+          <body
+            className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
+          >
+            <Header />
+            <Navbar />
+            {children}
+          </body>
+        </ToDoProvider>
       </NavbarProvider>
     </html>
   );
