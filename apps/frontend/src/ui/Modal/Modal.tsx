@@ -1,11 +1,13 @@
 "use client";
+import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
 import ModalFooter from "@/components/Modal/ModalFooter";
 import ModalHeader from "@/components/Modal/ModalHeader";
 import { ModalContext } from "@/context/ModalContext";
 import React, { useContext } from "react";
 
 export default function Modal() {
-  const { isModalOpen, typeOfModal, toggleModal } = useContext(ModalContext);
+  const { isModalOpen, typeOfModal, modalContent, toggleModal } =
+    useContext(ModalContext);
 
   return (
     <>
@@ -22,8 +24,10 @@ export default function Modal() {
               ev.stopPropagation();
             }}
           >
-            <ModalHeader type={typeOfModal} title="Criar tarefa" />
-            <section className="h-full p-2"></section>
+            <ModalHeader type={typeOfModal} title="Sobre a tarefa" />
+            <section className="h-full p-2">
+              {modalContent === "toDoRead" && <ModalToDoRead />}
+            </section>
             <ModalFooter />
           </section>
         </div>

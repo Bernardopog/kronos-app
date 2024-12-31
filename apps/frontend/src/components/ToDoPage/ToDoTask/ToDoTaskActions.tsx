@@ -12,7 +12,7 @@ export default function ToDoTaskActions({ taskData }: { taskData: IToDoTask }) {
     <div className="flex justify-end items-center w-2/6 gap-x-2">
       <button
         onClick={() => {
-          toggleModal("read");
+          toggleModal("read", "toDoRead");
           selectTask(taskData);
         }}
       >
