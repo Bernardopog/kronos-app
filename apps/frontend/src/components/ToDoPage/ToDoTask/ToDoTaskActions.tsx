@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AiFillCheckCircle, AiFillInfoCircle } from "react-icons/ai";
 
 export default function ToDoTaskActions({ taskData }: { taskData: IToDoTask }) {
-  const { toggleTaskCompletion } = useContext(ToDoContext);
+  const { toggleTaskCompletion, selectTask } = useContext(ToDoContext);
   const { toggleModal } = useContext(ModalContext);
 
   return (
@@ -13,6 +13,7 @@ export default function ToDoTaskActions({ taskData }: { taskData: IToDoTask }) {
       <button
         onClick={() => {
           toggleModal("read");
+          selectTask(taskData);
         }}
       >
         <div className="to-do-btn">

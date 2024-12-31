@@ -5,13 +5,16 @@ import { createContext, useState } from "react";
 
 interface IToDoContext {
   toDoTaskList: IToDoTask[];
+  selectedTask: IToDoTask | null;
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
+  selectTask: (task: IToDoTask) => void;
 }
 
 const ToDoContext = createContext({} as IToDoContext);
 
 const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [toDoTaskList, setToDoTaskList] = useState<IToDoTask[]>(mockToDoList);
+  const [selectedTask, setSelectedTask] = useState<IToDoTask | null>(null);
 
   /**
    * Toggles the completion status of a specific task.
@@ -27,11 +30,21 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     setToDoTaskList(updatedTasks);
   };
 
+  /**
+   * Selects a task to be displayed in the modal.
+   * @param {IToDoTask} task The task to select.
+   */
+  const selectTask = (task: IToDoTask) => {
+    setSelectedTask(task);
+  };
+
   return (
     <ToDoContext.Provider
       value={{
         toDoTaskList,
+        selectedTask,
         toggleTaskCompletion,
+        selectTask,
       }}
     >
       {children}
