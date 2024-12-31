@@ -24,6 +24,14 @@ export default {
         "base-floating": "0 24px 4px",
       },
       colors: {
+        priority: {
+          none: "#42f051",
+          lowest: "#7cf042",
+          lower: "#c4f042",
+          medium: "#f0d342",
+          higher: "#f08b42",
+          highest: "#f04242",
+        },
         crud: {
           create: {
             light: "#2b8e32",
@@ -85,9 +93,20 @@ export default {
             opacity: "1",
           },
         },
+        "move-left-to-right": {
+          "0%": {
+            transform: "translateX(-100%)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateX(0)",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "move-in": "move-in 0.5s linear forwards",
+        "move-left-to-right": "move-left-to-right 0.5s linear forwards",
       },
     },
   },
