@@ -17,7 +17,7 @@ export default function ModalFooter({ type }: IModalFooterProps) {
             type="button"
             className="modal-btn rounded-bl-2xl bg-crud-delete-dark hover:bg-crud-delete-light"
             onClick={() => {
-              toggleModal("none");
+              toggleModal(null);
             }}
           >
             Cancelar
@@ -37,7 +37,7 @@ export default function ModalFooter({ type }: IModalFooterProps) {
           type="button"
           className="modal-btn rounded-b-2xl bg-crud-read-dark hover:bg-crud-read-light"
           onClick={() => {
-            toggleModal("none");
+            toggleModal(null);
           }}
         >
           Fechar

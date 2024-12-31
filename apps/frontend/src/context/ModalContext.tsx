@@ -3,41 +3,41 @@
 import { createContext, ReactNode, useState } from "react";
 
 export type TypeModal = "create" | "read" | "update" | "delete" | "none";
-type ModalContent = "toDoRead" | "none";
+type ModalContent = "toDoRead" | "toDoCreate" | "none";
 
 interface IModalContext {
   isModalOpen: boolean;
-  typeOfModal: TypeModal;
-  modalContent: ModalContent;
-  toggleModal: (type: TypeModal, content?: ModalContent) => void;
+  modalData: IModalData | null;
+  toggleModal: (modalData: IModalData | null) => void;
+}
+
+interface IModalData {
+  headerTitle: string;
+  type: TypeModal;
+  content: ModalContent;
 }
 
 const ModalContext = createContext({} as IModalContext);
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [typeOfModal, setTypeOfModal] = useState<TypeModal>("none");
-  const [modalContent, setModalContent] = useState<ModalContent>("none");
+  const [modalData, setModalData] = useState<IModalData | null>(null);
 
   /**
    * Toggles the state of the modal between open and closed.
-   * When called, it inverts the current state of `isModalOpen`.
-   * Additionally, it sets the type of the modal to the given `type` and the content of the modal to the given `content`.
-   * @param {TypeModal} type The type of the modal to open.
-   * @param {ModalContent} [content="none"] The content of the modal to open.
+   * If called with an argument, it also updates the modalData state.
+   * @param {IModalData | null} modalData The modal data to update if the modal is being opened.
    */
-  const toggleModal = (type: TypeModal, content?: ModalContent) => {
+  const toggleModal = (modalData: IModalData | null) => {
     setIsModalOpen(!isModalOpen);
-    setTypeOfModal(type);
-    if (content) setModalContent(content);
+    if (modalData) setModalData(modalData);
   };
 
   return (
     <ModalContext.Provider
       value={{
         isModalOpen,
-        typeOfModal,
-        modalContent,
+        modalData,
         toggleModal,
       }}
     >

@@ -6,8 +6,7 @@ import { ModalContext } from "@/context/ModalContext";
 import React, { useContext } from "react";
 
 export default function Modal() {
-  const { isModalOpen, typeOfModal, modalContent, toggleModal } =
-    useContext(ModalContext);
+  const { isModalOpen, modalData, toggleModal } = useContext(ModalContext);
 
   return (
     <>
@@ -15,7 +14,7 @@ export default function Modal() {
         <div
           className="flex justify-center items-center fixed top-0 z-[100] size-full bg-woodsmoke-950/50 backdrop-blur-sm"
           onClick={() => {
-            toggleModal("none");
+            toggleModal(null);
           }}
         >
           <section
@@ -24,11 +23,11 @@ export default function Modal() {
               ev.stopPropagation();
             }}
           >
-            <ModalHeader type={typeOfModal} title="Sobre a tarefa" />
+            <ModalHeader type={modalData!.type} title="Sobre a tarefa" />
             <section className="h-full p-2">
-              {modalContent === "toDoRead" && <ModalToDoRead />}
+              {modalData?.content === "toDoRead" && <ModalToDoRead />}
             </section>
-            <ModalFooter type={typeOfModal} />
+            <ModalFooter type={modalData!.type} />
           </section>
         </div>
       )}
