@@ -5,6 +5,8 @@ import Header from "@/ui/Header/Header";
 import Navbar from "@/ui/Navbar/Navbar";
 import { NavbarProvider } from "@/context/NavbarContext";
 import { ToDoProvider } from "@/context/ToDoContext";
+import Modal from "@/ui/Modal/Modal";
+import { ModalProvider } from "@/context/ModalContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -25,13 +27,16 @@ export default function RootLayout({
     <html lang="en">
       <NavbarProvider>
         <ToDoProvider>
-          <body
-            className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
-          >
-            <Header />
-            <Navbar />
-            {children}
-          </body>
+          <ModalProvider>
+            <body
+              className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
+            >
+              <Modal />
+              <Header />
+              <Navbar />
+              {children}
+            </body>
+          </ModalProvider>
         </ToDoProvider>
       </NavbarProvider>
     </html>

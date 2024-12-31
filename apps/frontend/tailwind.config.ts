@@ -24,6 +24,24 @@ export default {
         "base-floating": "0 24px 4px",
       },
       colors: {
+        crud: {
+          create: {
+            light: "#2b8e32",
+            dark: "#1d4a22",
+          },
+          read: {
+            light: "#9640bf",
+            dark: "#572768",
+          },
+          update: {
+            light: "#4784c9",
+            dark: "#314e77",
+          },
+          delete: {
+            light: "#bf4040",
+            dark: "#73282f",
+          },
+        },
         woodsmoke: {
           "50": "#f6f6f6",
           "100": "#e7e7e7",
