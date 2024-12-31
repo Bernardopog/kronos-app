@@ -28,7 +28,7 @@ export default function Modal() {
             <section className="h-full p-2">
               {modalContent === "toDoRead" && <ModalToDoRead />}
             </section>
-            <ModalFooter />
+            <ModalFooter type={typeOfModal} />
           </section>
         </div>
       )}
