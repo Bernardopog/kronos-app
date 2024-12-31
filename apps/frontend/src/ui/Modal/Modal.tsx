@@ -1,4 +1,5 @@
 "use client";
+import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
 import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
 import ModalFooter from "@/components/Modal/ModalFooter";
 import ModalHeader from "@/components/Modal/ModalHeader";
@@ -26,6 +27,7 @@ export default function Modal() {
             <ModalHeader type={modalData!.type} title="Sobre a tarefa" />
             <section className="h-full p-2">
               {modalData?.content === "toDoRead" && <ModalToDoRead />}
+              {modalData?.content === "toDoCreate" && <ModalToDoCreate />}
             </section>
             <ModalFooter type={modalData!.type} />
           </section>
