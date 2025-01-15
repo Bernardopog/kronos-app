@@ -1,6 +1,7 @@
 "use client";
 
 import { IToDoTask, mockToDoList } from "@/mock/mockToDoList";
+import IdGenerator from "@/mod/IdGenerator";
 import { createContext, useState } from "react";
 
 interface IToDoContext {
@@ -8,6 +9,7 @@ interface IToDoContext {
   selectedTask: IToDoTask | null;
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
   selectTask: (task: IToDoTask) => void;
+  createTask: (taskData: Partial<IToDoTask>) => void;
 }
 
 const ToDoContext = createContext({} as IToDoContext);
@@ -38,6 +40,21 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     setSelectedTask(task);
   };
 
+  const createTask = (taskData: Partial<IToDoTask>) => {
+    const newTask: IToDoTask = {
+      id: new IdGenerator(8).id,
+      isCompleted: false,
+      creationDate: new Date(),
+
+      category: "",
+      priority: taskData.priority!,
+      description: taskData.description!,
+      title: taskData.title!,
+    };
+
+    setToDoTaskList([...toDoTaskList, newTask]);
+  };
+
   return (
     <ToDoContext.Provider
       value={{
@@ -45,6 +62,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         selectedTask,
         toggleTaskCompletion,
         selectTask,
+        createTask,
       }}
     >
       {children}
