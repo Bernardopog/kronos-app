@@ -10,6 +10,7 @@ interface IToDoContext {
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
+  removeTask: (type: string) => void;
 }
 
 const ToDoContext = createContext({} as IToDoContext);
@@ -40,6 +41,11 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     setSelectedTask(task);
   };
 
+  /**
+   * Creates a new task and adds it to the to-do task list.
+   * @param {Partial<IToDoTask>} taskData - The partial data for the task, including title, description, and priority.
+   */
+
   const createTask = (taskData: Partial<IToDoTask>) => {
     const newTask: IToDoTask = {
       id: new IdGenerator(8).id,
@@ -55,6 +61,32 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     setToDoTaskList([...toDoTaskList, newTask]);
   };
 
+  /**
+   * Removes tasks from the to-do list based on the specified type.
+   * @param {string} type - The type of tasks to remove.
+   *                        "all" removes all tasks,
+   *                        "completed" removes only completed tasks,
+   *                        any other value removes uncompleted tasks.
+   */
+
+  const removeTask = (type: string) => {
+    if (type === "all") {
+      setToDoTaskList(toDoTaskList.filter(() => false));
+    } else if (type === "completed") {
+      setToDoTaskList(
+        toDoTaskList.filter((task) => {
+          return !task.isCompleted;
+        })
+      );
+    } else {
+      setToDoTaskList(
+        toDoTaskList.filter((task) => {
+          return task.isCompleted;
+        })
+      );
+    }
+  };
+
   return (
     <ToDoContext.Provider
       value={{
@@ -63,6 +95,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         toggleTaskCompletion,
         selectTask,
         createTask,
+        removeTask,
       }}
     >
       {children}
