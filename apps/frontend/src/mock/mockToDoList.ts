@@ -1,4 +1,4 @@
-type PriorityType = 0 | 1 | 2 | 3 | 4 | 5;
+export type PriorityType = "0" | "1" | "2" | "3" | "4" | "5";
 
 export interface IToDoTask {
   id: string;
@@ -15,7 +15,7 @@ export const mockToDoList: IToDoTask[] = [
     id: "ba9f2",
     title: "Estudar Matemática",
     description: "Estudar Baskara",
-    priority: 5,
+    priority: "5",
     creationDate: new Date(2024, 11, 5),
     isCompleted: false,
     category: "school",
@@ -23,7 +23,7 @@ export const mockToDoList: IToDoTask[] = [
   {
     id: "k8a93",
     title: "Estudar Português",
-    priority: 1,
+    priority: "1",
     creationDate: new Date(2024, 10, 26),
     isCompleted: true,
     category: "school",
