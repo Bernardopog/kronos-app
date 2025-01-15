@@ -30,7 +30,7 @@
     "td-header"
     "td-task-list";
   grid-template-columns: 1fr;
-  grid-template-rows: 64px calc(100% - 64px);
+  grid-template-rows: 64px calc(100vh - 64px);
 }
 
 /** Main - Grid Area  */
