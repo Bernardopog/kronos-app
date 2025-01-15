@@ -43,7 +43,8 @@ export default function ModalToDoRead() {
           <p
             className={`${selectedTask?.description ? "" : "italic text-woodsmoke-950/50"}`}
           >
-            {selectedTask?.description ?? "Não há descrição..."}
+            {(selectedTask?.description || selectedTask?.description === "") &&
+              "Não há descrição..."}
           </p>
         </div>
       </div>
