@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useState } from "react";
 
 export type TypeModal = "create" | "read" | "update" | "delete" | "none";
-type ModalContent = "toDoRead" | "toDoCreate" | "none";
+type ModalContent = "toDoRead" | "toDoCreate" | "toDoRemove" | "none";
 
 interface IModalContext {
   isModalOpen: boolean;

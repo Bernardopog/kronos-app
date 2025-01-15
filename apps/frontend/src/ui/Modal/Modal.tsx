@@ -1,6 +1,7 @@
 "use client";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
 import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
+import ModalToDoRemove from "@/components/Modal/ModalContent/ModalToDoRemove";
 import ModalHeader from "@/components/Modal/ModalHeader";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from "react";
@@ -27,6 +28,7 @@ export default function Modal() {
             <section className="h-full">
               {modalData?.content === "toDoRead" && <ModalToDoRead />}
               {modalData?.content === "toDoCreate" && <ModalToDoCreate />}
+              {modalData?.content === "toDoRemove" && <ModalToDoRemove />}
             </section>
           </section>
         </div>
