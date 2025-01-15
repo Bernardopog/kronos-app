@@ -4,9 +4,10 @@ import React, { useContext } from "react";
 
 interface IModalFooterProps {
   type: TypeModal;
+  action: () => void;
 }
 
-export default function ModalFooter({ type }: IModalFooterProps) {
+export default function ModalFooter({ type, action }: IModalFooterProps) {
   const { toggleModal } = useContext(ModalContext);
 
   return (
@@ -25,6 +26,7 @@ export default function ModalFooter({ type }: IModalFooterProps) {
           <button
             type="button"
             className="modal-btn rounded-br-2xl bg-crud-create-dark hover:bg-crud-create-light"
+            onClick={action}
           >
             {type === "create" && "Criar"}
             {type === "update" && "Atualizar"}

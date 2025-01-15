@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import PriorityButton from "../Button/PriorityButton";
+import { PriorityType } from "@/mock/mockToDoList";
 
-export default function SelectRow() {
+interface ISelectRowProps {
+  value: PriorityType | null;
+  setValue: Dispatch<SetStateAction<PriorityType>>;
+}
+
+export default function SelectRow({ value, setValue }: ISelectRowProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [selectedPriority, setSelectedPriority] = useState<string | null>(null);
 
   let color: string;
 
-  switch (selectedPriority) {
+  switch (value) {
     case "0":
       color = "bg-priority-none";
       break;
@@ -43,19 +48,25 @@ export default function SelectRow() {
       <label className="text-woodsmoke-950 hover:font-bold" htmlFor="priority">
         Prioridade da Tarefa:
       </label>
-      <div role="menu" className="flex gap-x-1 sm:gap-x-2">
+      <div
+        role="menu"
+        className="
+          flex p-2 gap-x-1 bg-woodsmoke-100 rounded-lg
+          sm:gap-x-2
+        "
+      >
         <button
           id="priority"
           role="menuitem"
           type="button"
           className={`
-            flex items-center justify-center size-8 rounded-lg text-woodsmoke-950
+            flex items-center justify-center size-8 rounded-lg text-woodsmoke-950 border-woodsmoke-950 border-2
             ${color}
-            ${selectedPriority ? "font-bold" : "text-2xl"}
+            ${value ? "font-bold" : "text-2xl"}
           `}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {selectedPriority ? selectedPriority : <AiFillQuestionCircle />}
+          {value ? value : <AiFillQuestionCircle />}
         </button>
         {isMenuOpen && (
           <>
@@ -63,37 +74,37 @@ export default function SelectRow() {
               label="0"
               animationDelay={0.15}
               bgColor="bg-priority-none"
-              action={() => setSelectedPriority("0")}
+              action={() => setValue("0")}
             />
             <PriorityButton
               label="1"
               animationDelay={0.2}
               bgColor="bg-priority-lowest"
-              action={() => setSelectedPriority("1")}
+              action={() => setValue("1")}
             />
             <PriorityButton
               label="2"
               animationDelay={0.25}
               bgColor="bg-priority-lower"
-              action={() => setSelectedPriority("2")}
+              action={() => setValue("2")}
             />
             <PriorityButton
               label="3"
               animationDelay={0.3}
               bgColor="bg-priority-medium"
-              action={() => setSelectedPriority("3")}
+              action={() => setValue("3")}
             />
             <PriorityButton
               label="4"
               animationDelay={0.35}
               bgColor="bg-priority-higher"
-              action={() => setSelectedPriority("4")}
+              action={() => setValue("4")}
             />
             <PriorityButton
               label="5"
               animationDelay={0.4}
               bgColor="bg-priority-highest"
-              action={() => setSelectedPriority("5")}
+              action={() => setValue("5")}
             />
           </>
         )}
