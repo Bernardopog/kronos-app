@@ -4,7 +4,7 @@ export interface IToDoTask {
   id: string;
   title: string;
   description?: string;
-  priority?: PriorityType;
+  priority: PriorityType;
   creationDate: Date;
   isCompleted: boolean;
   category: string;
@@ -32,6 +32,7 @@ export const mockToDoList: IToDoTask[] = [
     id: "hh192",
     title: "Aniversário Jane Doe",
     description: "Jane Doe faz aniversário no dia 25 de fevereiro",
+    priority: "2",
     creationDate: new Date(2024, 2, 1),
     isCompleted: false,
     category: "family",
