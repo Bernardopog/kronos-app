@@ -41,10 +41,12 @@ export default function ModalToDoRead() {
         <div>
           <h3 className="font-bold">Descrição:</h3>
           <p
-            className={`${selectedTask?.description ? "" : "italic text-woodsmoke-950/50"}`}
+            className={`${!selectedTask?.description || selectedTask?.description?.trim() === "" ? "italic text-woodsmoke-950/50" : ""}`}
           >
-            {(selectedTask?.description || selectedTask?.description === "") &&
-              "Não há descrição..."}
+            {!selectedTask?.description ||
+selectedTask?.description?.trim() === ""
+              ?               "Não há descrição..."
+              : selectedTask?.description}
           </p>
         </div>
       </div>
