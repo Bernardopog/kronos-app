@@ -4,9 +4,19 @@ import { IToDoTask, mockToDoList } from "@/mock/mockToDoList";
 import IdGenerator from "@/mod/IdGenerator";
 import { createContext, useState } from "react";
 
+type FilterStatusType = "all" | "completed" | "uncompleted";
+type FilterPriorityType = "all" | "high" | "low";
+
 interface IToDoContext {
   toDoTaskList: IToDoTask[];
   selectedTask: IToDoTask | null;
+  filterStatus: FilterStatusType;
+  filterPriority: FilterPriorityType;
+  isFilterShow: boolean;
+  filterShowControl: boolean;
+  changeFilterStatus: (status: FilterStatusType) => void;
+  changeFilterPriority: (priority: FilterPriorityType) => void;
+  toggleFilter: (type: "close" | "open") => void;
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
@@ -18,6 +28,30 @@ const ToDoContext = createContext({} as IToDoContext);
 const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [toDoTaskList, setToDoTaskList] = useState<IToDoTask[]>(mockToDoList);
   const [selectedTask, setSelectedTask] = useState<IToDoTask | null>(null);
+  const [filterStatus, setFilterStatus] = useState<FilterStatusType>("all");
+  const [filterPriority, setFilterPriority] =
+    useState<FilterPriorityType>("all");
+  const [isFilterShow, setIsFilterShow] = useState<boolean>(false);
+
+  const [filterShowControl, setFilterShowControl] = useState<boolean>(false);
+
+  const changeFilterStatus = (status: FilterStatusType) => {
+    setFilterStatus(status);
+  };
+
+  const changeFilterPriority = (priority: FilterPriorityType) => {
+    setFilterPriority(priority);
+  };
+
+  const toggleFilter = (type: "close" | "open") => {
+    if (type === "open") {
+      setIsFilterShow(!isFilterShow);
+      setTimeout(() => setFilterShowControl(!filterShowControl), 100);
+    } else {
+      setFilterShowControl(!isFilterShow);
+      setTimeout(() => setIsFilterShow(!filterShowControl), 600);
+    }
+  };
 
   /**
    * Toggles the completion status of a specific task.
@@ -92,6 +126,13 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         toDoTaskList,
         selectedTask,
+        filterStatus,
+        filterPriority,
+        isFilterShow,
+        filterShowControl,
+        changeFilterStatus,
+        changeFilterPriority,
+        toggleFilter,
         toggleTaskCompletion,
         selectTask,
         createTask,
