@@ -13,10 +13,13 @@ interface IToDoContext {
   filterStatus: FilterStatusType;
   filterPriority: FilterPriorityType;
   isFilterShow: boolean;
+  isGeneralShow: boolean;
   filterShowControl: boolean;
+  generalShowControl: boolean;
   changeFilterStatus: (status: FilterStatusType) => void;
   changeFilterPriority: (priority: FilterPriorityType) => void;
   toggleFilter: (type: "close" | "open") => void;
+  toggleGeneral: (type: "close" | "open") => void;
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
@@ -32,8 +35,10 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [filterPriority, setFilterPriority] =
     useState<FilterPriorityType>("all");
   const [isFilterShow, setIsFilterShow] = useState<boolean>(false);
+  const [isGeneralShow, setIsGeneralShow] = useState<boolean>(false);
 
   const [filterShowControl, setFilterShowControl] = useState<boolean>(false);
+  const [generalShowControl, setGeneralShowControl] = useState<boolean>(false);
 
   const changeFilterStatus = (status: FilterStatusType) => {
     setFilterStatus(status);
@@ -50,6 +55,15 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setFilterShowControl(!isFilterShow);
       setTimeout(() => setIsFilterShow(!filterShowControl), 600);
+    }
+  };
+  const toggleGeneral = (type: "close" | "open") => {
+    if (type === "open") {
+      setIsGeneralShow(!isGeneralShow);
+      setTimeout(() => setGeneralShowControl(!generalShowControl), 100);
+    } else {
+      setGeneralShowControl(!isGeneralShow);
+      setTimeout(() => setIsGeneralShow(!generalShowControl), 600);
     }
   };
 
@@ -129,10 +143,13 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         filterStatus,
         filterPriority,
         isFilterShow,
+        isGeneralShow,
         filterShowControl,
+        generalShowControl,
         changeFilterStatus,
         changeFilterPriority,
         toggleFilter,
+        toggleGeneral,
         toggleTaskCompletion,
         selectTask,
         createTask,
