@@ -4,10 +4,12 @@ import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
+import Button from "@/components/Button/Button";
+import { AiFillEdit } from "react-icons/ai";
 
 export default function ModalToDoRead() {
   const { selectedTask } = useContext(ToDoContext);
-  const { toggleModal } = useContext(ModalContext);
+  const { toggleModal, changeModalData } = useContext(ModalContext);
 
   return (
     <>
@@ -39,7 +41,7 @@ export default function ModalToDoRead() {
         </div>
         <hr />
         <div className="flex justify-between items-center">
-          <h3>Prioridade:</h3>
+          <h3 className="font-bold">Prioridade:</h3>
           <div className="flex flex-col items-center min-w-24 p-1 border rounded-lg font-medium border-woodsmoke-200">
             {selectedTask?.priority === "0" && "Nenhuma"}
             {selectedTask?.priority === "1" && "Muito Baixa"}
@@ -63,6 +65,7 @@ export default function ModalToDoRead() {
             </div>
           </div>
         </div>
+        <hr />
         <div>
           <h3 className="font-bold">Descrição:</h3>
           <p
@@ -73,6 +76,43 @@ export default function ModalToDoRead() {
               ? "Não há descrição..."
               : selectedTask?.description}
           </p>
+        </div>
+        <hr />
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold">Data de Criação:</h3>
+          <div className="w-fit p-1 border rounded-lg font-medium border-woodsmoke-200">
+            <p>
+              {selectedTask!.creationDate.getDate()} /{" "}
+              {(selectedTask!.creationDate.getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}{" "}
+              / {selectedTask!.creationDate.getFullYear()}
+            </p>
+          </div>
+        </div>
+        <hr />
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold">Ações:</h3>
+          <div className="flex gap-x-4">
+            <Button
+              label="Editar Tarefa"
+              ariaLabel="Editar Tarefa"
+              extraStyles={{
+                button:
+                  "w-fit px-4 gap-x-2 bg-crud-update-light text-woodsmoke-50 font-bold",
+                label: "hidden lg:inline",
+              }}
+              action={() => {
+                changeModalData({
+                  content: "toDoUpdate",
+                  type: "update",
+                  headerTitle: "Editar Tarefa",
+                });
+              }}
+            >
+              <AiFillEdit />
+            </Button>
+          </div>
         </div>
       </div>
       <ModalFooter
