@@ -7,6 +7,12 @@ import { createContext, useState } from "react";
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
 
+export interface IToDoRecentList {
+  id: string;
+  title: string;
+  isCompleted: boolean;
+}
+
 interface IToDoContext {
   toDoTaskList: IToDoTask[];
   selectedTask: IToDoTask | null;
@@ -24,6 +30,7 @@ interface IToDoContext {
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
   removeTask: (type: string) => void;
+  recentList: IToDoRecentList[];
 }
 
 const ToDoContext = createContext({} as IToDoContext);
@@ -39,6 +46,8 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [filterShowControl, setFilterShowControl] = useState<boolean>(false);
   const [generalShowControl, setGeneralShowControl] = useState<boolean>(false);
+
+  const [recentList, setRecentList] = useState<IToDoRecentList[]>([]);
 
   const changeFilterStatus = (status: FilterStatusType) => {
     setFilterStatus(status);
@@ -107,6 +116,12 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     setToDoTaskList([...toDoTaskList, newTask]);
+
+    if (recentList.length >= 3) {
+      setRecentList([...recentList.slice(1), newTask]);
+    } else {
+      setRecentList([...recentList, newTask]);
+    }
   };
 
   /**
@@ -154,6 +169,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         selectTask,
         createTask,
         removeTask,
+        recentList,
       }}
     >
       {children}
