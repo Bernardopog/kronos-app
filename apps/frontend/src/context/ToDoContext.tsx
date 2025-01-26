@@ -30,6 +30,7 @@ interface IToDoContext {
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
   removeTask: (type: string) => void;
+  updateTask: (updatedData: IToDoTask) => void;
   recentList: IToDoRecentList[];
 }
 
@@ -150,6 +151,30 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  /**
+   * Updates a task in the to-do list with the given data.
+   * @param {IToDoTask} updatedData - The data to update the task with.
+   *                                The id property must match the id of an existing task.
+   */
+  const updateTask = (updatedData: IToDoTask) => {
+    const { id, title, description, priority } = updatedData;
+
+    const targetTask = toDoTaskList.find((task) => task.id === id);
+
+    if (!targetTask) return;
+
+    const updatedTask: IToDoTask = {
+      ...targetTask,
+      title,
+      description,
+      priority,
+    };
+
+    setToDoTaskList(
+      toDoTaskList.map((task) => (task.id === id ? updatedTask : task))
+    );
+  };
+
   return (
     <ToDoContext.Provider
       value={{
@@ -169,6 +194,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         selectTask,
         createTask,
         removeTask,
+        updateTask,
         recentList,
       }}
     >
