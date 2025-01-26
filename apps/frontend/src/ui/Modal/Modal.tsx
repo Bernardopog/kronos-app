@@ -24,7 +24,10 @@ export default function Modal() {
               ev.stopPropagation();
             }}
           >
-            <ModalHeader type={modalData!.type} title="Sobre a tarefa" />
+            <ModalHeader
+type={modalData!.type}
+title={modalData!.headerTitle}
+/>
             <section className="h-full">
               {modalData?.content === "toDoRead" && <ModalToDoRead />}
               {modalData?.content === "toDoCreate" && <ModalToDoCreate />}
