@@ -2,6 +2,7 @@
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
 import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
 import ModalToDoRemove from "@/components/Modal/ModalContent/ModalToDoRemove";
+import ModalToDoUpdate from "@/components/Modal/ModalContent/ModalToDoUpdate";
 import ModalHeader from "@/components/Modal/ModalHeader";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from "react";
@@ -25,13 +26,14 @@ export default function Modal() {
             }}
           >
             <ModalHeader
-type={modalData!.type}
-title={modalData!.headerTitle}
-/>
+              type={modalData!.type}
+              title={modalData!.headerTitle}
+            />
             <section className="h-full">
               {modalData?.content === "toDoRead" && <ModalToDoRead />}
               {modalData?.content === "toDoCreate" && <ModalToDoCreate />}
               {modalData?.content === "toDoRemove" && <ModalToDoRemove />}
+              {modalData?.content === "toDoUpdate" && <ModalToDoUpdate />}
             </section>
           </section>
         </div>
