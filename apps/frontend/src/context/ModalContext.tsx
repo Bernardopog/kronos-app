@@ -3,12 +3,18 @@
 import { createContext, ReactNode, useState } from "react";
 
 export type TypeModal = "create" | "read" | "update" | "delete" | "none";
-type ModalContent = "toDoRead" | "toDoCreate" | "toDoRemove" | "none";
+type ModalContent =
+  | "toDoRead"
+  | "toDoCreate"
+  | "toDoUpdate"
+  | "toDoRemove"
+  | "none";
 
 interface IModalContext {
   isModalOpen: boolean;
   modalData: IModalData | null;
   toggleModal: (modalData: IModalData | null) => void;
+  changeModalData: (modalData: IModalData) => void;
 }
 
 interface IModalData {
@@ -33,12 +39,17 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
     if (modalData) setModalData(modalData);
   };
 
+  const changeModalData = (modalData: IModalData) => {
+    setModalData(modalData);
+  };
+
   return (
     <ModalContext.Provider
       value={{
         isModalOpen,
         modalData,
         toggleModal,
+        changeModalData,
       }}
     >
       {children}
