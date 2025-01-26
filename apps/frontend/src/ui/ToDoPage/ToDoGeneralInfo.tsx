@@ -1,11 +1,13 @@
 "use client";
 
+import Divider from "@/components/Divider/Divider";
+import RecentTask from "@/components/RecentTask/RecentTask";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function ToDoGeneralInfo() {
-  const { isGeneralShow, generalShowControl, toggleGeneral } =
+  const { isGeneralShow, generalShowControl, toggleGeneral, recentList } =
     useContext(ToDoContext);
 
   return (
@@ -33,6 +35,21 @@ export default function ToDoGeneralInfo() {
           <AiOutlineClose />
         </button>
         <h4 className="text-2xl font-medium">Informações Gerais</h4>
+        <Divider />
+        <div>
+          <h5 className="text-lg font-medium text-woodsmoke-900">
+            Tarefas Recentes
+          </h5>
+          <div>
+            {recentList.toReversed().map((recentTask, idx) => (
+              <RecentTask
+                key={recentTask.id}
+                title={recentTask.title}
+                animationDuration={250 * (idx + 1)}
+              />
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );
