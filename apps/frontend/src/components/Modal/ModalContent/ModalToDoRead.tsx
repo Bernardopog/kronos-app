@@ -5,7 +5,7 @@ import { useContext } from "react";
 import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import Button from "@/components/Button/Button";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 export default function ModalToDoRead() {
   const { selectedTask } = useContext(ToDoContext);
@@ -111,6 +111,24 @@ export default function ModalToDoRead() {
               }}
             >
               <AiFillEdit />
+            </Button>
+            <Button
+              label="Deletar Tarefa"
+              ariaLabel="Deletar Tarefa"
+              extraStyles={{
+                button:
+                  "w-fit px-4 gap-x-2 bg-crud-delete-light text-woodsmoke-50 font-bold",
+                label: "hidden lg:inline",
+              }}
+              action={() => {
+                changeModalData({
+                  content: "toDoRemoveSingle",
+                  type: "delete",
+                  headerTitle: "Deletar Tarefa",
+                });
+              }}
+            >
+              <AiFillDelete />
             </Button>
           </div>
         </div>
