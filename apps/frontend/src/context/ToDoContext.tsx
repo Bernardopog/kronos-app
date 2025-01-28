@@ -31,6 +31,7 @@ interface IToDoContext {
   createTask: (taskData: Partial<IToDoTask>) => void;
   removeTask: (type: string) => void;
   updateTask: (updatedData: IToDoTask) => void;
+  deleteSpecificTask: (id: string) => void;
   recentList: IToDoRecentList[];
 }
 
@@ -175,6 +176,14 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     );
   };
 
+  /**
+   * Deletes a specific task from the to-do list based on its id.
+   * @param {string} id - The id of the task to delete.
+   */
+  const deleteSpecificTask = (id: string) => {
+    setToDoTaskList(toDoTaskList.filter((task) => task.id !== id));
+  };
+
   return (
     <ToDoContext.Provider
       value={{
@@ -195,6 +204,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         createTask,
         removeTask,
         updateTask,
+        deleteSpecificTask,
         recentList,
       }}
     >
