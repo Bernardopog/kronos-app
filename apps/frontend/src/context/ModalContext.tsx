@@ -8,6 +8,7 @@ type ModalContent =
   | "toDoCreate"
   | "toDoUpdate"
   | "toDoRemove"
+  | "toDoRemoveSingle"
   | "none";
 
 interface IModalContext {
