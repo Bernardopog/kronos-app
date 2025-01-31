@@ -3,9 +3,10 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/ui/Header/Header";
 import Navbar from "@/ui/Navbar/Navbar";
+import Modal from "@/ui/Modal/Modal";
 import { NavbarProvider } from "@/context/NavbarContext";
 import { ToDoProvider } from "@/context/ToDoContext";
-import Modal from "@/ui/Modal/Modal";
+import { ToDoCategoryProvider } from "@/context/ToDoCategoryContext";
 import { ModalProvider } from "@/context/ModalContext";
 
 const roboto = Roboto({
@@ -27,16 +28,18 @@ export default function RootLayout({
     <html lang="en">
       <NavbarProvider>
         <ToDoProvider>
-          <ModalProvider>
-            <body
-              className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
-            >
-              <Modal />
-              <Header />
-              <Navbar />
-              {children}
-            </body>
-          </ModalProvider>
+          <ToDoCategoryProvider>
+            <ModalProvider>
+              <body
+                className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
+              >
+                <Modal />
+                <Header />
+                <Navbar />
+                {children}
+              </body>
+            </ModalProvider>
+          </ToDoCategoryProvider>
         </ToDoProvider>
       </NavbarProvider>
     </html>
