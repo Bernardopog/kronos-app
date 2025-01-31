@@ -9,19 +9,22 @@ type ModalContent =
   | "toDoUpdate"
   | "toDoRemove"
   | "toDoRemoveSingle"
+  | "toDoCreateCategory"
+  | "toDoUpdateCategory"
+  | "toDoRemoveCategory"
   | "none";
+
+interface IModalData {
+  headerTitle: string;
+  type: TypeModal;
+  content: ModalContent;
+}
 
 interface IModalContext {
   isModalOpen: boolean;
   modalData: IModalData | null;
   toggleModal: (modalData: IModalData | null) => void;
   changeModalData: (modalData: IModalData) => void;
-}
-
-interface IModalData {
-  headerTitle: string;
-  type: TypeModal;
-  content: ModalContent;
 }
 
 const ModalContext = createContext({} as IModalContext);
