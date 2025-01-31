@@ -1,3 +1,5 @@
+import { mockCategoryList } from "./mockCategoryList";
+
 export type PriorityType = "0" | "1" | "2" | "3" | "4" | "5";
 
 export interface IToDoTask {
@@ -7,7 +9,7 @@ export interface IToDoTask {
   priority: PriorityType;
   creationDate: Date;
   isCompleted: boolean;
-  category: string;
+  category: string | null;
 }
 
 export const mockToDoList: IToDoTask[] = [
@@ -18,7 +20,7 @@ export const mockToDoList: IToDoTask[] = [
     priority: "5",
     creationDate: new Date(2024, 11, 5),
     isCompleted: false,
-    category: "school",
+    category: mockCategoryList[0].id,
   },
   {
     id: "k8a93",
@@ -26,7 +28,7 @@ export const mockToDoList: IToDoTask[] = [
     priority: "1",
     creationDate: new Date(2024, 10, 26),
     isCompleted: true,
-    category: "school",
+    category: mockCategoryList[0].id,
   },
   {
     id: "hh192",
@@ -35,6 +37,6 @@ export const mockToDoList: IToDoTask[] = [
     priority: "2",
     creationDate: new Date(2024, 2, 1),
     isCompleted: false,
-    category: "family",
+    category: mockCategoryList[1].id,
   },
 ];
