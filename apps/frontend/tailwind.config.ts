@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 import * as tailwindScrollbar from "tailwind-scrollbar";
 
 export default {
+  darkMode: "selector",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -61,6 +62,7 @@ export default {
           "700": "#4f4f4f",
           "800": "#454545",
           "900": "#3d3d3d",
+          "925": "#202020",
           "950": "#1a1a1a",
         },
         poppy: {
