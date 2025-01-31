@@ -4,11 +4,14 @@ import linkList from "@/shared/linkList";
 export default function Home() {
   return (
     <main
-      className="bg-woodsmoke-50 overflow-y-scroll scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100"
+      className="
+        bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100
+        dark:bg-woodsmoke-925
+        "
       id="main"
     >
       <header className="px-8 py-4">
-        <h2 className="text-[2rem]">
+        <h2 className="text-[2rem] text-woodsmoke-950 dark:text-woodsmoke-50">
           Olá, <span className="font-bold">John Doe</span>, seja bem-vindo!
         </h2>
       </header>

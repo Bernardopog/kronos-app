@@ -66,7 +66,7 @@ export default function ToDoGeneralInfo() {
               <AiFillPlusCircle />
             </Button>
           </div>
-          <ul className="flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-400">
+          <ul className="flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-400">
             {categoryList.map((category) => {
               return (
                 <ToDoCategory
