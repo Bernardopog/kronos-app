@@ -6,6 +6,7 @@ import { createContext, useState } from "react";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
+type FilterCategoryType = "all" | string;
 
 export interface IToDoRecentList {
   id: string;
@@ -16,14 +17,19 @@ export interface IToDoRecentList {
 interface IToDoContext {
   toDoTaskList: IToDoTask[];
   selectedTask: IToDoTask | null;
-  filterStatus: FilterStatusType;
-  filterPriority: FilterPriorityType;
   isFilterShow: boolean;
   isGeneralShow: boolean;
   filterShowControl: boolean;
   generalShowControl: boolean;
+
+  // Filter
+  filterStatus: FilterStatusType;
+  filterPriority: FilterPriorityType;
+  filterCategory: FilterCategoryType;
   changeFilterStatus: (status: FilterStatusType) => void;
   changeFilterPriority: (priority: FilterPriorityType) => void;
+  changeFilterCategory: (category: FilterCategoryType) => void;
+
   toggleFilter: (type: "close" | "open") => void;
   toggleGeneral: (type: "close" | "open") => void;
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
@@ -45,6 +51,8 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [filterStatus, setFilterStatus] = useState<FilterStatusType>("all");
   const [filterPriority, setFilterPriority] =
     useState<FilterPriorityType>("all");
+  const [filterCategory, setFilterCategory] =
+    useState<FilterCategoryType>("all");
   const [isFilterShow, setIsFilterShow] = useState<boolean>(false);
   const [isGeneralShow, setIsGeneralShow] = useState<boolean>(false);
 
@@ -59,6 +67,10 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
 
   const changeFilterPriority = (priority: FilterPriorityType) => {
     setFilterPriority(priority);
+  };
+
+  const changeFilterCategory = (category: FilterCategoryType) => {
+    setFilterCategory(category);
   };
 
   const toggleFilter = (type: "close" | "open") => {
@@ -200,14 +212,16 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         toDoTaskList,
         selectedTask,
-        filterStatus,
-        filterPriority,
         isFilterShow,
         isGeneralShow,
         filterShowControl,
         generalShowControl,
+        filterStatus,
+        filterPriority,
+        filterCategory,
         changeFilterStatus,
         changeFilterPriority,
+        changeFilterCategory,
         toggleFilter,
         toggleGeneral,
         toggleTaskCompletion,

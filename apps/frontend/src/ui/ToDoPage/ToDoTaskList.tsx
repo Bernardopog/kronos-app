@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 export default function ToDoTaskList() {
-  const { toDoTaskList, filterStatus, filterPriority } =
+  const { toDoTaskList, filterStatus, filterPriority, filterCategory } =
     useContext(ToDoContext);
   const { toggleModal } = useContext(ModalContext);
 
@@ -21,6 +21,10 @@ export default function ToDoTaskList() {
     >
       {toDoTaskList.length > 0 ? (
         toDoTaskList
+          .filter((task) => {
+            if (filterCategory === "all") return true;
+            else return task.category === filterCategory;
+          })
           .filter((task) => {
             if (filterStatus === "all") return true;
             else if (filterStatus === "completed") return task.isCompleted;

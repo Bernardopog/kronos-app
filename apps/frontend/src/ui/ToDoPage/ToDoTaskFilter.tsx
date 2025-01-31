@@ -1,6 +1,7 @@
 "use client";
 import Divider from "@/components/Divider/Divider";
 import Radio from "@/components/Radio/Radio";
+import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -9,10 +10,14 @@ export default function ToDoTaskFilter() {
   const {
     changeFilterStatus,
     changeFilterPriority,
+    changeFilterCategory,
     isFilterShow,
     filterShowControl,
+    filterCategory,
     toggleFilter,
   } = useContext(ToDoContext);
+
+  const { categoryList } = useContext(ToDoCategoryContext);
 
   return (
     <>
@@ -92,6 +97,52 @@ export default function ToDoTaskFilter() {
           />
         </div>
         <Divider />
+        <div>
+          <h5 className="text-lg font-medium text-woodsmoke-900">Categorias</h5>
+          <ul
+            role="menu"
+            aria-labelledby="categoryLabel"
+            className="grid grid-cols-3 mt-1 gap-2 animate-move-in opacity-0"
+          >
+            <li
+              className={`
+                  p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
+                  hover:bg-woodsmoke-200
+                  active:bg-woodsmoke-300
+                  ${filterCategory === "all" && "bg-woodsmoke-200"}
+                `}
+            >
+              <button
+                type="button"
+                className="size-full"
+                onClick={() => changeFilterCategory("all")}
+              >
+                Todas
+              </button>
+            </li>
+            {categoryList.map((category) => {
+              return (
+                <li
+                  className={`
+                  p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
+                  hover:bg-woodsmoke-200
+                  active:bg-woodsmoke-300
+                  ${category.id === filterCategory && "bg-woodsmoke-200"}
+                `}
+                  key={category.id}
+                >
+                  <button
+                    type="button"
+                    className="size-full"
+                    onClick={() => changeFilterCategory(category.id)}
+                  >
+                    {category.title}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </section>
     </>
   );
