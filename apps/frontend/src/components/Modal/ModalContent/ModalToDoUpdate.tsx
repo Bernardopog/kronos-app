@@ -8,6 +8,7 @@ import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import Input from "@/components/Input/Input";
 import TextArea from "@/components/TextArea/TextArea";
+import SelectCategory from "@/components/Select/SelectCategory";
 
 export default function ModalToDoUpdate() {
   const { toggleModal } = useContext(ModalContext);
@@ -19,6 +20,9 @@ export default function ModalToDoUpdate() {
   );
   const [newPriority, setNewPriority] = useState<PriorityType>(
     selectedTask?.priority ?? "0"
+  );
+  const [newCategory, setNewCategory] = useState<string>(
+    selectedTask?.category ?? ""
   );
 
   return (
@@ -38,6 +42,7 @@ export default function ModalToDoUpdate() {
           setValue={setNewDescription}
         />
         <SelectRow value={newPriority} setValue={setNewPriority} />
+        <SelectCategory value={newCategory} setValue={setNewCategory} />
       </div>
       <ModalFooter
         type={"update"}
@@ -47,6 +52,7 @@ export default function ModalToDoUpdate() {
             title: newTitle,
             description: newDescription,
             priority: newPriority,
+            category: newCategory,
           });
           toggleModal(null);
         }}
