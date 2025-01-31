@@ -6,11 +6,12 @@ import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import Button from "@/components/Button/Button";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 
 export default function ModalToDoRead() {
   const { selectedTask } = useContext(ToDoContext);
   const { toggleModal, changeModalData } = useContext(ModalContext);
-
+  const { categoryList } = useContext(ToDoCategoryContext);
   return (
     <>
       <div className="flex flex-col gap-2 p-2 text-woodsmoke-950">
@@ -89,6 +90,19 @@ export default function ModalToDoRead() {
               / {selectedTask!.creationDate.getFullYear()}
             </p>
           </div>
+        </div>
+        <hr />
+        <div className="flex justify-between items-center text-woodsmoke-950">
+          <h3 className="font-bold">Categoria:</h3>
+          <p className="p-1 border rounded-lg border-woodsmoke-200">
+            {categoryList.find((category) => {
+              return category.id === selectedTask?.category;
+            })?.title ?? (
+              <span className="italic text-woodsmoke-950/50">
+                Nenhuma Categoria
+              </span>
+            )}
+          </p>
         </div>
         <hr />
         <div className="flex justify-between items-center">
