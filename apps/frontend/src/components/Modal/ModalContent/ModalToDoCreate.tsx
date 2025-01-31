@@ -8,11 +8,13 @@ import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { PriorityType } from "@/mock/mockToDoList";
+import SelectCategory from "@/components/Select/SelectCategory";
 
 export default function ModalToDoCreate() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [priority, setPriority] = useState<PriorityType>("0");
+  const [category, setCategory] = useState<string>("");
 
   const { toggleModal } = useContext(ModalContext);
   const { createTask } = useContext(ToDoContext);
@@ -33,12 +35,18 @@ export default function ModalToDoCreate() {
           setValue={setDescription}
         />
         <SelectRow value={priority} setValue={setPriority} />
+        <SelectCategory value={category} setValue={setCategory} />
       </div>
       <ModalFooter
         type={"create"}
         action={() => {
           toggleModal(null);
-          createTask({ title, description, priority });
+          createTask({
+            title,
+            description,
+            priority,
+            category: category.length > 0 ? category : undefined,
+          });
         }}
       />
     </>

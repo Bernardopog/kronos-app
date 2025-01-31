@@ -113,7 +113,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       isCompleted: false,
       creationDate: new Date(),
 
-      category: "",
+      category: taskData.category!,
       priority: taskData.priority!,
       description: taskData.description!,
       title: taskData.title!,
@@ -160,7 +160,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
    *                                The id property must match the id of an existing task.
    */
   const updateTask = (updatedData: IToDoTask) => {
-    const { id, title, description, priority } = updatedData;
+    const { id, title, description, priority, category } = updatedData;
 
     const targetTask = toDoTaskList.find((task) => task.id === id);
 
@@ -171,6 +171,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       title,
       description,
       priority,
+      category,
     };
 
     setToDoTaskList(
