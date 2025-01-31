@@ -1,14 +1,20 @@
 "use client";
 
+import Button from "@/components/Button/Button";
 import Divider from "@/components/Divider/Divider";
 import RecentTask from "@/components/RecentTask/RecentTask";
+import ToDoCategory from "@/components/ToDoPage/ToDoCategory/ToDoCategory";
+import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
+import { ModalContext } from "@/context/ModalContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiFillPlusCircle, AiOutlineClose } from "react-icons/ai";
 
 export default function ToDoGeneralInfo() {
   const { isGeneralShow, generalShowControl, toggleGeneral, recentList } =
     useContext(ToDoContext);
+  const { toggleModal } = useContext(ModalContext);
+  const { categoryList } = useContext(ToDoCategoryContext);
 
   return (
     <>
@@ -35,6 +41,43 @@ export default function ToDoGeneralInfo() {
           <AiOutlineClose />
         </button>
         <h4 className="text-2xl font-medium">Informações Gerais</h4>
+        <Divider />
+        <div>
+          <div className="flex justify-between items-center">
+            <h5 className="text-lg font-medium text-woodsmoke-900">
+              Categorias ({categoryList.length})
+            </h5>
+            <Button
+              ariaLabel="Criar categoria"
+              label="Criar Categoria"
+              extraStyles={{
+                button:
+                  "w-fit px-2 gap-x-2 bg-apple-600 text-woodsmoke-50 duration-300 ease-in-out hover:bg-apple-700",
+                label: "hidden lg:inline",
+              }}
+              action={() => {
+                toggleModal({
+                  headerTitle: "Criar Categoria",
+                  type: "create",
+                  content: "toDoCreateCategory",
+                });
+              }}
+            >
+              <AiFillPlusCircle />
+            </Button>
+          </div>
+          <ul className="flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-400">
+            {categoryList.map((category) => {
+              return (
+                <ToDoCategory
+                  key={category.id}
+                  id={category.id}
+                  title={category.title}
+                />
+              );
+            })}
+          </ul>
+        </div>
         <Divider />
         <div>
           <h5 className="text-lg font-medium text-woodsmoke-900">
