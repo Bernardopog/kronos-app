@@ -1,9 +1,12 @@
 "use client";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
+import ModalToDoCreateCategory from "@/components/Modal/ModalContent/ModalToDoCreateCategory";
 import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
 import ModalToDoRemove from "@/components/Modal/ModalContent/ModalToDoRemove";
+import ModalToDoRemoveCategory from "@/components/Modal/ModalContent/ModalToDoRemoveCategory";
 import ModalToDoRemoveSingle from "@/components/Modal/ModalContent/ModalToDoRemoveSingle";
 import ModalToDoUpdate from "@/components/Modal/ModalContent/ModalToDoUpdate";
+import ModalToDoUpdateCategory from "@/components/Modal/ModalContent/ModalToDoUpdateCategory";
 import ModalHeader from "@/components/Modal/ModalHeader";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from "react";
@@ -38,6 +41,15 @@ export default function Modal() {
                 <ModalToDoRemoveSingle />
               )}
               {modalData?.content === "toDoUpdate" && <ModalToDoUpdate />}
+              {modalData?.content === "toDoCreateCategory" && (
+                <ModalToDoCreateCategory />
+              )}
+              {modalData?.content === "toDoRemoveCategory" && (
+                <ModalToDoRemoveCategory />
+              )}
+              {modalData?.content === "toDoUpdateCategory" && (
+                <ModalToDoUpdateCategory />
+              )}
             </section>
           </section>
         </div>
