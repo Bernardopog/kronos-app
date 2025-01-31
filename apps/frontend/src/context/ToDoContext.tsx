@@ -33,6 +33,8 @@ interface IToDoContext {
   updateTask: (updatedData: IToDoTask) => void;
   deleteSpecificTask: (id: string) => void;
   recentList: IToDoRecentList[];
+
+  deletedCategory: (id: string) => void;
 }
 
 const ToDoContext = createContext({} as IToDoContext);
@@ -184,6 +186,14 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     setToDoTaskList(toDoTaskList.filter((task) => task.id !== id));
   };
 
+  const deletedCategory = (id: string) => {
+    const listRemovedCategoeries = toDoTaskList.map((task) => {
+      if (task.category === id) task.category = null;
+      return task;
+    });
+    setToDoTaskList(listRemovedCategoeries);
+  };
+
   return (
     <ToDoContext.Provider
       value={{
@@ -206,6 +216,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         updateTask,
         deleteSpecificTask,
         recentList,
+        deletedCategory,
       }}
     >
       {children}
