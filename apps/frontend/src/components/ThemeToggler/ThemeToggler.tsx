@@ -5,7 +5,7 @@ import { BsMoon, BsSun } from "react-icons/bs";
 import Button from "../Button/Button";
 
 interface IThemeTogglerProps {
-  menuStatus: boolean;
+  menuStatus?: boolean;
 }
 
 export default function ThemeToggler({ menuStatus }: IThemeTogglerProps) {
