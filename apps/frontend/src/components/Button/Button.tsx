@@ -10,6 +10,7 @@ interface IButtonProps {
   extraStyles?: {
     label?: string;
     button?: string;
+    icon?: string;
   };
 }
 
@@ -27,7 +28,9 @@ export default function Button({
       className={`flex items-center justify-center size-8 rounded-full shadow-base shadow-black/25 ${extraStyles?.button}`}
     >
       <span className={extraStyles?.label}>{label}</span>
-      <span className={"text-2xl text-woodsmoke-50"}>{children}</span>
+      <span className={`text-2xl text-woodsmoke-50 ${extraStyles?.icon}`}>
+        {children}
+      </span>
     </button>
   );
 }
