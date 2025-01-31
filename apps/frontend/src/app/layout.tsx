@@ -8,6 +8,7 @@ import { NavbarProvider } from "@/context/NavbarContext";
 import { ToDoProvider } from "@/context/ToDoContext";
 import { ToDoCategoryProvider } from "@/context/ToDoCategoryContext";
 import { ModalProvider } from "@/context/ModalContext";
+import { DeviceScreenProvider } from "@/context/DeviceScreenContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -26,22 +27,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <NavbarProvider>
-        <ToDoProvider>
-          <ToDoCategoryProvider>
-            <ModalProvider>
-              <body
-                className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
-              >
-                <Modal />
-                <Header />
-                <Navbar />
-                {children}
-              </body>
-            </ModalProvider>
-          </ToDoCategoryProvider>
-        </ToDoProvider>
-      </NavbarProvider>
+      <DeviceScreenProvider>
+        <NavbarProvider>
+          <ToDoProvider>
+            <ToDoCategoryProvider>
+              <ModalProvider>
+                <body
+                  className={`grid min-h-screen main-layout duration-500 ease-in-out overflow-hidden ${roboto.className}`}
+                >
+                  <Modal />
+                  <Header />
+                  <Navbar />
+                  {children}
+                </body>
+              </ModalProvider>
+            </ToDoCategoryProvider>
+          </ToDoProvider>
+        </NavbarProvider>
+      </DeviceScreenProvider>
     </html>
   );
 }
