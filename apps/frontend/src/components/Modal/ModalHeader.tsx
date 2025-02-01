@@ -30,7 +30,7 @@ export default function ModalHeader({ type, title }: IModalHeaderProps) {
       ${type === "delete" && "bg-crud-delete-dark"}
     `}
     >
-      <h2 className="order-1 font-bold">{title}</h2>
+      <h2 className="order-1 font-bold truncate">{title}</h2>
       <span className="p-0.5 border-2 rounded-full border-woodsmoke-50">
         {icons[type]}
       </span>
