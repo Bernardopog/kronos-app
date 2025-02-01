@@ -9,7 +9,7 @@ export default function ToDoPage() {
   return (
     <main
       className="
-        grid 
+        grid overflow-clip
         page to-do-page-layout
       "
       id="main"
