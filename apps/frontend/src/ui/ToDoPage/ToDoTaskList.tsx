@@ -50,7 +50,7 @@ export default function ToDoTaskList() {
             />
           ))
       ) : (
-        <div className="flex flex-col items-center text-woodsmoke-950">
+        <div className="flex flex-col items-center text-woodsmoke-950 dark:text-woodsmoke-200">
           <p className="italic opacity-75">Ainda não há tarefas...</p>
           <Button
             label="Criar Tarefa"

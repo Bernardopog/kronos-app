@@ -45,13 +45,17 @@ export default function SelectRow({ value, setValue }: ISelectRowProps) {
       sm:flex-row sm:gap-x-2
     "
     >
-      <label className="text-woodsmoke-950 hover:font-bold" htmlFor="priority">
+      <label
+        className="text-woodsmoke-950 dark:text-woodsmoke-300"
+        htmlFor="priority"
+      >
         Prioridade da Tarefa:
       </label>
       <div
         role="menu"
         className="
           flex p-2 gap-x-1 bg-woodsmoke-100 rounded-lg
+          dark:bg-woodsmoke-925
           sm:gap-x-2
         "
       >

@@ -19,7 +19,12 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
   const { selectCategory } = useContext(ToDoCategoryContext);
 
   return (
-    <li className="flex justify-between items-center relative min-h-8 pl-3 rounded-lg bg-woodsmoke-300 text-woodsmoke-950 font-medium">
+    <li
+      className="
+      flex justify-between items-center relative min-h-8 pl-3 rounded-lg bg-woodsmoke-300 text-woodsmoke-950 font-medium duration-300 ease-in-out
+      dark:bg-woodsmoke-900 dark:text-woodsmoke-100
+    "
+    >
       {isOptionsOpen ? (
         <section className="flex justify-end w-full px-0 gap-x-2">
           <Button
@@ -70,7 +75,8 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
       )}
       <button
         className={`
-          flex items-center absolute right-0 h-full text-xl text-woodsmoke-50 bg-woodsmoke-900 ease-in-out duration-300
+          flex items-center absolute right-0 h-full text-xl text-woodsmoke-50 bg-woodsmoke-900 duration-300 ease-in-out
+          dark:bg-woodsmoke-700
           ${isOptionsOpen ? "right-[calc(100%-1.25rem)] rounded-l-lg" : "right-0 rounded-r-lg"}
         `}
         aria-label="Mais opções"

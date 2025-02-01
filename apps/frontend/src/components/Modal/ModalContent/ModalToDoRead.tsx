@@ -14,7 +14,7 @@ export default function ModalToDoRead() {
   const { categoryList } = useContext(ToDoCategoryContext);
   return (
     <>
-      <div className="flex flex-col gap-2 p-2 text-woodsmoke-950">
+      <div className="flex flex-col gap-2 p-2 text-woodsmoke-950 dark:text-woodsmoke-300">
         <div>
           <h3 className="font-bold">Título:</h3>
           <p className="">{selectedTask?.title}</p>
@@ -43,7 +43,7 @@ export default function ModalToDoRead() {
         <hr />
         <div className="flex justify-between items-center">
           <h3 className="font-bold">Prioridade:</h3>
-          <div className="flex flex-col items-center min-w-24 p-1 border rounded-lg font-medium border-woodsmoke-200">
+          <div className="flex flex-col items-center min-w-24 p-1 border rounded-lg font-medium border-woodsmoke-200 dark:border-woodsmoke-800">
             {selectedTask?.priority === "0" && "Nenhuma"}
             {selectedTask?.priority === "1" && "Muito Baixa"}
             {selectedTask?.priority === "2" && "Baixa"}
@@ -53,7 +53,7 @@ export default function ModalToDoRead() {
 
             <div
               className={`
-              flex items-center justify-center w-fit px-2 rounded-md font-bold
+              flex items-center justify-center w-fit px-2 rounded-md font-bold dark:text-woodsmoke-950
               ${selectedTask?.priority === "0" && "bg-priority-none"}
               ${selectedTask?.priority === "1" && "bg-priority-lowest"}
               ${selectedTask?.priority === "2" && "bg-priority-lower"}
@@ -70,7 +70,7 @@ export default function ModalToDoRead() {
         <div>
           <h3 className="font-bold">Descrição:</h3>
           <p
-            className={`${!selectedTask?.description || selectedTask?.description?.trim() === "" ? "italic text-woodsmoke-950/50" : ""}`}
+            className={`${!selectedTask?.description || selectedTask?.description?.trim() === "" ? "italic text-woodsmoke-950/50 dark:text-woodsmoke-300/50" : ""}`}
           >
             {!selectedTask?.description ||
             selectedTask?.description?.trim() === ""
@@ -81,7 +81,7 @@ export default function ModalToDoRead() {
         <hr />
         <div className="flex justify-between items-center">
           <h3 className="font-bold">Data de Criação:</h3>
-          <div className="w-fit p-1 border rounded-lg font-medium border-woodsmoke-200">
+          <div className="w-fit p-1 border rounded-lg font-medium border-woodsmoke-200 dark:border-woodsmoke-800">
             <p>
               {selectedTask!.creationDate.getDate()} /{" "}
               {(selectedTask!.creationDate.getMonth() + 1)
@@ -92,13 +92,13 @@ export default function ModalToDoRead() {
           </div>
         </div>
         <hr />
-        <div className="flex justify-between items-center text-woodsmoke-950">
+        <div className="flex justify-between items-center">
           <h3 className="font-bold">Categoria:</h3>
-          <p className="p-1 border rounded-lg border-woodsmoke-200">
+          <p className="p-1 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800">
             {categoryList.find((category) => {
               return category.id === selectedTask?.category;
             })?.title ?? (
-              <span className="italic text-woodsmoke-950/50">
+              <span className="italic text-woodsmoke-950/50 dark:text-woodsmoke-300/50">
                 Nenhuma Categoria
               </span>
             )}

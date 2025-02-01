@@ -20,7 +20,8 @@ export default function ToDoGeneralInfo() {
     <>
       <section
         className={`
-          flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-500 ease-in-out
+          flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
+          dark:bg-woodsmoke-950 dark:text-woodsmoke-200
           lg:static lg:translate-y-[16px] lg:rounded-t-lg
           ${generalShowControl ? "-right-0" : "-right-full"}
         `}
@@ -31,6 +32,8 @@ export default function ToDoGeneralInfo() {
           className="
             absolute right-8 flex items-center justify-center size-8 border rounded-full text-2xl border-woodsmoke-200 bg-woodsmoke-50 text-woodsmoke-950 duration-300 ease-in-out
             hover:bg-woodsmoke-100
+            dark:bg-woodsmoke-900 dark:border-woodsmoke-600 dark:text-woodsmoke-50
+            dark:hover:bg-woodsmoke-950
             lg:hidden
           "
           onClick={() => {
@@ -44,7 +47,7 @@ export default function ToDoGeneralInfo() {
         <Divider />
         <div>
           <div className="flex justify-between items-center">
-            <h5 className="text-lg font-medium text-woodsmoke-900">
+            <h5 className="to-do-tabs-title">
               Categorias ({categoryList.length})
             </h5>
             <Button
@@ -66,7 +69,12 @@ export default function ToDoGeneralInfo() {
               <AiFillPlusCircle />
             </Button>
           </div>
-          <ul className="flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-400">
+          <ul
+            className="
+            flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-400 duration-300 ease-in-out
+            dark:bg-woodsmoke-925
+          "
+          >
             {categoryList.map((category) => {
               return (
                 <ToDoCategory
@@ -80,9 +88,7 @@ export default function ToDoGeneralInfo() {
         </div>
         <Divider />
         <div>
-          <h5 className="text-lg font-medium text-woodsmoke-900">
-            Tarefas Recentes
-          </h5>
+          <h5 className="to-do-tabs-title">Tarefas Recentes</h5>
           <div>
             {recentList.toReversed().map((recentTask, idx) => (
               <RecentTask

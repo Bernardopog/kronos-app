@@ -24,7 +24,10 @@ export default function Modal() {
           }}
         >
           <section
-            className="relative min-w-72 w-5/6 max-w-[32rem] h-auto rounded-2xl bg-woodsmoke-50 animate-move-in"
+            className="
+              relative min-w-72 w-5/6 max-w-[32rem] h-auto rounded-2xl bg-woodsmoke-50 animate-move-in
+              dark:bg-woodsmoke-950 dark:shadow-xl dark:shadow-woodsmoke-500/25
+            "
             onClick={(ev) => {
               ev.stopPropagation();
             }}

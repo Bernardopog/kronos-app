@@ -4,16 +4,22 @@
 
 @layer components {
   .page {
-    @apply bg-woodsmoke-50 p-2 size-full;
+    @apply bg-woodsmoke-50 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;
   }
   .to-do-btn {
-    @apply flex items-center justify-center size-6 border border-woodsmoke-950 rounded-full text-2xl text-woodsmoke-950;
+    @apply flex items-center justify-center size-6 border border-woodsmoke-950 rounded-full text-2xl text-woodsmoke-950 dark:border-woodsmoke-100 dark:text-woodsmoke-100;
   }
   .modal-btn {
     @apply flex-1 duration-300 ease-in-out;
   }
   .priority-btn {
     @apply size-8 rounded-lg opacity-0 font-bold animate-move-left-to-right text-woodsmoke-950;
+  }
+  .to-do-tabs-title {
+    @apply text-lg font-medium text-woodsmoke-900 dark:text-woodsmoke-300;
+  }
+  .to-do-tabs-button {
+    @apply flex justify-center items-center fixed top-2/4 w-8 h-16 border text-xl border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-900 translate-y-[-50%] duration-300 ease-in-out hover:border-woodsmoke-400 hover:bg-woodsmoke-300 hover:text-woodsmoke-950 dark:border-woodsmoke-800 dark:bg-woodsmoke-950 dark:text-woodsmoke-200 dark:hover:border-woodsmoke-700 dark:hover:bg-woodsmoke-900 dark:hover:text-woodsmoke-300 lg:hidden;
   }
 }
 

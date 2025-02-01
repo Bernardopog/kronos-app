@@ -17,7 +17,9 @@ export default function Navbar() {
     <>
       <Button
         extraStyles={{
-          button: "hidden fixed top-20 left-4 z-50 bg-woodsmoke-950 lg:flex",
+          button:
+            "hidden fixed top-20 left-4 z-50 bg-woodsmoke-200 dark:border dark:border-woodsmoke-800 dark:bg-woodsmoke-950 lg:flex",
+          icon: "text-woodsmoke-950 dark:text-woodsmoke-50",
         }}
         action={toggleNavbar}
       >
@@ -25,8 +27,10 @@ export default function Navbar() {
       </Button>
       <nav
         className={`
-          flex flex-col justify-between fixed bottom-0 z-40 w-full bg-woodsmoke-950/50 duration-500 ease-in-out backdrop-blur-sm
-          lg:relative lg:size-full lg:pb-12 lg:bg-woodsmoke-950
+          flex flex-col justify-between fixed bottom-0 z-40 w-full bg-woodsmoke-200/50 duration-300 ease-in-out backdrop-blur-sm
+          dark:bg-woodsmoke-950/50
+          lg:relative lg:size-full lg:pb-12 lg:bg-woodsmoke-200
+          lg:dark:bg-woodsmoke-950
           ${isNavbarOpen ? "" : "closed"}
       `}
         id="nav"

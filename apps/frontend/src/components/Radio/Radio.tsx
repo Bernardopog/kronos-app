@@ -33,15 +33,19 @@ export default function Radio({
 
       <div
         className="
-      flex justify-center items-center bg-woodsmoke-200 size-5 rounded-full
-        after:hidden after:bg-woodsmoke-700 after:size-2.5 after:rounded-full
-        peer-checked:after:block
+          flex justify-center items-center bg-woodsmoke-200 size-5 rounded-full duration-300 ease-in-out
+          after:hidden after:bg-woodsmoke-700 after:size-2.5 after:rounded-full
+          peer-checked:after:block
+          dark:bg-woodsmoke-900
+          dark:after:bg-woodsmoke-200
       "
       ></div>
       <span
         className="
-          text-woodsmoke-500 
-          peer-checked:font-medium peer-checked:text-woodsmoke-950 
+          text-woodsmoke-500 duration-300 ease-in-out
+          peer-checked:font-medium peer-checked:text-woodsmoke-950
+          dark:text-woodsmoke-300
+          dark:peer-checked:text-woodsmoke-50
         "
       >
         {label}

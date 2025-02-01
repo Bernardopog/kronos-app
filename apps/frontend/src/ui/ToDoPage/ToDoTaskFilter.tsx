@@ -23,7 +23,8 @@ export default function ToDoTaskFilter() {
     <>
       <section
         className={`
-            flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-500 ease-in-out
+            flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
+            dark:bg-woodsmoke-950 dark:text-woodsmoke-200
             lg:static lg:translate-y-[16px] lg:rounded-t-lg
             ${filterShowControl ? "-left-0" : "-left-full"}
           `}
@@ -34,6 +35,8 @@ export default function ToDoTaskFilter() {
           className="
               absolute right-8 flex items-center justify-center size-8 border rounded-full text-2xl border-woodsmoke-200 bg-woodsmoke-50 text-woodsmoke-950 duration-300 ease-in-out
               hover:bg-woodsmoke-100
+              dark:bg-woodsmoke-900 dark:border-woodsmoke-600 dark:text-woodsmoke-50
+              dark:hover:bg-woodsmoke-950
               lg:hidden
               "
           onClick={() => {
@@ -46,7 +49,7 @@ export default function ToDoTaskFilter() {
         <h4 className="text-2xl font-medium">Filtros</h4>
         <Divider />
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg font-medium text-woodsmoke-900">Status</h5>
+          <h5 className="to-do-tabs-title">Status</h5>
           <Radio
             label="Todos"
             value="all"
@@ -72,7 +75,7 @@ export default function ToDoTaskFilter() {
         </div>
         <Divider />
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg font-medium text-woodsmoke-900">Prioridade</h5>
+          <h5 className="to-do-tabs-title">Prioridade</h5>
           <Radio
             label="Nenhum"
             value="all"
@@ -98,7 +101,7 @@ export default function ToDoTaskFilter() {
         </div>
         <Divider />
         <div>
-          <h5 className="text-lg font-medium text-woodsmoke-900">Categorias</h5>
+          <h5 className="to-do-tabs-title">Categorias</h5>
           <ul
             role="menu"
             aria-labelledby="categoryLabel"
@@ -109,7 +112,9 @@ export default function ToDoTaskFilter() {
                   p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
                   hover:bg-woodsmoke-200
                   active:bg-woodsmoke-300
-                  ${filterCategory === "all" && "bg-woodsmoke-200"}
+                  dark:hover:bg-woodsmoke-900
+                  dark:active:bg-woodsmoke-700
+                  ${filterCategory === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
                 `}
             >
               <button
@@ -127,7 +132,10 @@ export default function ToDoTaskFilter() {
                   p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
                   hover:bg-woodsmoke-200
                   active:bg-woodsmoke-300
-                  ${category.id === filterCategory && "bg-woodsmoke-200"}
+                  dark:hover:bg-woodsmoke-900
+                  dark:active:bg-woodsmoke-700
+                  ${category.id === filterCategory && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
+                  
                 `}
                   key={category.id}
                 >

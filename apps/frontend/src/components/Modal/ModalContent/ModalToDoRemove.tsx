@@ -13,13 +13,13 @@ export default function ModalToDoRemove() {
 
   return (
     <>
-      <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950">
+      <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100">
         <p className="text-center">Qual tipo de tarefa você deseja apagar?</p>
         <div className="flex flex-col sm:flex-row gap-2">
           <button
             className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950
-              ${removalType === "completed" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200"}
+              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
+              ${removalType === "completed" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
               `}
             onClick={() => {
               setRemovalType("completed");
@@ -29,8 +29,8 @@ export default function ModalToDoRemove() {
           </button>
           <button
             className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950
-              ${removalType === "uncompleted" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200"}
+              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
+              ${removalType === "uncompleted" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
               `}
             onClick={() => {
               setRemovalType("uncompleted");
@@ -40,8 +40,8 @@ export default function ModalToDoRemove() {
           </button>
           <button
             className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950
-              ${removalType === "all" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200"}
+              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
+              ${removalType === "all" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
               `}
             onClick={() => {
               setRemovalType("all");
@@ -52,7 +52,7 @@ export default function ModalToDoRemove() {
         </div>
         <p className="text-center">
           Cuidado, essa ação é{" "}
-          <span className="inline-block px-2 rounded-full font-bold text-poppy-600 bg-woodsmoke-100">
+          <span className="inline-block px-2 rounded-full font-bold text-poppy-600 bg-woodsmoke-100 dark:bg-woodsmoke-950">
             irreversível !
           </span>
         </p>

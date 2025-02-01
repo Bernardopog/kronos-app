@@ -11,7 +11,10 @@ export default function RecentTask({
     <div className="overflow-clip">
       <p
         style={{ animationDelay: `${animationDuration}ms` }}
-        className="text-woodsmoke-900 animate-move-left-to-right opacity-0"
+        className="
+          animate-move-left-to-right opacity-0 text-woodsmoke-900
+          dark:text-woodsmoke-400
+        "
       >
         {title}
       </p>

@@ -10,11 +10,7 @@ export default function ToDoGeneralInfoButton() {
     <>
       {!isGeneralShow && (
         <button
-          className="
-            flex justify-center items-center fixed right-0 top-2/4 w-8 h-16 border rounded-l-xl text-xl border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-900 translate-y-[-50%] duration-300 ease-in-out
-            hover:border-woodsmoke-400 hover:bg-woodsmoke-300 hover:text-woodsmoke-950
-            lg:hidden
-          "
+          className="to-do-tabs-button right-0 rounded-l-xl"
           onClick={() => {
             toggleGeneral("open");
           }}

@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main
       className="
-        bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100
+        bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100 duration-300 ease-in-out
         dark:bg-woodsmoke-925
         "
       id="main"

@@ -42,7 +42,16 @@ export default function NavbarLinkList() {
             className={`
               flex justify-center size-full p-2 gap-x-12 font-bold text-2xl text-nowrap duration-300
               lg:justify-end lg:rounded-l-lg lg:pr-0.5
-              ${selectedLink === link.name ? "bg-woodsmoke-50 text-woodsmoke-950" : "bg-woodsmoke-950 text-woodsmoke-50 hover:bg-woodsmoke-900"}
+              ${
+                selectedLink === link.name
+                  ? "bg-woodsmoke-50 text-woodsmoke-950 dark:bg-woodsmoke-925 dark:text-woodsmoke-50"
+                  : `
+              bg-woodsmoke-200 text-woodsmoke-800 
+              hover:bg-woodsmoke-100 
+              dark:bg-woodsmoke-950 dark:text-woodsmoke-600 
+              dark:hover:bg-woodsmoke-950 dark:hover:text-woodsmoke-300
+              `
+              }
             `}
           >
             <span className="hidden lg:inline">{link.label}</span>
