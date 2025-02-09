@@ -41,8 +41,8 @@
 
 .note-page-layout {
   grid-template-areas:
-    "nt-note"
-    "nt-note";
+    "nt-main"
+    "nt-main";
   grid-template-columns: 1fr;
   grid-template-rows: 192px 1fr;
 }
@@ -79,9 +79,6 @@
 #nt-options {
   grid-area: nt-options;
 }
-#nt-header {
-  grid-area: nt-header;
-}
 #nt-main {
   grid-area: nt-main;
 }
@@ -112,10 +109,8 @@
   }
 
   .note-page-layout {
-    grid-template-areas:
-      "nt-list nt-header nt-options"
-      "nt-list nt-main nt-options";
+    grid-template-areas: "nt-list nt-main nt-options";
     grid-template-columns: 240px 1fr 240px;
-    grid-template-rows: 192px 1fr;
+    grid-template-rows: 1fr;
   }
 }
