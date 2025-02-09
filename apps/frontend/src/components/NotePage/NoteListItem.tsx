@@ -6,7 +6,12 @@ interface INoteListItemProps {
 
 export default function NoteListItem({ data }: INoteListItemProps) {
   return (
-    <li className="min-h-20 rounded-lg border border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-925">
+    <li
+      className="
+      min-h-20 rounded-lg border border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-925
+      dark:border-woodsmoke-900 dark:bg-woodsmoke-950 dark:text-woodsmoke-100
+    "
+    >
       <h3 className="p-2">Note {data.title}</h3>
     </li>
   );
