@@ -39,6 +39,14 @@
   grid-template-rows: 64px calc(100dvh - 64px);
 }
 
+.note-page-layout {
+  grid-template-areas:
+    "nt-note"
+    "nt-note";
+  grid-template-columns: 1fr;
+  grid-template-rows: 192px 1fr;
+}
+
 /** Main - Grid Area  */
 #header {
   grid-area: header;
@@ -64,6 +72,20 @@
   grid-area: td-general;
 }
 
+/** Note - Grid Area */
+#nt-list {
+  grid-area: nt-list;
+}
+#nt-options {
+  grid-area: nt-options;
+}
+#nt-header {
+  grid-area: nt-header;
+}
+#nt-main {
+  grid-area: nt-main;
+}
+
 @media (min-width: 1024px) {
   .main-layout {
     grid-template-areas:
@@ -87,5 +109,13 @@
       );
     grid-template-rows: 64px minmax(1fr, calc(100dvh - 128px));
     gap: 1rem;
+  }
+
+  .note-page-layout {
+    grid-template-areas:
+      "nt-list nt-header nt-options"
+      "nt-list nt-main nt-options";
+    grid-template-columns: 240px 1fr 240px;
+    grid-template-rows: 192px 1fr;
   }
 }
