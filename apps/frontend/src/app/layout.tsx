@@ -9,6 +9,7 @@ import { ToDoProvider } from "@/context/ToDoContext";
 import { ToDoCategoryProvider } from "@/context/ToDoCategoryContext";
 import { ModalProvider } from "@/context/ModalContext";
 import { DeviceScreenProvider } from "@/context/DeviceScreenContext";
+import { NoteProvider } from "@/context/NoteContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -31,16 +32,18 @@ export default function RootLayout({
         <NavbarProvider>
           <ToDoProvider>
             <ToDoCategoryProvider>
-              <ModalProvider>
-                <body
-                  className={`grid min-h-screen main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
-                >
-                  <Modal />
-                  <Header />
-                  <Navbar />
-                  {children}
-                </body>
-              </ModalProvider>
+              <NoteProvider>
+                <ModalProvider>
+                  <body
+                    className={`grid min-h-screen main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                  >
+                    <Modal />
+                    <Header />
+                    <Navbar />
+                    {children}
+                  </body>
+                </ModalProvider>
+              </NoteProvider>
             </ToDoCategoryProvider>
           </ToDoProvider>
         </NavbarProvider>
