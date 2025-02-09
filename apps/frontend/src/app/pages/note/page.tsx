@@ -1,3 +1,5 @@
+import NoteList from "@/ui/NotePage/NoteList";
+
 export default function NotePage() {
   return (
     <main
@@ -7,7 +9,7 @@ export default function NotePage() {
       "
       id="main"
     >
-      Note Page
+      <NoteList />
     </main>
   );
 }
