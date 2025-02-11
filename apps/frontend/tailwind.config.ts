@@ -23,6 +23,7 @@ export default {
       boxShadow: {
         base: "0 8px 4px",
         "base-floating": "0 24px 4px",
+        side: "0px 0 24px",
       },
       colors: {
         priority: {
