@@ -27,7 +27,7 @@ export default function NoteListItem({ data }: INoteListItemProps) {
         selectNote(data);
       }}
     >
-      <h3 className="p-2">Note {data.title}</h3>
+      <h3 className="p-2 truncate">{data.title}</h3>
     </li>
   );
 }
