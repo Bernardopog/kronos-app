@@ -9,6 +9,7 @@ interface INoteContext {
   selectedNote: INote | null;
   selectNote: (note: INote) => void;
   createNote: () => void;
+  updateNote: (updatedNote: INote) => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -35,6 +36,29 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     setNoteList([...noteList, newNote]);
   };
 
+  const updateNote = (updatedNote: INote) => {
+    const updatedNoteData: INote = {
+      ...updatedNote,
+      date: {
+        createDate: updatedNote.date.createDate,
+        updateDate: new Date(),
+      },
+    };
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      return note.id === updatedNote.id ? (note = updatedNoteData) : note;
+    });
+
+    setNoteList(newNoteList);
+
+    const foundNote = newNoteList.find((note) => {
+      return note.id === selectedNote?.id;
+    });
+    if (!foundNote) return;
+
+    selectNote(foundNote);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -42,6 +66,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         selectedNote,
         selectNote,
         createNote,
+        updateNote,
       }}
     >
       {children}
