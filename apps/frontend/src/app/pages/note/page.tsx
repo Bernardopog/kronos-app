@@ -1,4 +1,5 @@
 import NoteList from "@/ui/NotePage/NoteList";
+import NoteMain from "@/ui/NotePage/NoteMain";
 
 export default function NotePage() {
   return (
@@ -10,6 +11,7 @@ export default function NotePage() {
       id="main"
     >
       <NoteList />
+      <NoteMain />
     </main>
   );
 }
