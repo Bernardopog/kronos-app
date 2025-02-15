@@ -5,9 +5,10 @@ import { useContext } from "react";
 
 interface INoteListItemProps {
   data: INote;
+  action: () => void;
 }
 
-export default function NoteListItem({ data }: INoteListItemProps) {
+export default function NoteListItem({ data, action }: INoteListItemProps) {
   const { selectNote, selectedNote } = useContext(NoteContext);
 
   return (
@@ -25,6 +26,7 @@ export default function NoteListItem({ data }: INoteListItemProps) {
       `}
       onClick={() => {
         selectNote(data);
+        action();
       }}
     >
       <h3 className="p-2 truncate">{data.title}</h3>

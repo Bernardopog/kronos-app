@@ -5,7 +5,7 @@ import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
 
 export default function NoteList() {
-  const { noteList, createNote } = useContext(NoteContext);
+  const { noteList, createNote, toggleList } = useContext(NoteContext);
 
   return (
     <section
@@ -24,7 +24,13 @@ export default function NoteList() {
           />
         </li>
         {noteList.map((note) => {
-          return <NoteListItem key={note.id} data={note} />;
+          return (
+            <NoteListItem
+              key={note.id}
+              data={note}
+              action={() => toggleList("close")}
+            />
+          );
         })}
       </ul>
     </section>
