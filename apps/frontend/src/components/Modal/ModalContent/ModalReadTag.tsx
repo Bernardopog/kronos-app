@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import ModalFooter from "../ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
 import { AiOutlinePlus } from "react-icons/ai";
+import { ModalContext } from "@/context/ModalContext";
 
 export default function ModalReadTag() {
   const { tagList, selectedNote, addTag, removeTag } = useContext(NoteContext);
+  const { changeModalData } = useContext(ModalContext);
 
   return (
     <>
@@ -42,7 +44,16 @@ export default function ModalReadTag() {
               hover:bg-apple-700 hover:opacity-100
               "
             >
-              <button className="flex items-center">
+              <button
+                className="flex items-center"
+                onClick={() => {
+                  changeModalData({
+                    headerTitle: "Criar Tag",
+                    type: "create",
+                    content: "noteCreateTag",
+                  });
+                }}
+              >
                 <AiOutlinePlus />
                 Criar Tag
               </button>
