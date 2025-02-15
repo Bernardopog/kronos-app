@@ -7,9 +7,11 @@ import { createContext, ReactNode, useState } from "react";
 interface INoteContext {
   noteList: INote[];
   selectedNote: INote | null;
+  isListShow: boolean;
   selectNote: (note: INote) => void;
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
+  toggleList: (type: "close" | "open") => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -17,6 +19,19 @@ const NoteContext = createContext({} as INoteContext);
 const NoteProvider = ({ children }: { children: ReactNode }) => {
   const [noteList, setNoteList] = useState<INote[]>(mockNoteList);
   const [selectedNote, setSelectedNote] = useState<INote | null>(null);
+
+  const [isListShow, setIsListShow] = useState<boolean>(false);
+  const [listShowControl, setListShowControl] = useState<boolean>(false);
+
+  const toggleList = (type: "close" | "open") => {
+    if (type === "open") {
+      setIsListShow(!isListShow);
+      setTimeout(() => setListShowControl(!listShowControl), 100);
+    } else {
+      setListShowControl(!isListShow);
+      setTimeout(() => setIsListShow(!listShowControl), 600);
+    }
+  };
 
   const selectNote = (note: INote) => {
     setSelectedNote(note);
@@ -64,9 +79,11 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       value={{
         noteList,
         selectedNote,
+        isListShow,
         selectNote,
         createNote,
         updateNote,
+        toggleList,
       }}
     >
       {children}
