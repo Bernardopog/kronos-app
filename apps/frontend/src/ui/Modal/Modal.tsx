@@ -1,4 +1,5 @@
 "use client";
+import ModalReadTag from "@/components/Modal/ModalContent/ModalReadTag";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
 import ModalToDoCreateCategory from "@/components/Modal/ModalContent/ModalToDoCreateCategory";
 import ModalToDoRead from "@/components/Modal/ModalContent/ModalToDoRead";
@@ -53,6 +54,7 @@ export default function Modal() {
               {modalData?.content === "toDoUpdateCategory" && (
                 <ModalToDoUpdateCategory />
               )}
+              {modalData?.content === "noteReadTags" && <ModalReadTag />}
             </section>
           </section>
         </div>

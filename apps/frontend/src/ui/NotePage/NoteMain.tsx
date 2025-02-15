@@ -1,6 +1,7 @@
 "use client";
 
 import Divider from "@/components/Divider/Divider";
+import { ModalContext } from "@/context/ModalContext";
 import { NoteContext } from "@/context/NoteContext";
 import formaterText from "@/mod/noteTextFormatter";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ import { AiFillTag, AiOutlineClockCircle, AiOutlineTag } from "react-icons/ai";
 
 export default function NoteMain() {
   const { selectedNote, updateNote } = useContext(NoteContext);
+  const { toggleModal } = useContext(ModalContext);
 
   const noteCreateDate = selectedNote?.date.createDate;
   const noteUpdateDate = selectedNote?.date.updateDate;
@@ -92,9 +94,9 @@ export default function NoteMain() {
                 <ul className="flex flex-wrap gap-x-2">
                   {selectedNote.tags?.map((tag, idx) => {
                     return (
-                      <li key={tag}>
+                      <li key={tag.id}>
                         <p className="capitalize">
-                          {tag}
+                          {tag.tagName}
                           {idx === selectedNote.tags!.length - 1 ? "." : ","}
                         </p>
                       </li>
@@ -112,6 +114,13 @@ export default function NoteMain() {
                   flex justify-between items-center border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
                   hover:bg-woodsmoke-950 hover:border-woodsmoke-400 hover:text-woodsmoke-100 ease-in-out duration-300
                 "
+                onClick={() => {
+                  toggleModal({
+                    headerTitle: "Gerenciar Tags",
+                    type: "read",
+                    content: "noteReadTags",
+                  });
+                }}
               >
                 <AiFillTag />
                 Gerenciar Tags
