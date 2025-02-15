@@ -8,6 +8,7 @@ interface IInputProps {
   id: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  errorMessage: string;
 }
 
 export default function Input({
@@ -16,6 +17,7 @@ export default function Input({
   id,
   value,
   setValue,
+  errorMessage,
 }: IInputProps) {
   return (
     <div className="relative">
@@ -43,6 +45,9 @@ export default function Input({
       >
         {label}
       </label>
+      {errorMessage && (
+        <span className="font-bold text-sm text-poppy-600">{errorMessage}</span>
+      )}
     </div>
   );
 }
