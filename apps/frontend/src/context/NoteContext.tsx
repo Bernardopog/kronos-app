@@ -1,11 +1,13 @@
 "use client";
 
 import { INote, mockNoteList } from "@/mock/mockNote";
+import { ITag, mockTagList } from "@/mock/mockTagList";
 import IdGenerator from "@/mod/IdGenerator";
 import { createContext, ReactNode, useState } from "react";
 
 interface INoteContext {
   noteList: INote[];
+  tagList: ITag[];
   selectedNote: INote | null;
   isListShow: boolean;
   listShowControl: boolean;
@@ -13,12 +15,15 @@ interface INoteContext {
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
   toggleList: (type: "close" | "open") => void;
+  addTag: (tagId: string) => void;
+  removeTag: (tagId: string) => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
 
 const NoteProvider = ({ children }: { children: ReactNode }) => {
   const [noteList, setNoteList] = useState<INote[]>(mockNoteList);
+  const [tagList, setTagList] = useState<ITag[]>(mockTagList);
   const [selectedNote, setSelectedNote] = useState<INote | null>(null);
 
   const [isListShow, setIsListShow] = useState<boolean>(false);
@@ -75,10 +80,51 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     selectNote(foundNote);
   };
 
+  const addTag = (tagId: string) => {
+    const note = noteList.find((note) => note.id === selectedNote?.id);
+    if (!note) return;
+    const tagToAdd = tagList.find((tag) => tag.id === tagId);
+    if (!tagToAdd) return;
+
+    if (note.tags.find((tag) => tag.id === tagToAdd.id)) return;
+
+    const updatedNote: INote = {
+      ...note,
+      tags: [...note.tags, tagToAdd],
+    };
+
+    setSelectedNote({ ...selectedNote, ...updatedNote });
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      return note.id === selectedNote?.id ? (note = updatedNote) : note;
+    });
+    setNoteList(newNoteList);
+  };
+
+  const removeTag = (tagId: string) => {
+    const note = noteList.find((note) => note.id === selectedNote?.id);
+    if (!note) return;
+    const tagToRemove = note.tags.find((tag) => tag.id === tagId);
+    if (!tagToRemove) return;
+
+    const updatedNote: INote = {
+      ...note,
+      tags: note.tags.filter((tag) => tag.id !== tagToRemove.id),
+    };
+
+    setSelectedNote({ ...selectedNote, ...updatedNote });
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      return note.id === selectedNote?.id ? (note = updatedNote) : note;
+    });
+    setNoteList(newNoteList);
+  };
+
   return (
     <NoteContext.Provider
       value={{
         noteList,
+        tagList,
         selectedNote,
         isListShow,
         listShowControl,
@@ -86,6 +132,8 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         createNote,
         updateNote,
         toggleList,
+        addTag,
+        removeTag,
       }}
     >
       {children}
