@@ -17,6 +17,7 @@ interface INoteContext {
   toggleList: (type: "close" | "open") => void;
   addTag: (tagId: string) => void;
   removeTag: (tagId: string) => void;
+  createTag: (tagName: string) => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -120,6 +121,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     setNoteList(newNoteList);
   };
 
+  const createTag = (tagName: string) => {
+    setTagList([...tagList, { id: new IdGenerator(8).id, tagName }]);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -134,6 +139,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         toggleList,
         addTag,
         removeTag,
+        createTag,
       }}
     >
       {children}
