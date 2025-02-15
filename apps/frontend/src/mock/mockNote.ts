@@ -1,10 +1,12 @@
+import { mockTagList } from "./mockTagList";
+
 export interface INote {
   id: string;
   title: string;
   description?: string;
   isFavorite: boolean;
   date: { createDate: Date; updateDate?: Date };
-  tags?: string[];
+  tags: string[];
 }
 
 export const mockNoteList: INote[] = [
@@ -14,7 +16,11 @@ export const mockNoteList: INote[] = [
     description: "Estudar React, estudar sobre Context, Hooks, etc.",
     isFavorite: true,
     date: { createDate: new Date(2024, 11, 5) },
-    tags: ["estudo", "react"],
+    tags: [
+      mockTagList[0].tagName,
+      mockTagList[1].tagName,
+      mockTagList[2].tagName,
+    ],
   },
 
   {
@@ -23,12 +29,13 @@ export const mockNoteList: INote[] = [
     description: "Estudar Vue, estudar sobre Vuex, Composition API, etc.",
     isFavorite: false,
     date: { createDate: new Date(2024, 10, 2) },
-    tags: ["estudo"],
+    tags: [mockTagList[0].tagName],
   },
   {
     id: "l00pa",
     title: "Estudar Svelte",
     isFavorite: false,
     date: { createDate: new Date(2024, 9, 12) },
+    tags: [],
   },
 ];
