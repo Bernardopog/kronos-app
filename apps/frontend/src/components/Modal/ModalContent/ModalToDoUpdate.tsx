@@ -15,15 +15,25 @@ export default function ModalToDoUpdate() {
   const { selectedTask, updateTask } = useContext(ToDoContext);
 
   const [newTitle, setNewTitle] = useState<string>(selectedTask?.title ?? "");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const [newDescription, setNewDescription] = useState<string>(
     selectedTask?.description ?? ""
   );
+
   const [newPriority, setNewPriority] = useState<PriorityType>(
     selectedTask?.priority ?? "0"
   );
   const [newCategory, setNewCategory] = useState<string>(
     selectedTask?.category ?? ""
   );
+
+  const checkTitle = () => {
+    if (newTitle.trim() === "") {
+      setErrorMessage("O título nao pode estar em branco");
+      return true;
+    } else setErrorMessage("");
+  };
 
   return (
     <>
@@ -34,6 +44,7 @@ export default function ModalToDoUpdate() {
           name="title"
           value={newTitle}
           setValue={setNewTitle}
+          errorMessage={errorMessage}
         />
         <TextArea
           label="Descrição:"
@@ -47,6 +58,7 @@ export default function ModalToDoUpdate() {
       <ModalFooter
         type={"update"}
         action={() => {
+          if (checkTitle()) return;
           updateTask({
             ...selectedTask!,
             title: newTitle,

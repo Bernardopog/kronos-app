@@ -12,6 +12,13 @@ export default function ModalToDoCreateCategory() {
   const { createCategory } = useContext(ToDoCategoryContext);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const checkName = () => {
+    if (categoryName.trim() === "") {
+      setErrorMessage("O Nome da categoria nao pode estar em branco");
+      return true;
+    } else setErrorMessage("");
+  };
+
   return (
     <>
       <div className="flex flex-col p-2 py-6">
@@ -20,14 +27,13 @@ export default function ModalToDoCreateCategory() {
           id="categoryName"
           value={categoryName}
           setValue={setCategoryName}
+          errorMessage={errorMessage}
         />
-        {errorMessage.length > 0 && (
-          <span className="text-poppy-600 text-sm">{errorMessage}</span>
-        )}
       </div>
       <ModalFooter
         type={"create"}
         action={() => {
+          if (checkName()) return;
           if (categoryName.trim() !== "") {
             createCategory(categoryName);
             toggleModal(null);

@@ -18,10 +18,8 @@ export default function ModalToDoUpdateCategory() {
           id="categoryNewName"
           value={newName}
           setValue={setNewName}
+          errorMessage={errorMessage}
         />
-        {errorMessage.length > 0 && (
-          <span className="text-poppy-600 text-sm">{errorMessage}</span>
-        )}
       </div>
       <ModalFooter
         type={"create"}

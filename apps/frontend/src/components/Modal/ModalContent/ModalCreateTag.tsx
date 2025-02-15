@@ -12,7 +12,17 @@ export default function ModalCreateTag() {
 
   const [tagName, setTagName] = useState<string>("");
   const [closeWhenCreate, setCloseWhenCreate] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [showTagList, setShowTagList] = useState<boolean>(false);
+
+  const checkTagName = () => {
+    if (tagName.trim() === "") {
+      setErrorMessage("O nome da tag nao pode estar em branco");
+      return true;
+    } else {
+      setErrorMessage("");
+    }
+  };
 
   return (
     <>
@@ -23,6 +33,7 @@ export default function ModalCreateTag() {
           setValue={setTagName}
           value={tagName}
           name="tag"
+          errorMessage={errorMessage}
         />
         <div className="flex flex-col gap-y-2">
           <Checkbox
@@ -57,6 +68,7 @@ export default function ModalCreateTag() {
       <ModalFooter
         type="create"
         action={() => {
+          if (checkTagName()) return;
           createTag(tagName);
           if (closeWhenCreate) toggleModal(null);
         }}

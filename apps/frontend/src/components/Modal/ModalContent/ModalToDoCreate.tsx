@@ -16,8 +16,17 @@ export default function ModalToDoCreate() {
   const [priority, setPriority] = useState<PriorityType>("0");
   const [category, setCategory] = useState<string>("");
 
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const { toggleModal } = useContext(ModalContext);
   const { createTask } = useContext(ToDoContext);
+
+  const checkTitle = () => {
+    if (title.trim() === "") {
+      setErrorMessage("O Título nao pode estar em branco");
+      return true;
+    } else setErrorMessage("");
+  };
 
   return (
     <>
@@ -27,6 +36,7 @@ export default function ModalToDoCreate() {
           id="title"
           value={title}
           setValue={setTitle}
+          errorMessage={errorMessage}
         />
         <TextArea
           label="Descricão da Tarefa"
@@ -40,6 +50,7 @@ export default function ModalToDoCreate() {
       <ModalFooter
         type={"create"}
         action={() => {
+          if (checkTitle()) return;
           toggleModal(null);
           createTask({
             title,
