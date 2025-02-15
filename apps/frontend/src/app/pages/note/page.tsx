@@ -1,4 +1,5 @@
 import NoteList from "@/ui/NotePage/NoteList";
+import NoteListButton from "@/ui/NotePage/NoteListButton";
 import NoteMain from "@/ui/NotePage/NoteMain";
 
 export default function NotePage() {
@@ -11,6 +12,7 @@ export default function NotePage() {
       id="main"
     >
       <NoteList />
+      <NoteListButton />
       <NoteMain />
     </main>
   );

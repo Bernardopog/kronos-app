@@ -76,44 +76,59 @@ export default function NoteMain() {
                 {selectedNote?.title}
               </h2>
             )}
-            <section className="flex items-center mt-12 gap-x-2 text-woodsmoke-900 dark:text-woodsmoke-300">
-              <span className="text-2xl">
-                <AiOutlineTag />
-              </span>
-              <p className="font-medium text-woodsmoke-200">Tags:</p>
-              <ul className="flex gap-x-2">
-                {selectedNote.tags?.map((tag, idx) => {
-                  return (
-                    <li key={tag}>
-                      <p>
-                        {tag}
-                        {idx === selectedNote.tags!.length - 1 ? "." : ","}
-                      </p>
+            <section
+              className="
+              flex flex-col items-start mt-12 gap-2 text-woodsmoke-900 dark:text-woodsmoke-300
+              lg:flex-row
+            "
+            >
+              <div className="flex items-start gap-x-2">
+                <span className="text-xl md:text-2xl">
+                  <AiOutlineTag />
+                </span>
+                <p className="font-medium text-woodsmoke-800 dark:text-woodsmoke-200">
+                  Tags:
+                </p>
+                <ul className="flex flex-wrap gap-x-2">
+                  {selectedNote.tags?.map((tag, idx) => {
+                    return (
+                      <li key={tag}>
+                        <p className="capitalize">
+                          {tag}
+                          {idx === selectedNote.tags!.length - 1 ? "." : ","}
+                        </p>
+                      </li>
+                    );
+                  })}
+                  {selectedNote.tags?.length === 0 && (
+                    <li>
+                      <p>Sem Tags</p>
                     </li>
-                  );
-                })}
-                <li>
-                  <button
-                    className="
-                    flex justify-between items-center border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
-                    hover:bg-woodsmoke-950 hover:border-woodsmoke-400 hover:text-woodsmoke-100 ease-in-out duration-300
-                  "
-                  >
-                    <AiFillTag />
-                    Gerenciar Tags
-                  </button>
-                </li>
-              </ul>
+                  )}
+                </ul>
+              </div>
+              <button
+                className="
+                  flex justify-between items-center border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
+                  hover:bg-woodsmoke-950 hover:border-woodsmoke-400 hover:text-woodsmoke-100 ease-in-out duration-300
+                "
+              >
+                <AiFillTag />
+                Gerenciar Tags
+              </button>
             </section>
+
             <section className="flex items-center mt-2 gap-x-2 text-woodsmoke-900 dark:text-woodsmoke-300">
-              <span className="text-2xl">
+              <span className="text-xl md:text-2xl">
                 <AiOutlineClockCircle />
               </span>
               <div className="flex gap-x-8">
                 {noteCreateDate && (
-                  <p className="font-medium">
-                    <span className="text-woodsmoke-200">Data Criação:</span>
-                    <span className="font-normal inline-block ml-2">
+                  <p className="flex flex-col items-center w-full font-medium">
+                    <span className="text-woodsmoke-800 dark:text-woodsmoke-200 text-sm md:text-base">
+                      Data Criação:
+                    </span>
+                    <span className="font-normal inline-block ml-2 text-sm md:text-base">
                       {noteCreateDate.getDate().toString().padStart(2, "0")} /{" "}
                       {(noteCreateDate.getMonth() + 1)
                         .toString()
@@ -123,9 +138,11 @@ export default function NoteMain() {
                   </p>
                 )}
                 {noteUpdateDate && (
-                  <p className="font-medium">
-                    <span className="text-woodsmoke-200">Data Edição:</span>
-                    <span className="font-normal inline-block ml-2">
+                  <p className="flex flex-col items-center w-full font-medium">
+                    <span className="text-woodsmoke-800 dark:text-woodsmoke-200 text-sm md:text-base">
+                      Data Edição:
+                    </span>
+                    <span className="font-normal inline-block ml-2 text-sm md:text-base">
                       {noteUpdateDate.getDate().toString().padStart(2, "0")} /{" "}
                       {(noteUpdateDate.getMonth() + 1)
                         .toString()
@@ -136,7 +153,7 @@ export default function NoteMain() {
                 )}
               </div>
             </section>
-            <div className="mt-4 mx-24">
+            <div className="mt-4 mx-8 lg:mx-24">
               <Divider />
             </div>
           </header>
@@ -175,7 +192,7 @@ export default function NoteMain() {
           </div>
         </article>
       ) : (
-        <p className="mt-8 text-center italic text-2xl text-woodsmoke-950/50 dark:text-woodsmoke-300/50">
+        <p className="w-full mt-8 text-center italic text-2xl text-woodsmoke-950/50 dark:text-woodsmoke-300/50">
           Por favor selecione uma Nota...
         </p>
       )}

@@ -40,11 +40,9 @@
 }
 
 .note-page-layout {
-  grid-template-areas:
-    "nt-main"
-    "nt-main";
+  grid-template-areas: "nt-main";
   grid-template-columns: 1fr;
-  grid-template-rows: 192px 1fr;
+  grid-template-rows: 1fr;
 }
 
 /** Main - Grid Area  */
