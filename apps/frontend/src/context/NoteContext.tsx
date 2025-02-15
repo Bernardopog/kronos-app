@@ -8,6 +8,7 @@ interface INoteContext {
   noteList: INote[];
   selectedNote: INote | null;
   isListShow: boolean;
+  listShowControl: boolean;
   selectNote: (note: INote) => void;
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
@@ -25,11 +26,11 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleList = (type: "close" | "open") => {
     if (type === "open") {
-      setIsListShow(!isListShow);
+      setIsListShow(true);
       setTimeout(() => setListShowControl(!listShowControl), 100);
     } else {
       setListShowControl(!isListShow);
-      setTimeout(() => setIsListShow(!listShowControl), 600);
+      setTimeout(() => setIsListShow(false), 600);
     }
   };
 
@@ -80,6 +81,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         noteList,
         selectedNote,
         isListShow,
+        listShowControl,
         selectNote,
         createNote,
         updateNote,

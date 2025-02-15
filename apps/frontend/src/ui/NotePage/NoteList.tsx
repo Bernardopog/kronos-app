@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function NoteList() {
-  const { noteList, createNote, isListShow, toggleList } =
+  const { noteList, createNote, isListShow, toggleList, listShowControl } =
     useContext(NoteContext);
 
   return (
