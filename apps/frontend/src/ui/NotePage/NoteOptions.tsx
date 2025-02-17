@@ -22,9 +22,6 @@ export default function NoteOptions() {
 
   const [toggleOptionMenuDesktop, setToggleOptionMenuDesktop] = useState(false);
 
-  console.log("oc", optionsShowControl);
-  console.log("io", isOptionsShow);
-
   return (
     <>
       <>

@@ -7,8 +7,6 @@ export default function ModalToDoRemoveCategory() {
   const { toggleModal } = useContext(ModalContext);
   const { selectedCategory, deleteCategory } = useContext(ToDoCategoryContext);
 
-  console.log(selectedCategory);
-
   return (
     <>
       <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100">

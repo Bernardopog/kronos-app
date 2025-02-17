@@ -18,8 +18,7 @@ export default function HomeCard({
   icon,
   animationTime,
 }: IHomeCardProps) {
-  const { currentPage, selectCurrentPage, selectedLink } =
-    useContext(NavbarContext);
+  const { selectCurrentPage } = useContext(NavbarContext);
 
   return (
     <Link
@@ -29,7 +28,6 @@ export default function HomeCard({
       style={{ animationDelay: `${animationTime}ms` }}
       onClick={() => {
         selectCurrentPage(name);
-        console.log(currentPage, selectedLink);
       }}
     >
       <article

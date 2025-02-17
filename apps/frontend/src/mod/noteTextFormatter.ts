@@ -138,7 +138,6 @@ const formaterText = (text: string) => {
       }
 
       addressNames = addressNames.map((name) => name!.replace(/\s/g, "+"));
-      console.log(addressNames);
 
       return `<address class="text-woodsmoke-950 dark:text-woodsmoke-50">
         <a href="https://www.google.com.br/maps/place/${addressNames[0]}+${addressNames[1]}+${addressNames[2]} target="_blank" rel="noopener noreferrer">${addressNames.map((name) => name!.replace(/\+/g, " "))}</a>
