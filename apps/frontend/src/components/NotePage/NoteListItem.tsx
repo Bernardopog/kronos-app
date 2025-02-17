@@ -2,6 +2,7 @@
 import { NoteContext } from "@/context/NoteContext";
 import { INote } from "@/mock/mockNote";
 import { useContext } from "react";
+import { AiFillStar } from "react-icons/ai";
 
 interface INoteListItemProps {
   data: INote;
@@ -14,8 +15,7 @@ export default function NoteListItem({ data, action }: INoteListItemProps) {
   return (
     <li
       className={`
-        min-h-20 rounded-lg border text-woodsmoke-925 cursor-pointer ease-in-out duration-300
-        
+        relative min-h-20 rounded-lg border text-woodsmoke-925 cursor-pointer ease-in-out duration-300
         ${
           selectedNote?.id === data.id
             ? `bg-woodsmoke-300 border-woodsmoke-400 font-medium 
@@ -29,6 +29,11 @@ export default function NoteListItem({ data, action }: INoteListItemProps) {
         action();
       }}
     >
+      {data.isFavorite && (
+        <span className="block absolute top-0.5 right-0.5 size-auto text-xl">
+          <AiFillStar />
+        </span>
+      )}
       <h3 className="p-2 truncate">{data.title}</h3>
     </li>
   );
