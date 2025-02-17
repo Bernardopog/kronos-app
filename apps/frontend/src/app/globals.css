@@ -111,4 +111,7 @@
     grid-template-columns: 240px 1fr 240px;
     grid-template-rows: 1fr;
   }
+  .note-page-layout:has(#nt-options.closed) {
+    grid-template-columns: 240px 1fr 32px;
+  }
 }
