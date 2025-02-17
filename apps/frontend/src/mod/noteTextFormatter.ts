@@ -1,6 +1,7 @@
 const formaterText = (text: string) => {
   const regexpScript: RegExp =
     /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+  const regexpNewLine: RegExp = /\n/g;
   const regexpLink: RegExp = /\[l]\((.*?)\)(.*?)\[\/l]/g;
   const regexpBold: RegExp = /\[b](.*?)\[\/b]/g;
   const regexpItalic: RegExp = /\[i](.*?)\[\/i]/g;
@@ -51,6 +52,7 @@ const formaterText = (text: string) => {
   textFormated = text
     .replace("<", "&lt;")
     .replace(">", "&gt;")
+    .replace(regexpNewLine, "<br>")
     .replace(
       regexpLink,
       '<a class="underline" href="$1" target="_blank" rel="noopener noreferrer">$2</a>'
