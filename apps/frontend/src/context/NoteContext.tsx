@@ -46,7 +46,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       setIsListShow(true);
       setTimeout(() => setListShowControl(!listShowControl), 100);
     } else {
-      setListShowControl(!isListShow);
+      setListShowControl(false);
       setTimeout(() => setIsListShow(false), 600);
     }
   };

@@ -14,7 +14,7 @@ export default function NoteListButton() {
           onClick={() => {
             toggleList("open");
           }}
-          aria-label="Abrir filtro"
+          aria-label="Abrir lista de notas"
         >
           <AiOutlineUnorderedList />
         </button>
