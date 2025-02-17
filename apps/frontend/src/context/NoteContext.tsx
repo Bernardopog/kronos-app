@@ -11,13 +11,17 @@ interface INoteContext {
   selectedNote: INote | null;
   isListShow: boolean;
   listShowControl: boolean;
+  isOptionsShow: boolean;
+  optionsShowControl: boolean;
   selectNote: (note: INote) => void;
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
   toggleList: (type: "close" | "open") => void;
+  toggleOptions: (type: "close" | "open") => void;
   addTag: (tagId: string) => void;
   removeTag: (tagId: string) => void;
   createTag: (tagName: string) => void;
+  toggleFavorite: () => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -29,6 +33,13 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
 
   const [isListShow, setIsListShow] = useState<boolean>(false);
   const [listShowControl, setListShowControl] = useState<boolean>(false);
+  const [isOptionsShow, setIsOptionsShow] = useState<boolean>(false);
+  const [optionsShowControl, setOptionsShowControl] = useState<boolean>(false);
+
+  function findNote(): INote | undefined {
+    const note = noteList.find((note) => note.id === selectedNote?.id);
+    return note;
+  }
 
   const toggleList = (type: "close" | "open") => {
     if (type === "open") {
@@ -37,6 +48,16 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setListShowControl(!isListShow);
       setTimeout(() => setIsListShow(false), 600);
+    }
+  };
+
+  const toggleOptions = (type: "close" | "open") => {
+    if (type === "open") {
+      setIsOptionsShow(true);
+      setTimeout(() => setOptionsShowControl(!optionsShowControl), 100);
+    } else {
+      setOptionsShowControl(!isOptionsShow);
+      setTimeout(() => setIsOptionsShow(false), 600);
     }
   };
 
@@ -82,7 +103,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addTag = (tagId: string) => {
-    const note = noteList.find((note) => note.id === selectedNote?.id);
+    const note = findNote();
     if (!note) return;
     const tagToAdd = tagList.find((tag) => tag.id === tagId);
     if (!tagToAdd) return;
@@ -103,7 +124,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeTag = (tagId: string) => {
-    const note = noteList.find((note) => note.id === selectedNote?.id);
+    const note = findNote();
     if (!note) return;
     const tagToRemove = note.tags.find((tag) => tag.id === tagId);
     if (!tagToRemove) return;
@@ -125,6 +146,23 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     setTagList([...tagList, { id: new IdGenerator(8).id, tagName }]);
   };
 
+  const toggleFavorite = () => {
+    const note = findNote();
+    if (!note) return;
+
+    const updatedNote: INote = {
+      ...note,
+      isFavorite: !note.isFavorite,
+    };
+
+    setSelectedNote(updatedNote);
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      return note.id === selectedNote?.id ? (note = updatedNote) : note;
+    });
+    setNoteList(newNoteList);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -133,13 +171,17 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         selectedNote,
         isListShow,
         listShowControl,
+        isOptionsShow,
+        optionsShowControl,
         selectNote,
         createNote,
         updateNote,
         toggleList,
+        toggleOptions,
         addTag,
         removeTag,
         createTag,
+        toggleFavorite,
       }}
     >
       {children}
