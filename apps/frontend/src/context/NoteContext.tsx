@@ -1,5 +1,6 @@
 "use client";
 
+import { IconsTypes } from "@/icons/icons";
 import { INote, mockNoteList } from "@/mock/mockNote";
 import { ITag, mockTagList } from "@/mock/mockTagList";
 import IdGenerator from "@/mod/IdGenerator";
@@ -22,6 +23,7 @@ interface INoteContext {
   removeTag: (tagId: string) => void;
   createTag: (tagName: string) => void;
   toggleFavorite: () => void;
+  chooseIcon: (icon: IconsTypes) => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -164,6 +166,24 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     setNoteList(newNoteList);
   };
 
+  const chooseIcon = (icon: IconsTypes) => {
+    const note = findNote();
+    if (!note) return;
+
+    const updatedNote: INote = {
+      ...note,
+      icon: icon,
+    };
+
+    setSelectedNote(updatedNote);
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      return note.id === selectedNote?.id ? (note = updatedNote) : note;
+    });
+
+    setNoteList(newNoteList);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -183,6 +203,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         removeTag,
         createTag,
         toggleFavorite,
+        chooseIcon,
       }}
     >
       {children}

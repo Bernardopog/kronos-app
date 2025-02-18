@@ -18,7 +18,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const { updateNote } = useContext(NoteContext);
+  const { updateNote, chooseIcon } = useContext(NoteContext);
   const { toggleModal } = useContext(ModalContext);
 
   const noteCreateDate = selectedNote?.date.createDate;
@@ -64,7 +64,10 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
                     dark:text-woodsmoke-300 dark:border-woodsmoke-900
                     dark:hover:text-woodsmoke-100
                   "
-                    onClick={() => {}}
+                    onClick={() => {
+                      chooseIcon(iconkey as keyof typeof icons);
+                      setIsIconListShow(false);
+                    }}
                   >
                     {icons[iconkey as keyof typeof icons]}
                   </button>
