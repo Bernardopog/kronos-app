@@ -6,6 +6,7 @@ import Divider from "@/components/Divider/Divider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { NoteContext } from "@/context/NoteContext";
+import { icons } from "@/icons/icons";
 
 interface INoteMainHeaderProps {
   selectedNote: INote;
@@ -23,46 +24,90 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
   const noteCreateDate = selectedNote?.date.createDate;
   const noteUpdateDate = selectedNote?.date.updateDate;
 
+  const icon = selectedNote.icon ? icons[selectedNote.icon] : null;
+
+  const [isIconListShow, setIsIconListShow] = useState<boolean>(false);
+
   useEffect(() => {
     if (editableTitle && titleInputRef.current) titleInputRef.current.focus();
   }, [editableTitle, noteTitle, selectedNote]);
 
   return (
     <header className="px-4 pt-4">
-      {editableTitle ? (
-        <input
-          className="
-          w-full text-2xl bg-woodsmoke-100
-          focus:pl-4 focus:outline focus:outline-woodsmoke-600 focus:rounded-lg ease-in-out duration-300
-          dark:bg-woodsmoke-950 dark:focus:outline-woodsmoke-100
-        "
-          ref={titleInputRef}
-          type="text"
-          value={noteTitle}
-          onChange={(ev) => {
-            setNoteTitle(ev.target.value);
-          }}
-          onBlur={() => {
-            updateNote({ ...selectedNote, title: noteTitle });
-            setEditableTitle(false);
-          }}
-          onKeyDown={(ev) => {
-            if (ev.key === "Enter") {
+      <div className="flex items-center relative gap-x-2">
+        <button
+          className={`
+            border rounded-lg border-woodsmoke-200
+            dark:border-woodsmoke-900
+            ${selectedNote.icon ? "p-1 text-3xl" : "size-10 p-1"}
+          `}
+          aria-label="Trocar icone da nota"
+          onClick={() => setIsIconListShow(!isIconListShow)}
+        >
+          {icon}
+        </button>
+        {isIconListShow && (
+          <ul
+            className="
+            grid grid-cols-6 gap-2 absolute top-12 p-2 border rounded-lg border-woodsmoke-300 bg-woodsmoke-200 
+          dark:bg-woodsmoke-925 dark:border-woodsmoke-600
+            sm:grid-cols-8
+          "
+          >
+            {Object.keys(icons).map((iconkey) => {
+              return (
+                <li key={iconkey}>
+                  <button
+                    className="
+                    p-1 border rounded-lg border-woodsmoke-300 text-2xl text-woodsmoke-600 ease-in-out duration-300
+                    hover:text-woodsmoke-950 
+                    dark:text-woodsmoke-300 dark:border-woodsmoke-900
+                    dark:hover:text-woodsmoke-100
+                  "
+                    onClick={() => {}}
+                  >
+                    {icons[iconkey as keyof typeof icons]}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {editableTitle ? (
+          <input
+            className="
+            w-full text-2xl bg-woodsmoke-100
+            focus:pl-4 focus:outline focus:outline-woodsmoke-600 focus:rounded-lg ease-in-out duration-300
+            dark:bg-woodsmoke-950 dark:focus:outline-woodsmoke-100
+          "
+            ref={titleInputRef}
+            type="text"
+            value={noteTitle}
+            onChange={(ev) => {
+              setNoteTitle(ev.target.value);
+            }}
+            onBlur={() => {
               updateNote({ ...selectedNote, title: noteTitle });
               setEditableTitle(false);
-            }
-          }}
-        />
-      ) : (
-        <h2
-          className="text-2xl"
-          onMouseUp={() => {
-            setEditableTitle(true);
-          }}
-        >
-          {selectedNote?.title}
-        </h2>
-      )}
+            }}
+            onKeyDown={(ev) => {
+              if (ev.key === "Enter") {
+                updateNote({ ...selectedNote, title: noteTitle });
+                setEditableTitle(false);
+              }
+            }}
+          />
+        ) : (
+          <h2
+            className="text-2xl"
+            onMouseUp={() => {
+              setEditableTitle(true);
+            }}
+          >
+            {selectedNote?.title}
+          </h2>
+        )}
+      </div>
       <section
         className="
         flex flex-col items-start mt-12 gap-2 text-woodsmoke-900 dark:text-woodsmoke-300

@@ -1,3 +1,4 @@
+import { IconsTypes } from "@/icons/icons";
 import { ITag, mockTagList } from "./mockTagList";
 
 export interface INote {
@@ -7,6 +8,7 @@ export interface INote {
   isFavorite: boolean;
   date: { createDate: Date; updateDate?: Date };
   tags: ITag[];
+  icon?: IconsTypes;
 }
 
 export const mockNoteList: INote[] = [
@@ -17,8 +19,8 @@ export const mockNoteList: INote[] = [
     isFavorite: true,
     date: { createDate: new Date(2024, 11, 5) },
     tags: [mockTagList[0], mockTagList[1], mockTagList[2]],
+    icon: "book",
   },
-
   {
     id: "8a3b5",
     title: "Estudar Vue",
@@ -33,5 +35,6 @@ export const mockNoteList: INote[] = [
     isFavorite: false,
     date: { createDate: new Date(2024, 9, 12) },
     tags: [],
+    icon: "book",
   },
 ];
