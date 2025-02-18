@@ -77,6 +77,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       tags: [],
     };
     setNoteList([...noteList, newNote]);
+    setSelectedNote(newNote);
   };
 
   const updateNote = (updatedNote: INote) => {
