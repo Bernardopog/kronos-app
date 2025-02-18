@@ -52,7 +52,6 @@ const formaterText = (text: string) => {
   textFormated = text
     .replace("<", "&lt;")
     .replace(">", "&gt;")
-    .replace(regexpNewLine, "<br>")
     .replace(
       regexpLink,
       '<a class="underline" href="$1" target="_blank" rel="noopener noreferrer">$2</a>'
@@ -145,6 +144,7 @@ const formaterText = (text: string) => {
         <a href="https://www.google.com.br/maps/place/${addressNames[0]}+${addressNames[1]}+${addressNames[2]} target="_blank" rel="noopener noreferrer">${addressNames.map((name) => name!.replace(/\+/g, " "))}</a>
       </address>`;
     });
+  textFormated.replace(regexpNewLine, "<br>");
   return textFormated;
 };
 
