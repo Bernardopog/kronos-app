@@ -116,6 +116,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     const updatedNote: INote = {
       ...note,
       tags: [...note.tags, tagToAdd],
+      date: {
+        createDate: note.date.createDate,
+        updateDate: new Date(),
+      },
     };
 
     setSelectedNote({ ...selectedNote, ...updatedNote });
@@ -135,6 +139,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     const updatedNote: INote = {
       ...note,
       tags: note.tags.filter((tag) => tag.id !== tagToRemove.id),
+      date: {
+        createDate: note.date.createDate,
+        updateDate: new Date(),
+      },
     };
 
     setSelectedNote({ ...selectedNote, ...updatedNote });
@@ -173,6 +181,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     const updatedNote: INote = {
       ...note,
       icon: icon,
+      date: {
+        createDate: note.date.createDate,
+        updateDate: new Date(),
+      },
     };
 
     setSelectedNote(updatedNote);
