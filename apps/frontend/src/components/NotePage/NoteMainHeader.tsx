@@ -12,7 +12,7 @@ interface INoteMainHeaderProps {
 }
 
 export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
-  const [noteTitle, setNoteTitle] = useState<string>("");
+  const [noteTitle, setNoteTitle] = useState<string>(selectedNote?.title ?? "");
   const [editableTitle, setEditableTitle] = useState<boolean>(false);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +25,6 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
 
   useEffect(() => {
     if (editableTitle && titleInputRef.current) titleInputRef.current.focus();
-    setNoteTitle(selectedNote?.title ?? "");
   }, [editableTitle, noteTitle, selectedNote]);
 
   return (
