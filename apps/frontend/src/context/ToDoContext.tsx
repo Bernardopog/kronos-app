@@ -1,7 +1,7 @@
 "use client";
 
 import { IToDoTask, mockToDoList } from "@/mock/mockToDoList";
-import IdGenerator from "@/mod/IdGenerator";
+import IdGenerator from "@/utils/IdGenerator";
 import { createContext, useState } from "react";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";

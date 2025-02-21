@@ -1,7 +1,7 @@
 "use client";
 
 import { ICategory, mockCategoryList } from "@/mock/mockCategoryList";
-import IdGenerator from "@/mod/IdGenerator";
+import IdGenerator from "@/utils/IdGenerator";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ToDoContext } from "./ToDoContext";
 

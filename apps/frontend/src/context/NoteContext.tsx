@@ -3,7 +3,7 @@
 import { IconsTypes } from "@/icons/icons";
 import { INote, mockNoteList } from "@/mock/mockNote";
 import { ITag, mockTagList } from "@/mock/mockTagList";
-import IdGenerator from "@/mod/IdGenerator";
+import IdGenerator from "@/utils/IdGenerator";
 import { createContext, ReactNode, useState } from "react";
 
 interface INoteContext {
