@@ -38,6 +38,8 @@ const formaterText = (text: string) => {
   const regexpJSArray = /(?<=[=\s])([\[.*?][/\]])/g;
   const regexpJSClass = /(?<=class\s)(.*?)(?=\{)/g;
   const regexpJSClassInstance = /(?<=new\s)(.*?)(?=[\(\)])/g;
+  const regexpJSComments = /(^\s*\/\/.*$)/gm;
+  const regexpJSConstructor = /\b(constructor)\b/g;
   const regexpCodeJS: RegExp =
     /\[code javascript]((?:(?!\[\/code])[\s\S])*)\[\/code]/g;
   //Tables
@@ -80,7 +82,9 @@ const formaterText = (text: string) => {
     .replace(regexpInlineQuote, "<q><em>$1</em></q>")
     .replace(regexpCodeJS, (match, code) => {
       code = code
+        .replace(regexpJSComments, '<span style="color: #818998;">$1</span>')
         .replace(regexpJSClass, '<span style="color: #3AE4B1">$1</span>')
+        .replace(regexpJSConstructor, '<span style="color: #54E43A">$1</span>')
         .replace(
           regexpJSClassInstance,
           '<span style="color: #3AE4B1">$1</span>'
