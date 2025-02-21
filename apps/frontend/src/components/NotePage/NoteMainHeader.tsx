@@ -7,6 +7,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { NoteContext } from "@/context/NoteContext";
 import { icons } from "@/icons/icons";
+import { FaQuestion } from "react-icons/fa";
+import Button from "../Button/Button";
+import HyperTextModal from "../Modal/HyperTextModal/HyperTextModal";
 
 interface INoteMainHeaderProps {
   selectedNote: INote;
@@ -27,6 +30,8 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
   const icon = selectedNote.icon ? icons[selectedNote.icon] : null;
 
   const [isIconListShow, setIsIconListShow] = useState<boolean>(false);
+
+  const [isTagHelperOpen, setIsTagHelperOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (editableTitle && titleInputRef.current) titleInputRef.current.focus();
@@ -192,6 +197,22 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
           )}
         </div>
       </section>
+      <div className="flex justify-end relative px-2">
+        <Button
+          ariaLabel="Ajuda Hipertexto"
+          extraStyles={{
+            button:
+              "border border-woodsmoke-200 ease-in-out duration-300 opacity-25 hover:opacity-100",
+            icon: "text-woodsmoke-950 dark:text-woodsmoke-100 ease-in-out duration-300",
+          }}
+          action={() => {
+            setIsTagHelperOpen(!isTagHelperOpen);
+          }}
+        >
+          <FaQuestion />
+        </Button>
+        {isTagHelperOpen && <HyperTextModal />}
+      </div>
       <div className="mt-4 mx-8 lg:mx-24">
         <Divider />
       </div>
