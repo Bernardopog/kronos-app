@@ -66,18 +66,18 @@ const formaterText = (text: string) => {
     .replace(regexpSmall, "<small>$1</small>")
     .replace(
       regexpUnorderedList,
-      '<ul class="list-disc w-full my-2 py-2 px-6 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800">$1</ul>'
+      '<ul class="list-disc w-full my-2 py-2 px-6 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800 whitespace-nowrap">$1</ul>'
     )
     .replace(
       regexpOrderedList,
-      '<ol class="list-decimal w-full my-2 py-2 px-6 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800">$1</ol>'
+      '<ol class="list-decimal w-full my-2 py-2 px-6 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800 whitespace-nowrap">$1</ol>'
     )
     .replace(regexpListItem, "<li>$1</li>")
     .replace(
       regexpQuote,
       '<blockquote class="w-full my-2 p-1 pl-4 rounded-sm border-l-4 border-woodsmoke-950 bg-woodsmoke-900/25 dark:border-woodsmoke-400" cite="$1">$2</blockquote>'
     )
-    .replace(regexpInlineQuote, "<q><p>$1</p></q>")
+    .replace(regexpInlineQuote, "<q><em>$1</em></q>")
     .replace(regexpCodeJS, (match, code) => {
       code = code
         .replace(regexpJSClass, '<span style="color: #3AE4B1">$1</span>')

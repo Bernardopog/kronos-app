@@ -53,7 +53,7 @@ export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
           onDoubleClick={() => {
             setEditableDesc(true);
           }}
-          className={`min-h-[95%]`}
+          className={`min-h-[95%] whitespace-pre-wrap`}
           dangerouslySetInnerHTML={{
             __html: formaterText(noteDescription),
           }}
