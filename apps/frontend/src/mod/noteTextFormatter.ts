@@ -128,24 +128,16 @@ const formaterText = (text: string) => {
       '<tr class="odd:bg-woodsmoke-300 odd:text-woodsmoke-950">$1</tr>'
     )
     .replace(regexpTableCell, '<td class="">$1</td>')
-    .replace(regexpAddress, (match) => {
-      const regexAddress = /\((\w+)=([^)]+)\)/g;
+    .replace(regexpAddress, (match, b, c, e) => {
+      const addrNames = [b, c, e].map((addr) => {
+        return addr === "0" || addr === undefined ? "" : addr;
+      });
 
-      let matches;
-      let addressNames = [];
+      const formattedAddres = addrNames
+        .map((name) => name!.replace(/\+/g, " "))
+        .join("+");
 
-      for (let i = 0; i < 3; i++) {
-        matches = regexAddress.exec(match);
-
-        if (matches?.[2] === "0") matches[2] = "";
-
-        addressNames.push(matches?.[2]);
-      }
-
-      addressNames = addressNames.map((name) => name!.replace(/\s/g, "+"));
-
-      return `<address class="text-woodsmoke-950 dark:text-woodsmoke-50">
-        <a href="https://www.google.com.br/maps/place/${addressNames[0]}+${addressNames[1]}+${addressNames[2]}" target="_blank" rel="noopener noreferrer">${addressNames.map((name) => name!.replace(/\+/g, " "))}</a>
+      return `<address class="inline text-woodsmoke-950 dark:text-woodsmoke-50"><a class="inline underline" href="https://www.google.com.br/maps/place/${formattedAddres}" target="_blank" rel="noopener noreferrer">${addrNames.filter((value) => value !== "").join(" ")}</a>
       </address>`;
     });
   textFormated.replace(regexpNewLine, "<br>");
