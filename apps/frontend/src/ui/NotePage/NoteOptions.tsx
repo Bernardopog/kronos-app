@@ -6,19 +6,13 @@ import { useContext, useState } from "react";
 import {
   AiFillHeart,
   AiFillSetting,
-  // AiFillSetting,
   AiOutlineClose,
   AiOutlineHeart,
 } from "react-icons/ai";
 
 export default function NoteOptions() {
-  const {
-    selectedNote,
-    toggleFavorite,
-    isOptionsShow,
-    toggleOptions,
-    optionsShowControl,
-  } = useContext(NoteContext);
+  const { selectedNote, toggleFavorite, toggleOptions, optionsShowControl } =
+    useContext(NoteContext);
 
   const [toggleOptionMenuDesktop, setToggleOptionMenuDesktop] = useState(false);
 
@@ -28,16 +22,15 @@ export default function NoteOptions() {
         {selectedNote && (
           <Button
             extraStyles={{
-              button: `hidden fixed top-20 right-4 z-50 bg-woodsmoke-200 dark:border dark:border-woodsmoke-800 dark:bg-woodsmoke-950 lg:flex 
-            ${!isOptionsShow && "hover:rotate-90 ease-in-out duration-500"}`,
-              icon: "text-woodsmoke-950 dark:text-woodsmoke-50",
+              button: `hidden fixed top-20 right-4 z-50 bg-woodsmoke-200 dark:border dark:border-woodsmoke-800 dark:bg-woodsmoke-950 lg:flex`,
+              icon: `text-woodsmoke-950 dark:text-woodsmoke-50 ${toggleOptionMenuDesktop && "ease-in-out duration-1000 hover:rotate-180"}`,
             }}
             action={() => {
               setToggleOptionMenuDesktop(!toggleOptionMenuDesktop);
             }}
             ariaLabel="Abrir opções"
           >
-            {isOptionsShow ? <AiOutlineClose /> : <AiFillSetting />}
+            {!toggleOptionMenuDesktop ? <AiOutlineClose /> : <AiFillSetting />}
           </Button>
         )}
         <aside
@@ -62,7 +55,7 @@ export default function NoteOptions() {
             onClick={() => {
               toggleOptions("close");
             }}
-            aria-label="Fechar lista de notas"
+            aria-label="Fechar opções"
           >
             <AiOutlineClose />
           </button>
