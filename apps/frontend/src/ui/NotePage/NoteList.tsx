@@ -12,7 +12,7 @@ export default function NoteList() {
   return (
     <section
       className={`
-        fixed top-0 pt-4 size-full overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
+        fixed top-0 pt-4 z-10 size-full overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
         dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
         lg:static lg:translate-x-0 lg:bg-woodsmoke-50
         ${listShowControl ? "-left-0" : "-left-full"}
