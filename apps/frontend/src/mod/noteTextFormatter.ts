@@ -42,6 +42,25 @@ const formaterText = (text: string) => {
   const regexpJSConstructor = /\b(constructor)\b/g;
   const regexpCodeJS: RegExp =
     /\[code javascript]((?:(?!\[\/code])[\s\S])*)\[\/code]/g;
+  //Python Code
+  const regexpPYVariables = /(\S*[a-z]\s)(?==)/g;
+  const regexpPYConstant = /(\S*[A-Z]\s)(?==)/g;
+  const regexpPYKeywords = /\b(class|is|not|and|or)\b/g;
+  const regexpPYControlFlow = /\b(if|else|elif|switch|case)\b/g;
+  const regexpPYLoop = /\b(for|while|do|break|in)\b/g;
+  const regexpPYReturn = /\b(return)\b/g;
+  const regexpPYFunction = /\b(def)\b/g;
+  const regexpPYMethod = /(\w+)\((.*?)\)/g;
+  const regexpPYProps = /(\w+)\.(.*?)/g;
+  const regexpPYValues = /\b(None|undefined|True|False)\b/g;
+  const regexpPYString = /(?<=[\s|(|\[|,|:])(".*?"|'.*?')/g;
+  const regexpPYArray = /(?<=[=\s])([\[.*?][/\]])/g;
+  const regexpPYClass = /(?<=class\s)(.*?)(?=\:)/g;
+  const regexpPYClassInstance = /([A-Z]\w*(?=\())/g;
+  const regexpPYComments = /(^\s*#.*$)/gm;
+  const regexpPYConstructor = /\b(__init__)\b/g;
+  const regexpCodePY: RegExp =
+    /\[code python]((?:(?!\[\/code])[\s\S])*)\[\/code]/g;
   //Tables
   const regexpTable: RegExp = /\[table]((?:(?!\[\/table])[\s\S])*)\[\/table]/g;
   const regexpTableLine: RegExp = /\[r]((?:(?!\[\/r])[\s\S])*)\[\/r]/g;
@@ -109,7 +128,40 @@ const formaterText = (text: string) => {
       return `<div class="flex flex-col w-full bg-[#282C34] p-2 rounded-md text-[#EEEEEE]">
            <span class="text-woodsmoke-100">Javascript</span>
            <div class="border border-[#31363F]"></div>
-           <code class="whitespace-pre">${code}</code>
+           <code class="whitespace-pre overflow-x-auto scrollbar-thin scrollbar-thumb-[#3E4451] scrollbar-track-[#282C34]">${code}</code>
+         </div>`;
+    })
+    .replace(regexpCodePY, (match, code) => {
+      code = code
+        .replace(regexpPYComments, '<span style="color: #818998;">$1</span>')
+        .replace(regexpPYClass, '<span style="color: #3AE4B1">$1</span>')
+        .replace(regexpPYConstructor, '<span style="color: #54E43A">$1</span>')
+        .replace(
+          regexpPYClassInstance,
+          '<span style="color: #3AE4B1">$1</span>'
+        )
+        .replace(regexpPYKeywords, '<span style="color: #BAA4D6;">$1</span>')
+        .replace(regexpPYVariables, '<span style="color: #9F72D7;">$1</span>')
+        .replace(regexpPYConstant, '<span style="color: #D7AA72;">$1</span>')
+        .replace(regexpPYControlFlow, '<span style="color: #CD6C63;">$1</span>')
+        .replace(regexpPYLoop, '<span style="color: #E5B54E;">$1</span>')
+        .replace(regexpPYReturn, '<span style="color: #9F72D7;">$1</span>')
+        .replace(regexpPYFunction, '<span style="color: #2F8EEF;">$1</span>')
+        .replace(
+          regexpPYMethod,
+          '<span style="color: #2F8EEF;">$1<span style="color: #EEEEEE;">($2)</span></span>'
+        )
+        .replace(
+          regexpPYProps,
+          '<span class="text-[#DB594D]">$1<span class="text-[#EEEEEE]">.$2</span></span>'
+        )
+        .replace(regexpPYValues, '<span class="text-[#CC8A58]";">$1</span>')
+        .replace(regexpPYString, '<span class="text-[#98C376]";>$1</span>')
+        .replace(regexpPYArray, '<span class="text-[#E5B54E]">$1</span>');
+      return `<div class="flex flex-col w-full bg-[#282C34] p-2 rounded-md text-[#EEEEEE]">
+           <span class="text-woodsmoke-100">Python</span>
+           <div class="border border-[#31363F]"></div>
+           <code class="whitespace-pre overflow-x-auto scrollbar-thin scrollbar-thumb-[#3E4451] scrollbar-track-[#282C34]">${code}</code>
          </div>`;
     })
     .replace(regexpColorRGB, '<span style="color:rgb($1,$2,$3);">$4</span>')
