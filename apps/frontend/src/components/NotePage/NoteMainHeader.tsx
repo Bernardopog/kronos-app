@@ -150,7 +150,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
         </div>
         <button
           className="
-            flex justify-between items-center border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
+            flex justify-between items-center min-w-[10.5rem] border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
             hover:bg-woodsmoke-950 hover:border-woodsmoke-400 hover:text-woodsmoke-100 ease-in-out duration-300
           "
           onClick={() => {
