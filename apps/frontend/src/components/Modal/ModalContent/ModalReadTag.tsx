@@ -23,14 +23,15 @@ export default function ModalReadTag() {
                   className={`
                     flex items-center justify-center border rounded-lg bg-woodsmoke-100 text-woodsmoke-800
                     dark:text-woodsmoke-200 dark:bg-woodsmoke-925
-                    ${selectedNote?.tags.includes(tag) ? "border-apple-600 dark:border-apple-300" : "border-woodsmoke-200"}
+                    ${selectedNote?.tags.includes(tag.id) ? "border-apple-600 dark:border-apple-300" : "border-woodsmoke-200"}
                   `}
                 >
                   <button
                     className="size-full"
                     onClick={() => {
                       addTag(tag.id);
-                      if (selectedNote?.tags.includes(tag)) removeTag(tag.id);
+                      if (selectedNote?.tags.includes(tag.id))
+                        removeTag(tag.id);
                     }}
                   >
                     {tag.tagName}
@@ -69,7 +70,7 @@ export default function ModalReadTag() {
               {selectedNote?.tags.map((tag) => {
                 return (
                   <li
-                    key={tag.id}
+                    key={tag}
                     className="
                     flex items-center justify-center border rounded-lg border-woodsmoke-200 bg-woodsmoke-100 text-woodsmoke-800
                     dark:text-woodsmoke-200 dark:bg-woodsmoke-925
@@ -78,10 +79,10 @@ export default function ModalReadTag() {
                     <button
                       className="size-full"
                       onClick={() => {
-                        removeTag(tag.id);
+                        removeTag(tag);
                       }}
                     >
-                      {tag.tagName}
+                      {tagList[tagList.findIndex((t) => t.id === tag)].tagName}
                     </button>
                   </li>
                 );

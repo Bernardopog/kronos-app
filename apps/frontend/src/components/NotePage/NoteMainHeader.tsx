@@ -18,20 +18,18 @@ interface INoteMainHeaderProps {
 export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
   const [noteTitle, setNoteTitle] = useState<string>("");
   const [editableTitle, setEditableTitle] = useState<boolean>(false);
+  const [isIconListShow, setIsIconListShow] = useState<boolean>(false);
+  const [isTagHelperOpen, setIsTagHelperOpen] = useState<boolean>(false);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const { updateNote, chooseIcon } = useContext(NoteContext);
+  const { updateNote, chooseIcon, tagList } = useContext(NoteContext);
   const { toggleModal } = useContext(ModalContext);
 
   const noteCreateDate = selectedNote?.date.createDate;
   const noteUpdateDate = selectedNote?.date.updateDate;
 
   const icon = selectedNote.icon ? icons[selectedNote.icon] : null;
-
-  const [isIconListShow, setIsIconListShow] = useState<boolean>(false);
-
-  const [isTagHelperOpen, setIsTagHelperOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (editableTitle && titleInputRef.current) titleInputRef.current.focus();
@@ -133,9 +131,9 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
           <ul className="flex flex-wrap gap-x-2">
             {selectedNote.tags?.map((tag, idx) => {
               return (
-                <li key={tag.id}>
+                <li key={tag}>
                   <p className="capitalize">
-                    {tag.tagName}
+                    {tagList[tagList.findIndex((t) => t.id === tag)].tagName}
                     {idx === selectedNote.tags!.length - 1 ? "." : ","}
                   </p>
                 </li>

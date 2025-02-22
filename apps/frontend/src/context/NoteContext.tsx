@@ -111,11 +111,11 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     const tagToAdd = tagList.find((tag) => tag.id === tagId);
     if (!tagToAdd) return;
 
-    if (note.tags.find((tag) => tag.id === tagToAdd.id)) return;
+    if (note.tags.find((tag) => tag === tagToAdd.id)) return;
 
     const updatedNote: INote = {
       ...note,
-      tags: [...note.tags, tagToAdd],
+      tags: [...note.tags, tagToAdd.id],
       date: {
         createDate: note.date.createDate,
         updateDate: new Date(),
@@ -133,12 +133,12 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   const removeTag = (tagId: string) => {
     const note = findNote();
     if (!note) return;
-    const tagToRemove = note.tags.find((tag) => tag.id === tagId);
+    const tagToRemove = note.tags.find((tag) => tag === tagId);
     if (!tagToRemove) return;
 
     const updatedNote: INote = {
       ...note,
-      tags: note.tags.filter((tag) => tag.id !== tagToRemove.id),
+      tags: note.tags.filter((tag) => tag !== tagToRemove),
       date: {
         createDate: note.date.createDate,
         updateDate: new Date(),
