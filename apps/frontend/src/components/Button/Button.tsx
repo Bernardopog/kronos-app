@@ -4,9 +4,10 @@ import { ReactNode } from "react";
 
 interface IButtonProps {
   action?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
   label?: string;
   ariaLabel?: string;
+  icon?: ReactNode;
   extraStyles?: {
     label?: string;
     button?: string;
@@ -15,22 +16,26 @@ interface IButtonProps {
 }
 
 export default function Button({
-  action,
   children,
+  action,
   label,
   ariaLabel,
+  icon,
   extraStyles,
 }: IButtonProps) {
   return (
     <button
       onClick={action}
       aria-label={ariaLabel}
-      className={`flex items-center justify-center size-8 rounded-full shadow-base shadow-black/25 ${extraStyles?.button}`}
+      className={`btn-base active:brightness-75 ${extraStyles?.button}`}
+      type="button"
     >
-      <span className={extraStyles?.label}>{label}</span>
-      <span className={`text-2xl text-woodsmoke-50 ${extraStyles?.icon}`}>
-        {children}
-      </span>
+      {(children || icon) && (
+        <span className={`text-2xl ${extraStyles?.icon}`}>
+          {children ?? icon}
+        </span>
+      )}
+      {label && <span className={`${extraStyles?.label}`}>{label}</span>}
     </button>
   );
 }

@@ -25,6 +25,7 @@ export default {
         base: "0 8px 4px",
         "base-floating": "0 24px 4px",
         side: "0px 0 24px",
+        btn: "0 0 5px 3px",
       },
       colors: {
         priority: {
