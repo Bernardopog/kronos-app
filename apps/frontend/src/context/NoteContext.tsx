@@ -6,6 +6,9 @@ import { ITag, mockTagList } from "@/mock/mockTagList";
 import IdGenerator from "@/utils/IdGenerator";
 import { createContext, ReactNode, useState } from "react";
 
+type FilterFavoriteType = "all" | "favorites" | "notFavorites";
+type FilterTagType = "all" | string;
+
 interface INoteContext {
   noteList: INote[];
   tagList: ITag[];
@@ -14,6 +17,8 @@ interface INoteContext {
   listShowControl: boolean;
   isOptionsShow: boolean;
   optionsShowControl: boolean;
+  filterFavorite: FilterFavoriteType;
+  filterTag: FilterTagType;
   selectNote: (note: INote) => void;
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
@@ -24,6 +29,8 @@ interface INoteContext {
   createTag: (tagName: string) => void;
   toggleFavorite: () => void;
   chooseIcon: (icon: IconsTypes) => void;
+  changeFilterFavorite: (type: FilterFavoriteType) => void;
+  changeFilterTag: (type: FilterTagType) => void;
 }
 
 const NoteContext = createContext({} as INoteContext);
@@ -37,6 +44,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   const [listShowControl, setListShowControl] = useState<boolean>(false);
   const [isOptionsShow, setIsOptionsShow] = useState<boolean>(false);
   const [optionsShowControl, setOptionsShowControl] = useState<boolean>(false);
+
+  const [filterFavorite, setFilterFavorite] =
+    useState<FilterFavoriteType>("all");
+  const [filterTag, setFilterTag] = useState<FilterTagType>("all");
 
   function findNote(): INote | undefined {
     const note = noteList.find((note) => note.id === selectedNote?.id);
@@ -196,6 +207,13 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     setNoteList(newNoteList);
   };
 
+  const changeFilterFavorite = (type: FilterFavoriteType) => {
+    setFilterFavorite(type);
+  };
+  const changeFilterTag = (type: FilterTagType) => {
+    setFilterTag(type);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -206,6 +224,8 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         listShowControl,
         isOptionsShow,
         optionsShowControl,
+        filterFavorite,
+        filterTag,
         selectNote,
         createNote,
         updateNote,
@@ -216,6 +236,8 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         createTag,
         toggleFavorite,
         chooseIcon,
+        changeFilterFavorite,
+        changeFilterTag,
       }}
     >
       {children}
