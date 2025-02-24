@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button/Button";
 import FilterTab from "@/components/FilterTab/FilterTab";
 import Radio from "@/components/Radio/Radio";
 import { NoteContext } from "@/context/NoteContext";
@@ -52,48 +53,31 @@ export function NoteFilter({ state }: { state: boolean }) {
           lg:flex
         "
         >
-          <li
-            className={`
-                p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
-                hover:bg-woodsmoke-200
-                active:bg-woodsmoke-300
-                dark:hover:bg-woodsmoke-900
-                dark:active:bg-woodsmoke-700
-                ${filterTag === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
-              `}
-          >
-            <button
-              type="button"
-              className="size-full"
-              onClick={() => {
+          <li>
+            <Button
+              extraStyles={{
+                button: `size-full 
+                ${filterTag === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+              }}
+              action={() => {
                 changeFilterTag("all");
               }}
-            >
-              Todas
-            </button>
+              label="Todas"
+            />
           </li>
           {tagList.map((tag) => {
             return (
-              <li
-                className={`
-                  p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
-                  hover:bg-woodsmoke-200
-                  active:bg-woodsmoke-300
-                  dark:hover:bg-woodsmoke-900
-                  dark:active:bg-woodsmoke-700
-                ${tag.id === filterTag && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
-              `}
-                key={tag.id}
-              >
-                <button
-                  type="button"
-                  className="size-full truncate"
-                  onClick={() => {
+              <li key={tag.id}>
+                <Button
+                  extraStyles={{
+                    button: `size-full truncate
+                    ${tag.id === filterTag && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+                  }}
+                  action={() => {
                     changeFilterTag(tag.id);
                   }}
-                >
-                  {tag.tagName}
-                </button>
+                  label={tag.tagName}
+                />
               </li>
             );
           })}

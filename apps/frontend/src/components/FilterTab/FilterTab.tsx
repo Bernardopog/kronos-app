@@ -10,7 +10,7 @@ export default function FilterTab({ children, title }: IFilterTabProps) {
   return (
     <>
       <Divider />
-      <h5 className="to-do-tabs-title">{title}</h5>
+      <h5 className="tab-title">{title}</h5>
       {children}
     </>
   );

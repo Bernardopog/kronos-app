@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import TabCloseButton from "@/components/Button/TabCloseButton";
 import { NoteContext } from "@/context/NoteContext";
 import { useContext, useState } from "react";
 import {
@@ -22,20 +23,24 @@ export default function NoteOptions() {
         {selectedNote && (
           <Button
             extraStyles={{
-              button: `hidden fixed top-20 right-4 z-50 bg-woodsmoke-200 dark:border dark:border-woodsmoke-800 dark:bg-woodsmoke-950 lg:flex`,
+              button: `hidden fixed top-20 right-4 z-50 rounded-full bg-woodsmoke-200 
+                dark:border dark:bg-woodsmoke-950 
+                hover:border-woodsmoke-400
+                lg:flex`,
               icon: `text-woodsmoke-950 dark:text-woodsmoke-50 ${toggleOptionMenuDesktop && "ease-in-out duration-1000 hover:rotate-180"}`,
             }}
             action={() => {
               setToggleOptionMenuDesktop(!toggleOptionMenuDesktop);
             }}
             ariaLabel="Abrir opções"
-          >
-            {!toggleOptionMenuDesktop ? <AiOutlineClose /> : <AiFillSetting />}
-          </Button>
+            icon={
+              !toggleOptionMenuDesktop ? <AiOutlineClose /> : <AiFillSetting />
+            }
+          />
         )}
         <aside
           className={`
-            absolute top-0 pt-4 size-full overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-200 ease-in-out duration-300
+            fixed top-0 pt-4 size-full overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
             dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
             lg:static lg:translate-x-0 lg:bg-woodsmoke-50
             ${!selectedNote && "hidden"}
@@ -44,41 +49,30 @@ export default function NoteOptions() {
           `}
           id="nt-options"
         >
-          <button
-            className="
-                absolute right-8 z-50 flex items-center justify-center size-8 border rounded-full text-2xl border-woodsmoke-200 bg-woodsmoke-50 text-woodsmoke-950 duration-300 ease-in-out
-                hover:bg-woodsmoke-100
-                dark:bg-woodsmoke-900 dark:border-woodsmoke-600 dark:text-woodsmoke-50
-                dark:hover:bg-woodsmoke-950
-                lg:hidden
-              "
-            onClick={() => {
+          <TabCloseButton
+            action={() => {
               toggleOptions("close");
             }}
-            aria-label="Fechar opções"
-          >
-            <AiOutlineClose />
-          </button>
+            ariaLabel="Fechar opções da nota"
+            icon={<AiOutlineClose />}
+          />
           <div className="flex justify-between items-center p-2">
             <Button
               extraStyles={{
-                button: `w-auto px-2 gap-x-2 rounded-lg
-                    ${selectedNote?.isFavorite ? "bg-poppy-600" : "bg-apple-600"}
-                    `,
-                label: "text-nowrap text-woodsmoke-100",
+                button: `px-2 text-woodsmoke-800
+                  dark:text-woodsmoke-200
+                  dark:hover:shadow-btn
+                  a
+                  ${selectedNote?.isFavorite ? "hover:bg-poppy-600 dark:hover:shadow-poppy-600/25" : "hover:bg-apple-600 dark:hover:shadow-apple-600/25"}`,
+                label: "text-nowrap",
               }}
               ariaLabel={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
               label={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
               action={toggleFavorite}
-            >
-              <span className="text-woodsmoke-100">
-                {selectedNote?.isFavorite ? (
-                  <AiFillHeart />
-                ) : (
-                  <AiOutlineHeart />
-                )}
-              </span>
-            </Button>
+              icon={
+                selectedNote?.isFavorite ? <AiOutlineHeart /> : <AiFillHeart />
+              }
+            />
           </div>
         </aside>
       </>

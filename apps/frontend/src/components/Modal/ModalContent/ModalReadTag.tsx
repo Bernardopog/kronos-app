@@ -3,6 +3,7 @@ import ModalFooter from "../ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ModalContext } from "@/context/ModalContext";
+import Button from "@/components/Button/Button";
 
 export default function ModalReadTag() {
   const { tagList, selectedNote, addTag, removeTag } = useContext(NoteContext);
@@ -18,46 +19,45 @@ export default function ModalReadTag() {
           <ul className="grid grid-cols-4 p-2 border rounded-lg gap-1 border-woodsmoke-200 dark:border-woodsmoke-800">
             {tagList.map((tag) => {
               return (
-                <li
-                  key={tag.id}
-                  className={`
-                    flex items-center justify-center border rounded-lg bg-woodsmoke-100 text-woodsmoke-800
-                    dark:text-woodsmoke-200 dark:bg-woodsmoke-925
-                    ${selectedNote?.tags.includes(tag.id) ? "border-apple-600 dark:border-apple-300" : "border-woodsmoke-200"}
-                  `}
-                >
-                  <button
-                    className="size-full"
-                    onClick={() => {
+                <li key={tag.id}>
+                  <Button
+                    extraStyles={{
+                      button: `size-full p-0 px-2 text-woodsmoke-800
+                        dark:text-woodsmoke-200
+                        hover:bg-woodsmoke-900
+                        dark:hover:bg-apple-600/25
+                        ${selectedNote?.tags.includes(tag.id) ? "border-apple-600 dark:border-apple-300 hover:boder-apple-600 dark:hover:border-apple-300" : "border-woodsmoke-200 hover:border-woodsmoke-200"}`,
+                      icon: "text-xl",
+                    }}
+                    action={() => {
                       addTag(tag.id);
                       if (selectedNote?.tags.includes(tag.id))
                         removeTag(tag.id);
                     }}
-                  >
-                    {tag.tagName}
-                  </button>
+                    label={tag.tagName}
+                  />
                 </li>
               );
             })}
-            <li
-              className="
-                flex items-center justify-center border rounded-lg border-apple-500 bg-apple-600 text-woodsmoke-100 ease-in-out duration-300
-              hover:bg-apple-700 hover:opacity-100
-              "
-            >
-              <button
-                className="flex items-center"
-                onClick={() => {
+            <li>
+              <Button
+                extraStyles={{
+                  button: `size-full p-0 px-2 text-woodsmoke-800
+                    dark:text-woodsmoke-200
+                    hover:bg-apple-600
+                    dark:hover:shadow-btn dark:hover:shadow-apple-600/25`,
+                  icon: "text-xl",
+                }}
+                action={() => {
                   changeModalData({
                     headerTitle: "Criar Tag",
                     type: "create",
                     content: "noteCreateTag",
                   });
                 }}
-              >
-                <AiOutlinePlus />
-                Criar Tag
-              </button>
+                icon={<AiOutlinePlus />}
+                label="Criar Tag"
+              />
             </li>
           </ul>
         </div>
@@ -69,28 +69,31 @@ export default function ModalReadTag() {
             <ul className="grid grid-cols-4 p-2 border rounded-lg gap-1 border-woodsmoke-200 dark:border-woodsmoke-800">
               {selectedNote?.tags.map((tag) => {
                 return (
-                  <li
-                    key={tag}
-                    className="
-                    flex items-center justify-center border rounded-lg border-woodsmoke-200 bg-woodsmoke-100 text-woodsmoke-800
-                    dark:text-woodsmoke-200 dark:bg-woodsmoke-925
-                    "
-                  >
-                    <button
-                      className="size-full"
-                      onClick={() => {
+                  <li key={tag}>
+                    <Button
+                      extraStyles={{
+                        button: `size-full p-0
+                          hover:border-woodsmoke-400
+                          dark:hover:border-woodsmoke-600
+                        `,
+                        label: "text-woodsmoke-800 dark:text-woodsmoke-200",
+                      }}
+                      action={() => {
                         removeTag(tag);
                       }}
-                    >
-                      {tagList[tagList.findIndex((t) => t.id === tag)].tagName}
-                    </button>
+                      label={
+                        tagList[tagList.findIndex((t) => t.id === tag)].tagName
+                      }
+                    />
                   </li>
                 );
               })}
             </ul>
           </div>
         ) : (
-          <p className="mt-6 text-woodsmoke-100">Ainda não há tags...</p>
+          <p className="mt-6 text-woodsmoke-900 dark:text-woodsmoke-200">
+            Ainda não há tags...
+          </p>
         )}
       </section>
       <ModalFooter type="read" action={() => {}} />

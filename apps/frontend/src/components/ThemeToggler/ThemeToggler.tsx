@@ -35,14 +35,25 @@ export default function ThemeToggler({ menuStatus }: IThemeTogglerProps) {
   return (
     <div className="self-center">
       {menuStatus && (
-        <span className="inline-block w-full text-center text-base text-woodsmoke-950 dark:text-woodsmoke-50">
+        <span
+          className="
+          inline-block w-full text-center text-base text-woodsmoke-950 ease-in-out duration-300
+          dark:text-woodsmoke-50
+        "
+        >
           {theme === "dark" ? "Escuro" : "Claro"}
         </span>
       )}
       <Button
-        ariaLabel="Alterar Tema"
+        ariaLabel={
+          theme === "dark"
+            ? "Alterar para Modo Claro"
+            : "Alterar para Modo Escuro"
+        }
         extraStyles={{
-          button: `${menuStatus ? "w-20 h-8 border border-woodsmoke-800 dark:border-woodsmoke-50" : ""} bg-woodsmoke-200 dark:bg-woodsmoke-950 shadow-none ease-in-out duration-300`,
+          button: `
+          bg-woodsmoke-200 dark:bg-woodsmoke-950 shadow-none ease-in-out duration-300
+          ${menuStatus ? "w-20 h-8 rounded-full border border-woodsmoke-800 dark:border-woodsmoke-100 hover:border-woodsmoke-900 dark:hover:border-woodsmoke-50" : "border-none"}`,
           icon: "text-xl text-woodsmoke-950 dark:text-woodsmoke-50",
         }}
         action={() => handleTheme()}

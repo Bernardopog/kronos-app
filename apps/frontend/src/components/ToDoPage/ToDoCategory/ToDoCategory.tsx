@@ -31,8 +31,10 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
             ariaLabel="Renomear Categoria"
             label="Renomear"
             extraStyles={{
-              button:
-                "w-fit px-2 gap-x-2 rounded-lg bg-crud-update-light text-woodsmoke-50 shadow-none duration-300 ease-in-out hover:bg-crud-update-dark",
+              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
+                dark:border-woodsmoke-500 dark:text-woodsmoke-200
+                hover:bg-crud-update-dark
+                dark:hover:shadow-btn dark:hover:shadow-crud-update-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}
@@ -45,15 +47,16 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
               });
               setIsOptionsOpen(false);
             }}
-          >
-            <AiFillEdit />
-          </Button>
+            icon={<AiFillEdit />}
+          />
           <Button
             ariaLabel="Deletar Categoria"
             label="Deletar"
             extraStyles={{
-              button:
-                "w-fit px-2 gap-x-2 rounded-lg bg-crud-delete-light text-woodsmoke-50 shadow-none duration-300 ease-in-out hover:bg-crud-delete-dark",
+              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
+                dark:border-woodsmoke-500 dark:text-woodsmoke-200
+                hover:bg-crud-delete-dark
+                dark:hover:shadow-btn dark:hover:shadow-crud-delete-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}
@@ -66,26 +69,26 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
               });
               setIsOptionsOpen(false);
             }}
-          >
-            <AiFillDelete />
-          </Button>
+            icon={<AiFillDelete />}
+          />
         </section>
       ) : (
         <span>{title}</span>
       )}
-      <button
-        className={`
-          flex items-center absolute right-0 h-full text-xl text-woodsmoke-50 bg-woodsmoke-900 duration-300 ease-in-out
+      <Button
+        extraStyles={{
+          button: `absolute right-0 h-full border-none rounded-none p-0 bg-woodsmoke-900 text-woodsmoke-100
           dark:bg-woodsmoke-700
           ${isOptionsOpen ? "right-[calc(100%-1.25rem)] rounded-l-lg" : "right-0 rounded-r-lg"}
-        `}
-        aria-label="Mais opções"
-        onClick={() => {
+        `,
+          label: "text-xl",
+        }}
+        ariaLabel="Mais opções"
+        action={() => {
           setIsOptionsOpen(!isOptionsOpen);
         }}
-      >
-        <IoEllipsisVerticalSharp />
-      </button>
+        icon={<IoEllipsisVerticalSharp />}
+      />
     </li>
   );
 }

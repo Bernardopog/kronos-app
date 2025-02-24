@@ -17,8 +17,11 @@ export default function ToDoHeader() {
       <Button
         label="Criar Tarefa"
         extraStyles={{
-          button:
-            "w-auto px-2 gap-x-2 bg-apple-600 text-woodsmoke-50 duration-300 ease-in-out hover:bg-apple-700",
+          button: `px-2 text-woodsmoke-900 dark:text-woodsmoke-200
+            hover:bg-apple-600 
+            hover:border-transparent 
+            dark:hover:shadow-btn dark:hover:shadow-apple-500/25
+            `,
           label: "hidden sm:inline",
         }}
         action={() => {
@@ -28,26 +31,27 @@ export default function ToDoHeader() {
             headerTitle: "Criar Tarefa",
           });
         }}
-      >
-        <AiFillPlusCircle />
-      </Button>
+        icon={<AiFillPlusCircle />}
+      />
       <Button
         label="Limpar Tarefas"
         extraStyles={{
-          button:
-            "w-auto px-2 gap-x-2 bg-poppy-600 text-woodsmoke-50 duration-300 ease-in-out hover:bg-poppy-700",
+          button: `px-2 text-woodsmoke-900 dark:text-woodsmoke-200
+            hover:bg-poppy-600 
+            hover:border-transparent 
+            dark:hover:shadow-btn dark:hover:shadow-poppy-500/25
+            `,
           label: "hidden sm:inline",
         }}
         action={() => {
           toggleModal({
             content: "toDoRemove",
             type: "delete",
-            headerTitle: "Remover Tarefas",
+            headerTitle: "Deletar multiplas Tarefas",
           });
         }}
-      >
-        <FaBroom />
-      </Button>
+        icon={<FaBroom />}
+      />
     </header>
   );
 }

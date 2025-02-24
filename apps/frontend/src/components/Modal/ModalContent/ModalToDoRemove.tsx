@@ -4,6 +4,7 @@ import { ModalContext } from "@/context/ModalContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext, useState } from "react";
 import ModalFooter from "../ModalFooter";
+import Button from "@/components/Button/Button";
 
 export default function ModalToDoRemove() {
   const { toggleModal } = useContext(ModalContext);
@@ -16,39 +17,51 @@ export default function ModalToDoRemove() {
       <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100">
         <p className="text-center">Qual tipo de tarefa você deseja apagar?</p>
         <div className="flex flex-col sm:flex-row gap-2">
-          <button
-            className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
-              ${removalType === "completed" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
-              `}
-            onClick={() => {
+          <Button
+            extraStyles={{
+              button: `flex-1
+              hover:bg-poppy-600
+              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              ${removalType === "completed" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
+              `,
+              label:
+                "text-base text-woodsmoke-800 dark:text-woodsmoke-200 hover:text-woodsmoke-50",
+            }}
+            action={() => {
               setRemovalType("completed");
             }}
-          >
-            Tarefas Completas
-          </button>
-          <button
-            className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
-              ${removalType === "uncompleted" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
-              `}
-            onClick={() => {
+            label="Tarefas Completas"
+          />
+          <Button
+            extraStyles={{
+              button: `flex-1
+              hover:bg-poppy-600
+              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              ${removalType === "uncompleted" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
+              `,
+              label:
+                "text-base text-woodsmoke-800 dark:text-woodsmoke-200 hover:text-woodsmoke-50",
+            }}
+            action={() => {
               setRemovalType("uncompleted");
             }}
-          >
-            Tarefas Incompletas
-          </button>
-          <button
-            className={`
-              flex-1 rounded-full bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-800 dark:text-woodsmoke-100
-              ${removalType === "all" && "font-bold border-2 border-woodsmoke-950 bg-woodsmoke-200 dark:border-woodsmoke-100 dark:bg-woodsmoke-900 dark:text-woodsmoke-50"}
-              `}
-            onClick={() => {
+            label="Tarefas Incompletas"
+          />
+          <Button
+            extraStyles={{
+              button: `flex-1
+              hover:bg-poppy-600
+              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              ${removalType === "all" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
+              `,
+              label:
+                "text-base text-woodsmoke-800 dark:text-woodsmoke-200 hover:text-woodsmoke-50",
+            }}
+            action={() => {
               setRemovalType("all");
             }}
-          >
-            Todas Tarefas
-          </button>
+            label="Todas Tarefas"
+          />
         </div>
         <p className="text-center">
           Cuidado, essa ação é{" "}

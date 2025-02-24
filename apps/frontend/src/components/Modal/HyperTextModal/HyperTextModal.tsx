@@ -8,6 +8,7 @@ import {
   IoMdArrowDropleftCircle,
   IoMdArrowDroprightCircle,
 } from "react-icons/io";
+import Button from "@/components/Button/Button";
 
 export default function HyperTextModal() {
   const [helpPage, setHelpPage] = useState<number>(1);
@@ -42,28 +43,37 @@ export default function HyperTextModal() {
                 {hypertextHelp.title}
               </h2>
               <p className="inline-block min-h-">{hypertextHelp.description}</p>
-              <button
-                className="flex justify-center items-center w-full my-2 p-1 gap-x-2 rounded-lg bg-woodsmoke-925 text-woodsmoke-100"
-                type="button"
-                onClick={() =>
+              <Button
+                extraStyles={{
+                  button: `mx-auto my-2 px-2 text-woodsmoke-900
+                    dark:text-woodsmoke-200
+                    hover:bg-woodsmoke-950
+                  `,
+                }}
+                action={() =>
                   navigator.clipboard.writeText(hypertextHelp.example)
                 }
-              >
-                Copiar Exemplo
-                <AiFillCopy />
-              </button>
+                icon={<AiFillCopy />}
+                label="Copiar Exemplo"
+              />
             </React.Fragment>
           ))}
         <footer className="flex justify-center items-center absolute left-0 w-full h-8 gap-x-2 rounded-b-lg bg-woodsmoke-300 dark:bg-woodsmoke-800">
-          <button className="text-2xl" onClick={() => changePage("back")}>
-            <IoMdArrowDropleftCircle />
-          </button>
-          <span>
+          <Button
+            extraStyles={{ button: "border-none" }}
+            action={() => changePage("back")}
+            ariaLabel="Página Anterior"
+            icon={<IoMdArrowDropleftCircle />}
+          />
+          <p>
             {helpPage}/{hypertextData.length}
-          </span>
-          <button className="text-2xl" onClick={() => changePage("front")}>
-            <IoMdArrowDroprightCircle />
-          </button>
+          </p>
+          <Button
+            extraStyles={{ button: "border-none" }}
+            action={() => changePage("front")}
+            ariaLabel="Próxima Página"
+            icon={<IoMdArrowDroprightCircle />}
+          />
         </footer>
       </>
     </article>

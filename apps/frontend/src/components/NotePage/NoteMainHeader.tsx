@@ -39,17 +39,20 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
   return (
     <header className="px-4 pt-4">
       <div className="flex items-center relative gap-x-2">
-        <button
-          className={`
-            border rounded-lg border-woodsmoke-200
-            dark:border-woodsmoke-900
-            ${selectedNote.icon ? "p-1 text-3xl" : "size-10 p-1"}
-          `}
-          aria-label="Trocar icone da nota"
-          onClick={() => setIsIconListShow(!isIconListShow)}
-        >
-          {icon}
-        </button>
+        <Button
+          extraStyles={{
+            button: `p-1 border rounded-lg text-woodsmoke-800
+              hover:text-woodsmoke-950 hover:border-woodsmoke-800
+              dark:text-woodsmoke-200 dark:border-woodsmoke-600
+              dark:hover:bg-woodsmoke-925 dark:hover:border-woodsmoke-600 dark:hover:text-woodsmoke-100
+            ${selectedNote.icon ? "" : "size-10"}
+          `,
+            icon: "text-3xl",
+          }}
+          ariaLabel="Trocar icone da nota"
+          action={() => setIsIconListShow(!isIconListShow)}
+          icon={selectedNote.icon && icon}
+        />
         {isIconListShow && (
           <ul
             className="
@@ -61,20 +64,19 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
             {Object.keys(icons).map((iconkey) => {
               return (
                 <li key={iconkey}>
-                  <button
-                    className="
-                    p-1 border rounded-lg border-woodsmoke-300 text-2xl text-woodsmoke-600 ease-in-out duration-300
-                    hover:text-woodsmoke-950 
-                    dark:text-woodsmoke-300 dark:border-woodsmoke-900
-                    dark:hover:text-woodsmoke-100
-                  "
-                    onClick={() => {
+                  <Button
+                    extraStyles={{
+                      button: `text-woodsmoke-600 ease-in-out duration-300
+                        hover:text-woodsmoke-950 hover:shadow-btn hover:shadow-woodsmoke-500/25
+                        dark:text-woodsmoke-300                         dark:hover:text-woodsmoke-100
+                      `,
+                    }}
+                    action={() => {
                       chooseIcon(iconkey as keyof typeof icons);
                       setIsIconListShow(false);
                     }}
-                  >
-                    {icons[iconkey as keyof typeof icons]}
-                  </button>
+                    icon={icons[iconkey as keyof typeof icons]}
+                  />
                 </li>
               );
             })}
@@ -83,10 +85,10 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
         {editableTitle ? (
           <input
             className="
-            w-full text-2xl bg-woodsmoke-100
-            focus:pl-4 focus:outline focus:outline-woodsmoke-600 focus:rounded-lg ease-in-out duration-300
-            dark:bg-woodsmoke-950 dark:focus:outline-woodsmoke-100
-          "
+              w-full text-2xl bg-woodsmoke-100
+              focus:pl-4 focus:outline focus:outline-woodsmoke-600 focus:rounded-lg ease-in-out duration-300
+              dark:bg-woodsmoke-950 dark:focus:outline-woodsmoke-100
+            "
             ref={titleInputRef}
             type="text"
             value={noteTitle}
@@ -121,7 +123,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
         lg:flex-row
       "
       >
-        <div className="flex items-start gap-x-2">
+        <section className="flex items-start gap-x-2">
           <span className="text-xl md:text-2xl">
             <AiOutlineTag />
           </span>
@@ -145,25 +147,27 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
               </li>
             )}
           </ul>
-        </div>
-        <button
-          className="
-            flex justify-between items-center min-w-[10.5rem] border rounded-full ml-4 px-4 gap-x-2 font-medium border-woodsmoke-200
-            hover:bg-woodsmoke-950 hover:border-woodsmoke-400 hover:text-woodsmoke-100 ease-in-out duration-300
-          "
-          onClick={() => {
+        </section>
+        <Button
+          extraStyles={{
+            button: `min-w-fit px-2 border ml-4 font-medium
+              hover:bg-woodsmoke-950 hover:text-woodsmoke-100
+              darkhover:bg-woodsmoke-925 dark:hover:text-woodsmoke-100 dark:hover:border-woodsmoke-500
+            `,
+            icon: "text-base",
+            label: "text-sm",
+          }}
+          action={() => {
             toggleModal({
               headerTitle: "Gerenciar Tags",
               type: "read",
               content: "noteReadTags",
             });
           }}
-        >
-          <AiFillTag />
-          Gerenciar Tags
-        </button>
+          icon={<AiFillTag />}
+          label="Gerenciar Tags"
+        />
       </section>
-
       <section className="flex items-center mt-2 gap-x-2 text-woodsmoke-900 dark:text-woodsmoke-300">
         <span className="text-xl md:text-2xl">
           <AiOutlineClockCircle />
@@ -199,16 +203,17 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
         <Button
           ariaLabel="Ajuda Hipertexto"
           extraStyles={{
-            button:
-              "border border-woodsmoke-200 ease-in-out duration-300 opacity-25 hover:opacity-100",
-            icon: "text-woodsmoke-950 dark:text-woodsmoke-100 ease-in-out duration-300",
+            button: `group opacity-25 
+              hover:opacity-100 hover:bg-woodsmoke-950
+              dark:hover:border-woodsmoke-800
+            `,
+            icon: "text-woodsmoke-950 group-hover:text-woodsmoke-50 dark:text-woodsmoke-100",
           }}
           action={() => {
             setIsTagHelperOpen(!isTagHelperOpen);
           }}
-        >
-          <FaQuestion />
-        </Button>
+          icon={<FaQuestion />}
+        />
         {isTagHelperOpen && <HyperTextModal />}
       </div>
       <div className="mt-4 mx-8 lg:mx-24">

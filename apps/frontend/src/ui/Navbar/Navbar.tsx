@@ -16,15 +16,17 @@ export default function Navbar() {
   return (
     <>
       <Button
+        ariaLabel={isNavbarOpen ? "Fechar Menu" : "Abrir Menu"}
         extraStyles={{
-          button:
-            "hidden fixed top-20 left-4 z-50 bg-woodsmoke-200 dark:border dark:border-woodsmoke-800 dark:bg-woodsmoke-950 lg:flex",
+          button: `hidden fixed top-20 left-4 z-50 rounded-full bg-woodsmoke-200 
+            dark:border dark:bg-woodsmoke-950 
+            hover:border-woodsmoke-400 
+            lg:flex`,
           icon: "text-woodsmoke-950 dark:text-woodsmoke-50",
         }}
         action={toggleNavbar}
-      >
-        {isNavbarOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
-      </Button>
+        icon={isNavbarOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
+      />
       <nav
         className={`
           flex flex-col justify-between fixed bottom-0 z-40 w-full bg-woodsmoke-200/50 duration-300 ease-in-out backdrop-blur-sm

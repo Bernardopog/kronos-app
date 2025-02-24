@@ -112,10 +112,13 @@ export default function ModalToDoRead() {
               label="Editar Tarefa"
               ariaLabel="Editar Tarefa"
               extraStyles={{
-                button:
-                  "w-fit px-4 gap-x-2 bg-crud-update-light text-woodsmoke-50 font-bold",
+                button: `px-2 font-bold
+                  hover:bg-crud-update-dark
+                  dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25
+                `,
                 label: "hidden lg:inline",
               }}
+              icon={<AiFillEdit />}
               action={() => {
                 changeModalData({
                   content: "toDoUpdate",
@@ -123,15 +126,15 @@ export default function ModalToDoRead() {
                   headerTitle: "Editar Tarefa",
                 });
               }}
-            >
-              <AiFillEdit />
-            </Button>
+            />
             <Button
               label="Deletar Tarefa"
               ariaLabel="Deletar Tarefa"
               extraStyles={{
-                button:
-                  "w-fit px-4 gap-x-2 bg-crud-delete-light text-woodsmoke-50 font-bold",
+                button: `px-2 font-bold
+                  hover:bg-crud-delete-dark
+                  dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25
+                `,
                 label: "hidden lg:inline",
               }}
               action={() => {
@@ -141,9 +144,8 @@ export default function ModalToDoRead() {
                   headerTitle: "Deletar Tarefa",
                 });
               }}
-            >
-              <AiFillDelete />
-            </Button>
+              icon={<AiFillDelete />}
+            />
           </div>
         </div>
       </div>

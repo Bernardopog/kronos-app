@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
+import Button from "./Button";
 
 interface ICreateNoteButtonProps {
   action: () => void;
@@ -8,17 +9,18 @@ interface ICreateNoteButtonProps {
 
 export default function CreateNoteButton({ action }: ICreateNoteButtonProps) {
   return (
-    <button
-      className="
-        flex items-center justify-center w-full min-h-12 rounded-lg border gap-x-2 border-apple-500 bg-apple-600 text-woodsmoke-100 ease-in-out duration-300
-        dark:border-woodsmoke-900
-      "
-      onClick={action}
-    >
-      <span className="text-3xl">
-        <AiFillPlusCircle />
-      </span>
-      Criar nova nota
-    </button>
+    <Button
+      extraStyles={{
+        button: `
+          w-full min-h-12 border-dashed rounded-lg text-woodsmoke-900
+          dark:text-woodsmoke-200
+          hover:bg-apple-600
+          dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+        `,
+      }}
+      action={action}
+      icon={<AiFillPlusCircle />}
+      label="Criar nova nota"
+    />
   );
 }

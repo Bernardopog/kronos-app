@@ -1,5 +1,7 @@
 "use client";
-import Divider from "@/components/Divider/Divider";
+import Button from "@/components/Button/Button";
+import TabCloseButton from "@/components/Button/TabCloseButton";
+import FilterTab from "@/components/FilterTab/FilterTab";
 import Radio from "@/components/Radio/Radio";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ToDoContext } from "@/context/ToDoContext";
@@ -31,25 +33,13 @@ export default function ToDoTaskFilter() {
         id="td-filter"
         aria-hidden={!isFilterShow}
       >
-        <button
-          className="
-              absolute right-8 flex items-center justify-center size-8 border rounded-full text-2xl border-woodsmoke-200 bg-woodsmoke-50 text-woodsmoke-950 duration-300 ease-in-out
-              hover:bg-woodsmoke-100
-              dark:bg-woodsmoke-900 dark:border-woodsmoke-600 dark:text-woodsmoke-50
-              dark:hover:bg-woodsmoke-950
-              lg:hidden
-              "
-          onClick={() => {
-            toggleFilter("close");
-          }}
-          aria-label="Fechar filtro"
-        >
-          <AiOutlineClose />
-        </button>
+        <TabCloseButton
+          action={() => toggleFilter("close")}
+          ariaLabel="Fechar filtro"
+          icon={<AiOutlineClose />}
+        />
         <h4 className="text-2xl font-medium">Filtros</h4>
-        <Divider />
-        <div className="flex flex-col gap-y-2">
-          <h5 className="to-do-tabs-title">Status</h5>
+        <FilterTab title="Status">
           <Radio
             label="Todos"
             value="all"
@@ -72,10 +62,8 @@ export default function ToDoTaskFilter() {
             collection="status"
             action={() => changeFilterStatus("uncompleted")}
           />
-        </div>
-        <Divider />
-        <div className="flex flex-col gap-y-2">
-          <h5 className="to-do-tabs-title">Prioridade</h5>
+        </FilterTab>
+        <FilterTab title="Prioridade">
           <Radio
             label="Nenhum"
             value="all"
@@ -98,59 +86,45 @@ export default function ToDoTaskFilter() {
             collection="priority"
             action={() => changeFilterPriority("low")}
           />
-        </div>
-        <Divider />
-        <div>
-          <h5 className="to-do-tabs-title">Categorias</h5>
+        </FilterTab>
+        <FilterTab title="Categorias">
           <ul
             role="menu"
             aria-labelledby="categoryLabel"
             className="grid grid-cols-3 mt-1 gap-2 animate-move-in opacity-0"
           >
-            <li
-              className={`
-                  p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
-                  hover:bg-woodsmoke-200
-                  active:bg-woodsmoke-300
-                  dark:hover:bg-woodsmoke-900
-                  dark:active:bg-woodsmoke-700
-                  ${filterCategory === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
-                `}
-            >
-              <button
-                type="button"
-                className="size-full"
-                onClick={() => changeFilterCategory("all")}
-              >
-                Todas
-              </button>
+            <li>
+              <Button
+                label="Todas"
+                action={() => changeFilterCategory("all")}
+                extraStyles={{
+                  button: `size-full text-woodsmoke-900
+                    dark:text-woodsmoke-300
+                    hover:text-woodsmoke-950 hover:border-woodsmoke-400 
+                    dark:hover:border-woodsmoke-700 dark:hover:text-woodsmoke-100
+                    ${filterCategory === "all" && "bg-woodsmoke-200 border-woodsmoke-300 dark:border-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+                }}
+              />
             </li>
             {categoryList.map((category) => {
               return (
-                <li
-                  className={`
-                  p-1 rounded-lg border border-woodsmoke-200 cursor-pointer ease-in-out duration-300
-                  hover:bg-woodsmoke-200
-                  active:bg-woodsmoke-300
-                  dark:hover:bg-woodsmoke-900
-                  dark:active:bg-woodsmoke-700
-                  ${category.id === filterCategory && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}
-                  
-                `}
-                  key={category.id}
-                >
-                  <button
-                    type="button"
-                    className="size-full"
-                    onClick={() => changeFilterCategory(category.id)}
-                  >
-                    {category.title}
-                  </button>
+                <li key={category.id}>
+                  <Button
+                    label={category.title}
+                    action={() => changeFilterCategory(category.id)}
+                    extraStyles={{
+                      button: `size-full text-woodsmoke-900
+                        dark:text-woodsmoke-300
+                        hover:text-woodsmoke-950 hover:border-woodsmoke-400 
+                        dark:hover:border-woodsmoke-700 dark:hover:text-woodsmoke-100
+                        ${filterCategory === category.id && "bg-woodsmoke-200 border-woodsmoke-300 dark:border-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+                    }}
+                  />
                 </li>
               );
             })}
           </ul>
-        </div>
+        </FilterTab>
       </section>
     </>
   );

@@ -1,4 +1,5 @@
 "use client";
+import TabButton from "@/components/Button/TabButton";
 import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
 import { AiOutlineUnorderedList } from "react-icons/ai";
@@ -9,15 +10,14 @@ export default function NoteListButton() {
   return (
     <>
       {!isListShow && (
-        <button
-          className="to-do-tabs-button left-0 rounded-r-xl"
-          onClick={() => {
+        <TabButton
+          action={() => {
             toggleList("open");
           }}
-          aria-label="Abrir lista de notas"
-        >
-          <AiOutlineUnorderedList />
-        </button>
+          ariaLabel="Abrir lista de notas"
+          icon={<AiOutlineUnorderedList />}
+          position="left"
+        />
       )}
     </>
   );

@@ -1,4 +1,5 @@
 "use client";
+import TabButton from "@/components/Button/TabButton";
 import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
 import { AiFillSetting } from "react-icons/ai";
@@ -10,15 +11,14 @@ export default function NoteOptionsButton() {
   return (
     <>
       {!isOptionsShow && selectedNote && (
-        <button
-          className="to-do-tabs-button right-0 rounded-l-xl"
-          onClick={() => {
+        <TabButton
+          action={() => {
             toggleOptions("open");
           }}
-          aria-label="Abrir opções da nota"
-        >
-          <AiFillSetting />
-        </button>
+          ariaLabel="Abrir opções da nota"
+          icon={<AiFillSetting />}
+          position="right"
+        />
       )}
     </>
   );

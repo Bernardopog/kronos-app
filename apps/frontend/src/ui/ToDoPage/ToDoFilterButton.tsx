@@ -1,4 +1,5 @@
 "use client";
+import TabButton from "@/components/Button/TabButton";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import { AiFillFilter } from "react-icons/ai";
@@ -9,15 +10,14 @@ export default function ToDoFilterButton() {
   return (
     <>
       {!isFilterShow && (
-        <button
-          className="to-do-tabs-button left-0 rounded-r-xl"
-          onClick={() => {
+        <TabButton
+          action={() => {
             toggleFilter("open");
           }}
-          aria-label="Abrir filtro"
-        >
-          <AiFillFilter />
-        </button>
+          ariaLabel="Abrir filtro"
+          icon={<AiFillFilter />}
+          position="left"
+        />
       )}
     </>
   );
