@@ -22,11 +22,13 @@ interface INoteContext {
   selectNote: (note: INote) => void;
   createNote: () => void;
   updateNote: (updatedNote: INote) => void;
+  deleteNote: (id: string) => void;
   toggleList: (type: "close" | "open") => void;
   toggleOptions: (type: "close" | "open") => void;
   addTag: (tagId: string) => void;
   removeTag: (tagId: string) => void;
   createTag: (tagName: string) => void;
+  deleteTag: (id: string) => void;
   toggleFavorite: () => void;
   chooseIcon: (icon: IconsTypes) => void;
   changeFilterFavorite: (type: FilterFavoriteType) => void;
@@ -116,6 +118,12 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     selectNote(foundNote);
   };
 
+  const deleteNote = (id: string) => {
+    const newNoteList: INote[] = noteList.filter((note) => note.id !== id);
+    setNoteList(newNoteList);
+    setSelectedNote(null);
+  };
+
   const addTag = (tagId: string) => {
     const note = findNote();
     if (!note) return;
@@ -166,6 +174,39 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
 
   const createTag = (tagName: string) => {
     setTagList([...tagList, { id: new IdGenerator(8).id, tagName }]);
+  };
+
+  const deleteTag = (id: string) => {
+    const newTagList = tagList.filter((tag) => tag.id !== id);
+    setTagList(newTagList);
+
+    const note = findNote();
+    if (!note) return;
+
+    const updatedNote: INote = {
+      ...note,
+      tags: note.tags.filter((tag) => tag !== id),
+      date: {
+        createDate: note.date.createDate,
+        updateDate: new Date(),
+      },
+    };
+
+    setSelectedNote({ ...selectedNote, ...updatedNote });
+
+    const newNoteList: INote[] = noteList.map((note) => {
+      if (note.tags.includes(id)) {
+        return {
+          ...note,
+          tags: note.tags.filter((tag) => {
+            return tag !== id;
+          }),
+        };
+      } else {
+        return note;
+      }
+    });
+    setNoteList(newNoteList);
   };
 
   const toggleFavorite = () => {
@@ -229,11 +270,13 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         selectNote,
         createNote,
         updateNote,
+        deleteNote,
         toggleList,
         toggleOptions,
         addTag,
         removeTag,
         createTag,
+        deleteTag,
         toggleFavorite,
         chooseIcon,
         changeFilterFavorite,
