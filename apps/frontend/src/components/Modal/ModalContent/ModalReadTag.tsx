@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import ModalFooter from "../ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { ModalContext } from "@/context/ModalContext";
 import Button from "@/components/Button/Button";
 
@@ -57,6 +57,26 @@ export default function ModalReadTag() {
                 }}
                 icon={<AiOutlinePlus />}
                 label="Criar Tag"
+              />
+            </li>
+            <li>
+              <Button
+                extraStyles={{
+                  button: `text-nowrap size-full p-0 px-2 text-woodsmoke-800
+                    dark:text-woodsmoke-200
+                    hover:bg-poppy-600
+                    dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+                  icon: "text-xl",
+                }}
+                action={() => {
+                  changeModalData({
+                    headerTitle: "Deletar Tag",
+                    type: "delete",
+                    content: "noteDeleteTag",
+                  });
+                }}
+                icon={<AiFillDelete />}
+                label="Deletar Tag"
               />
             </li>
           </ul>
