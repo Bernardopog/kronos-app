@@ -10,6 +10,7 @@ import {
   AiFillHeart,
   AiFillSetting,
   AiOutlineClose,
+  AiOutlineDownload,
   AiOutlineHeart,
 } from "react-icons/ai";
 import { BsFiletypeTxt } from "react-icons/bs";
@@ -19,7 +20,7 @@ export default function NoteOptions() {
     useContext(NoteContext);
   const { toggleModal } = useContext(ModalContext);
 
-  const [toggleOptionMenuDesktop, setToggleOptionMenuDesktop] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -44,26 +45,24 @@ export default function NoteOptions() {
               dark:border dark:bg-woodsmoke-950 
               hover:border-woodsmoke-400
               lg:flex`,
-            icon: `text-woodsmoke-950 dark:text-woodsmoke-50 ${toggleOptionMenuDesktop && "ease-in-out duration-1000 hover:rotate-180"}`,
+            icon: `text-woodsmoke-950 dark:text-woodsmoke-50 ${!isMenuOpen && "ease-in-out duration-1000 hover:rotate-180"}`,
           }}
           action={() => {
-            setToggleOptionMenuDesktop(!toggleOptionMenuDesktop);
+            setIsMenuOpen(!isMenuOpen);
           }}
           ariaLabel="Abrir opções"
-          icon={
-            !toggleOptionMenuDesktop ? <AiOutlineClose /> : <AiFillSetting />
-          }
+          icon={isMenuOpen ? <AiOutlineClose /> : <AiFillSetting />}
         />
       )}
       {selectedNote && (
         <aside
           className={`
-          flex flex-col fixed top-0 size-full pt-4 px-2 gap-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
+          flex flex-col fixed top-0 size-full gap-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
           dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
           lg:static lg:translate-x-0 lg:bg-woodsmoke-50
           ${!selectedNote && "hidden"}
           ${optionsShowControl ? "-right-0" : "-right-full"}
-          ${toggleOptionMenuDesktop && "closed"}
+          ${isMenuOpen ? "px-2 pt-4" : "closed px-0 pt-14"}
         `}
           id="nt-options"
         >
@@ -74,15 +73,17 @@ export default function NoteOptions() {
             ariaLabel="Fechar opções da nota"
             icon={<AiOutlineClose />}
           />
-          <div className="flex justify-between items-center">
+          <div className={`flex justify-between items-center`}>
             <Button
               extraStyles={{
-                button: `px-2 text-woodsmoke-800
+                button: `relative text-woodsmoke-800
                 dark:text-woodsmoke-200
                 dark:hover:shadow-btn
-                a
+                ${isMenuOpen ? "px-2" : "px-1"}
                 ${selectedNote?.isFavorite ? "hover:bg-poppy-600 dark:hover:shadow-poppy-600/25" : "hover:bg-apple-600 dark:hover:shadow-apple-600/25"}`,
-                label: "text-nowrap",
+                label: `text-nowrap 
+                ${isMenuOpen ? "inline" : "hidden"}
+                `,
               }}
               ariaLabel={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
               label={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
@@ -98,8 +99,11 @@ export default function NoteOptions() {
                 button: `w-full px-2 text-woodsmoke-800
                 dark:text-woodsmoke-200
                 hover:bg-poppy-600
-                dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
-                label: "text-nowrap",
+                dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+                ${isMenuOpen ? "px-2" : "px-1"}`,
+                label: `text-nowrap
+                ${isMenuOpen ? "inline" : "hidden"}
+                `,
               }}
               label={"Deletar Nota"}
               action={() => {
@@ -112,7 +116,7 @@ export default function NoteOptions() {
               icon={<AiFillDelete />}
             />
           </div>
-          {(selectedNote.description?.length ?? 0) > 0 && (
+          {(selectedNote.description?.length ?? 0) > 0 && isMenuOpen && (
             <div className="flex flex-col justify-center">
               <p className="text-sm text-woodsmoke-800 ease-in-out duration-300 dark:text-woodsmoke-300">
                 Tamanho da Descrição:
@@ -138,11 +142,14 @@ export default function NoteOptions() {
             href={url ?? "#"}
             download={`note-${selectedNote.title}.txt`}
             onClick={handleDownload}
+            aria-label={isMenuOpen ? "" : "Baixar Nota"}
           >
-            <span className="text-xl">
-              <BsFiletypeTxt />
+            <span className="text-2xl">
+              {isMenuOpen ? <BsFiletypeTxt /> : <AiOutlineDownload />}
             </span>
-            <p>Baixar Nota</p>
+            <span className={`${isMenuOpen ? "inline" : "hidden"}`}>
+              Baixar Nota
+            </span>
           </a>
         </aside>
       )}
