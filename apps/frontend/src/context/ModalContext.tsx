@@ -14,6 +14,8 @@ type ModalContent =
   | "toDoRemoveCategory"
   | "noteReadTags"
   | "noteCreateTag"
+  | "noteDeleteTag"
+  | "noteDelete"
   | "none";
 
 interface IModalData {

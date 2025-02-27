@@ -1,5 +1,7 @@
 "use client";
 import ModalCreateTag from "@/components/Modal/ModalContent/ModalCreateTag";
+import ModalDeleteTag from "@/components/Modal/ModalContent/ModalDeleteTag";
+import ModalNoteDelete from "@/components/Modal/ModalContent/ModalNoteDelete";
 import ModalReadTag from "@/components/Modal/ModalContent/ModalReadTag";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
 import ModalToDoCreateCategory from "@/components/Modal/ModalContent/ModalToDoCreateCategory";
@@ -57,6 +59,8 @@ export default function Modal() {
               )}
               {modalData?.content === "noteReadTags" && <ModalReadTag />}
               {modalData?.content === "noteCreateTag" && <ModalCreateTag />}
+              {modalData?.content === "noteDeleteTag" && <ModalDeleteTag />}
+              {modalData?.content === "noteDelete" && <ModalNoteDelete />}
             </section>
           </section>
         </div>
