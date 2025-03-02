@@ -10,19 +10,19 @@ interface ILinkList {
 const linkList: ILinkList[] = [
   {
     name: "kanban",
-    path: "/pages/kanban",
+    path: "/kanbanlist",
     label: "Kanban",
     icon: <BsKanban />,
   },
   {
     name: "todo",
-    path: "/pages/todo",
+    path: "/todo",
     label: "Tarefas",
     icon: <BsListCheck />,
   },
   {
     name: "note",
-    path: "/pages/note",
+    path: "/note",
     label: "Notas",
     icon: <BsFileText />,
   },
