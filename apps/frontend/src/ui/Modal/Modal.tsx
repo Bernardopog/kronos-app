@@ -1,6 +1,9 @@
 "use client";
 import ModalCreateTag from "@/components/Modal/ModalContent/ModalCreateTag";
 import ModalDeleteTag from "@/components/Modal/ModalContent/ModalDeleteTag";
+import ModalKanbanCreate from "@/components/Modal/ModalContent/ModalKanbanCreate";
+import ModalKanbanCreateColumn from "@/components/Modal/ModalContent/ModalKanbanCreateColumn";
+import ModalKanbanCreateTask from "@/components/Modal/ModalContent/ModalKanbanCreateTask";
 import ModalNoteDelete from "@/components/Modal/ModalContent/ModalNoteDelete";
 import ModalReadTag from "@/components/Modal/ModalContent/ModalReadTag";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
@@ -61,6 +64,13 @@ export default function Modal() {
               {modalData?.content === "noteCreateTag" && <ModalCreateTag />}
               {modalData?.content === "noteDeleteTag" && <ModalDeleteTag />}
               {modalData?.content === "noteDelete" && <ModalNoteDelete />}
+              {modalData?.content === "kanbanCreate" && <ModalKanbanCreate />}
+              {modalData?.content === "kanbanCreateColumn" && (
+                <ModalKanbanCreateColumn />
+              )}
+              {modalData?.content === "kanbanCreateTask" && (
+                <ModalKanbanCreateTask />
+              )}
             </section>
           </section>
         </div>

@@ -16,6 +16,9 @@ type ModalContent =
   | "noteCreateTag"
   | "noteDeleteTag"
   | "noteDelete"
+  | "kanbanCreate"
+  | "kanbanCreateColumn"
+  | "kanbanCreateTask"
   | "none";
 
 interface IModalData {
