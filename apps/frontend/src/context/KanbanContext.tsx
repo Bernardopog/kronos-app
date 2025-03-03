@@ -21,7 +21,7 @@ interface IKanbanContext {
   taskList: IKanbanTask[];
   selectedKanban: IKanban | null;
   selectKanban: (id: string) => void;
-  createKanban: (title: string) => void;
+  createKanban: (title: string) => IKanban;
   createColumn: (title: string) => void;
   createTask: ({ taskName, description, priority }: CreateTask) => void;
 }
@@ -42,7 +42,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setSelectedKanban(kanban);
   };
 
-  const createKanban = (title: string) => {
+  const createKanban = (title: string): IKanban => {
     const newKanban: IKanban = {
       id: new IdGenerator(16).id,
       creator: "",
@@ -52,6 +52,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     };
 
     setKanbanList([...kanbanList, newKanban]);
+    return newKanban;
   };
 
   const createColumn = (title: string) => {

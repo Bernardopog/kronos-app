@@ -5,6 +5,8 @@ import ModalFooter from "../ModalFooter";
 import { KanbanContext } from "@/context/KanbanContext";
 import Input from "@/components/Input/Input";
 import { ModalContext } from "@/context/ModalContext";
+import { useRouter } from "next/navigation";
+import Checkbox from "@/components/Checkbox/Checkbox";
 
 export default function ModalKanbanCreate() {
   const [title, setTitle] = useState<string>("");
@@ -12,6 +14,7 @@ export default function ModalKanbanCreate() {
 
   const { toggleModal } = useContext(ModalContext);
   const { createKanban } = useContext(KanbanContext);
+  const [redirectEnabled, setRedirectEnabled] = useState<boolean>(false);
 
   const checkTitle = () => {
     if (title.trim() === "") {
@@ -19,6 +22,8 @@ export default function ModalKanbanCreate() {
       return true;
     } else setErrorMessage("");
   };
+
+  const router = useRouter();
 
   return (
     <>
@@ -30,13 +35,21 @@ export default function ModalKanbanCreate() {
           setValue={setTitle}
           errorMessage={errorMessage}
         />
+        <Checkbox
+          label="Redirecionar para o Kanban criado"
+          htmlFor="redirect"
+          action={() => {
+            setRedirectEnabled(!redirectEnabled);
+          }}
+        />
       </div>
       <ModalFooter
         type={"create"}
         action={() => {
           if (checkTitle()) return;
           toggleModal(null);
-          createKanban(title);
+          const newKanban = createKanban(title);
+          if (redirectEnabled) router.push(`/kanbanlist/${newKanban.id}`);
         }}
       />
     </>
