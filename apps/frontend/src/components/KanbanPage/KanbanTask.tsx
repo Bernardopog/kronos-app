@@ -1,8 +1,25 @@
 import { IKanbanTask } from "@/mock/kanban/mockKanbanTasks";
+import { DragEvent } from "react";
 
-export default function KanbanTask({ task }: { task: IKanbanTask }) {
+interface IKanbanTaskProps {
+  task: IKanbanTask;
+  dragStart: (
+    ev: DragEvent<HTMLLIElement>,
+    itemId: string,
+    originalColumnId: string
+  ) => void;
+  columnId: string;
+}
+
+export default function KanbanTask({
+  task,
+  dragStart,
+  columnId,
+}: IKanbanTaskProps) {
   return (
     <li
+      draggable="true"
+      onDragStart={(ev) => dragStart(ev, task.id, columnId)}
       className="min-h-20 rounded-lg border border-woodsmoke-300 overflow-clip ease-in-out duration-300
       dark:border-woodsmoke-700
     "

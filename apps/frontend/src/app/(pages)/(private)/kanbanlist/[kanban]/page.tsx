@@ -4,7 +4,7 @@ import KanbanColumn from "@/components/KanbanPage/KanbanColumn";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { DragEvent, useContext, useEffect, useState } from "react";
 import { AiFillDelete, AiFillPlusCircle } from "react-icons/ai";
 
 export default function Kanban() {
@@ -13,6 +13,7 @@ export default function Kanban() {
     selectedKanban,
     columnList,
     updateKanban,
+    updateColumnDragAndDrop,
     deleteKanban,
   } = useContext(KanbanContext);
   const { toggleModal } = useContext(ModalContext);
@@ -27,6 +28,21 @@ export default function Kanban() {
 
   const [kanbanTitle, setKanbanTitle] = useState<string>("");
   const [editingTitle, setEditingTitle] = useState<boolean>(false);
+
+  const handleDragStart = (
+    ev: DragEvent<HTMLLIElement>,
+    itemId: string,
+    originalColumnId: string
+  ) => {
+    ev.dataTransfer.setData("itemId", itemId);
+    ev.dataTransfer.setData("originalColumnId", originalColumnId);
+  };
+
+  const handleDragDrop = (ev: DragEvent<HTMLElement>, columnId: string) => {
+    const itemId = ev.dataTransfer.getData("itemId");
+    const originalColumnId = ev.dataTransfer.getData("originalColumnId");
+    updateColumnDragAndDrop(columnId, itemId, originalColumnId);
+  };
 
   return (
     <main
@@ -83,7 +99,13 @@ export default function Kanban() {
         {columnList
           .filter((column) => column.kanbanId === kanbanId)
           .map((column, index) => (
-            <KanbanColumn key={column.id} column={column} index={index} />
+            <KanbanColumn
+              key={column.id}
+              column={column}
+              index={index}
+              dragStart={handleDragStart}
+              dragDrop={handleDragDrop}
+            />
           ))}
         {(selectedKanban?.columnsId.length ?? 0) < 8 && (
           <Button

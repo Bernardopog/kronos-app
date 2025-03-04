@@ -25,6 +25,11 @@ interface IKanbanContext {
   createColumn: (title: string) => void;
   createTask: ({ taskName, description, priority }: CreateTask) => void;
   updateKanban: (title: string) => void;
+  updateColumnDragAndDrop: (
+    columnId: string,
+    itemId: string,
+    originalColumnId: string
+  ) => void;
   deleteKanban: (id: string) => void;
 }
 
@@ -100,6 +105,28 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setKanbanList([...kanbanList]);
   };
 
+  const updateColumnDragAndDrop = (
+    columnId: string,
+    itemId: string,
+    originalColumnId: string
+  ) => {
+    const originalColumn = columnList.find(
+      (column) => column.id === originalColumnId
+    );
+    if (!originalColumn) return;
+
+    const column = columnList.find((column) => column.id === columnId);
+    if (!column) return;
+
+    originalColumn.tasksId = originalColumn.tasksId.filter(
+      (taskId) => taskId !== itemId
+    );
+
+    column.tasksId.push(itemId);
+
+    setColumnList([...columnList]);
+  };
+
   const deleteKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
     if (!kanban) return;
@@ -119,6 +146,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         createColumn,
         createTask,
         updateKanban,
+        updateColumnDragAndDrop,
         deleteKanban,
       }}
     >
