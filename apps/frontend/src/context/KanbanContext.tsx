@@ -24,6 +24,8 @@ interface IKanbanContext {
   createKanban: (title: string) => IKanban;
   createColumn: (title: string) => void;
   createTask: ({ taskName, description, priority }: CreateTask) => void;
+  updateKanban: (title: string) => void;
+  deleteKanban: (id: string) => void;
 }
 
 const KanbanContext = createContext({} as IKanbanContext);
@@ -88,6 +90,23 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setTaskList([...taskList, newTask]);
   };
 
+  const updateKanban = (title: string) => {
+    const kanban = kanbanList.find(
+      (kanban) => kanban.id === selectedKanban?.id
+    );
+    if (!kanban) return;
+
+    kanban.title = title;
+    setKanbanList([...kanbanList]);
+  };
+
+  const deleteKanban = (id: string) => {
+    const kanban = kanbanList.find((kanban) => kanban.id === id);
+    if (!kanban) return;
+
+    setKanbanList(kanbanList.filter((kanban) => kanban.id !== id));
+  };
+
   return (
     <KanbanContext.Provider
       value={{
@@ -99,6 +118,8 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         createKanban,
         createColumn,
         createTask,
+        updateKanban,
+        deleteKanban,
       }}
     >
       {children.children}
