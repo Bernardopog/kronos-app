@@ -4,6 +4,7 @@ import ModalDeleteTag from "@/components/Modal/ModalContent/ModalDeleteTag";
 import ModalKanbanCreate from "@/components/Modal/ModalContent/ModalKanbanCreate";
 import ModalKanbanCreateColumn from "@/components/Modal/ModalContent/ModalKanbanCreateColumn";
 import ModalKanbanCreateTask from "@/components/Modal/ModalContent/ModalKanbanCreateTask";
+import ModalKanbanDelete from "@/components/Modal/ModalContent/ModalKanbanDelete";
 import ModalNoteDelete from "@/components/Modal/ModalContent/ModalNoteDelete";
 import ModalReadTag from "@/components/Modal/ModalContent/ModalReadTag";
 import ModalToDoCreate from "@/components/Modal/ModalContent/ModalToDoCreate";
@@ -71,6 +72,7 @@ export default function Modal() {
               {modalData?.content === "kanbanCreateTask" && (
                 <ModalKanbanCreateTask />
               )}
+              {modalData?.content === "kanbanDelete" && <ModalKanbanDelete />}
             </section>
           </section>
         </div>
