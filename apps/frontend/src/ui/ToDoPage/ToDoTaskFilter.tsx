@@ -2,7 +2,9 @@
 import Button from "@/components/Button/Button";
 import TabCloseButton from "@/components/Button/TabCloseButton";
 import FilterTab from "@/components/FilterTab/FilterTab";
+import Inert from "@/components/Inert/Inert";
 import Radio from "@/components/Radio/Radio";
+import { DeviceScreenContext } from "@/context/DeviceScreenContext";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
@@ -18,11 +20,12 @@ export default function ToDoTaskFilter() {
     filterCategory,
     toggleFilter,
   } = useContext(ToDoContext);
+  const { device } = useContext(DeviceScreenContext);
 
   const { categoryList } = useContext(ToDoCategoryContext);
 
   return (
-    <>
+    <Inert value={isFilterShow || device === "desktop"}>
       <section
         className={`
             flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
@@ -31,7 +34,6 @@ export default function ToDoTaskFilter() {
             ${filterShowControl ? "-left-0" : "-left-full"}
           `}
         id="td-filter"
-        aria-hidden={!isFilterShow}
       >
         <TabCloseButton
           action={() => toggleFilter("close")}
@@ -126,6 +128,6 @@ export default function ToDoTaskFilter() {
           </ul>
         </FilterTab>
       </section>
-    </>
+    </Inert>
   );
 }

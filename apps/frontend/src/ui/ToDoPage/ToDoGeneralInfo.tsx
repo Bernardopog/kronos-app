@@ -10,15 +10,18 @@ import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import { AiFillPlusCircle, AiOutlineClose } from "react-icons/ai";
 import TabCloseButton from "@/components/Button/TabCloseButton";
+import Inert from "@/components/Inert/Inert";
+import { DeviceScreenContext } from "@/context/DeviceScreenContext";
 
 export default function ToDoGeneralInfo() {
   const { isGeneralShow, generalShowControl, toggleGeneral, recentList } =
     useContext(ToDoContext);
+  const { device } = useContext(DeviceScreenContext);
   const { toggleModal } = useContext(ModalContext);
   const { categoryList } = useContext(ToDoCategoryContext);
 
   return (
-    <>
+    <Inert value={isGeneralShow || device === "desktop"}>
       <section
         className={`
           flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
@@ -27,7 +30,6 @@ export default function ToDoGeneralInfo() {
           ${generalShowControl ? "-right-0" : "-right-full"}
         `}
         id="td-general"
-        aria-hidden={!isGeneralShow}
       >
         <TabCloseButton
           action={() => toggleGeneral("close")}
@@ -90,6 +92,6 @@ export default function ToDoGeneralInfo() {
           </div>
         </div>
       </section>
-    </>
+    </Inert>
   );
 }

@@ -6,6 +6,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { NoteFilter } from "./NoteFilter";
 import NoteFilterOptions from "@/components/NotePage/NoteListOptions";
 import TabCloseButton from "@/components/Button/TabCloseButton";
+import { DeviceScreenContext } from "@/context/DeviceScreenContext";
+import Inert from "@/components/Inert/Inert";
 
 export default function NoteList() {
   const {
@@ -17,6 +19,8 @@ export default function NoteList() {
     filterFavorite,
   } = useContext(NoteContext);
 
+  const { device } = useContext(DeviceScreenContext);
+
   const [isFilterShow, setIsFilterShow] = useState<boolean>(false);
 
   const toggleFilter = () => {
@@ -24,54 +28,53 @@ export default function NoteList() {
   };
 
   return (
-    <section
-      className={`
-        fixed top-0 z-10 size-full pt-4 scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
-        dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
-        lg:static lg:p-0 lg:translate-x-0 lg:bg-woodsmoke-50
-        ${listShowControl ? "-left-0" : "-left-full"}
-      `}
-      id="nt-list"
-      aria-hidden={!isListShow}
+    <Inert
+      style={`fixed top-0 z-10 size-full pt-4 scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300 
+        dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10 
+        lg:static lg:static lg:p-0 lg:translate-x-0 lg:bg-woodsmoke-50 
+        ${listShowControl ? "-left-0" : "-left-full"}`}
+      value={isListShow || device === "desktop"}
     >
-      <TabCloseButton
-        action={() => toggleList("close")}
-        icon={<AiOutlineClose />}
-        ariaLabel="Fechar lista de notas"
-      />
-      <NoteFilterOptions
-        isFilterShow={isFilterShow}
-        toggleFilter={toggleFilter}
-      />
-      <NoteFilter state={isFilterShow} />
-      <ul
-        className="
+      <section id="nt-list">
+        <TabCloseButton
+          action={() => toggleList("close")}
+          icon={<AiOutlineClose />}
+          ariaLabel="Fechar lista de notas"
+        />
+        <NoteFilterOptions
+          isFilterShow={isFilterShow}
+          toggleFilter={toggleFilter}
+        />
+        <NoteFilter state={isFilterShow} />
+        <ul
+          className="
           grid grid-cols-2 max-h-[calc(100vh-9.5rem)] mt-8 p-2 pb-32 gap-2 overflow-y-auto scrollbar-thin
           sm:grid-cols-3
           lg:mt-4 lg:flex lg:flex-col lg:pb-2 lg:pt-4
       "
-      >
-        {noteList
-          .filter((note) => {
-            if (filterFavorite === "all") return true;
-            else if (filterFavorite === "favorites")
-              return note.isFavorite === true;
-            else return note.isFavorite === false;
-          })
-          .filter((note) => {
-            if (filterTag === "all") return true;
-            else return note.tags.includes(filterTag);
-          })
-          .map((note) => {
-            return (
-              <NoteListItem
-                key={note.id}
-                data={note}
-                action={() => toggleList("close")}
-              />
-            );
-          })}
-      </ul>
-    </section>
+        >
+          {noteList
+            .filter((note) => {
+              if (filterFavorite === "all") return true;
+              else if (filterFavorite === "favorites")
+                return note.isFavorite === true;
+              else return note.isFavorite === false;
+            })
+            .filter((note) => {
+              if (filterTag === "all") return true;
+              else return note.tags.includes(filterTag);
+            })
+            .map((note) => {
+              return (
+                <NoteListItem
+                  key={note.id}
+                  data={note}
+                  action={() => toggleList("close")}
+                />
+              );
+            })}
+        </ul>
+      </section>
+    </Inert>
   );
 }
