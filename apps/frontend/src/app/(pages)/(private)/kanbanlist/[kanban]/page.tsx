@@ -14,7 +14,6 @@ export default function Kanban() {
     columnList,
     updateKanban,
     updateColumnDragAndDrop,
-    deleteKanban,
   } = useContext(KanbanContext);
   const { toggleModal } = useContext(ModalContext);
 
@@ -84,7 +83,6 @@ export default function Kanban() {
               type: "delete",
               headerTitle: "Deletar Kanban",
             });
-            deleteKanban(kanbanId);
           }}
           icon={<AiFillDelete />}
           extraStyles={{
