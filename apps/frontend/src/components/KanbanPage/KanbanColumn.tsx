@@ -1,12 +1,13 @@
 "use client";
 
 import Button from "../Button/Button";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle, AiFillSetting } from "react-icons/ai";
 import { DragEvent, useContext, useState } from "react";
 import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
+import KanbanColumnOption from "./KanbanColumnOption";
 
 interface IKanbanColumnProps {
   column: IColumn;
@@ -26,13 +27,21 @@ export default function KanbanColumn({
   dragDrop,
 }: IKanbanColumnProps) {
   const { toggleModal } = useContext(ModalContext);
-  const { taskList } = useContext(KanbanContext);
+  const { taskList, updateColumn } = useContext(KanbanContext);
 
-  const [isDragOver, setIsDragOver] = useState(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
+
+  const [isEditingColumnTitle, setEditingIsColumnTitle] =
+    useState<boolean>(false);
+  const [columnName, setColumnName] = useState<string>(column.columnName);
 
   const handleDragOver = (ev: DragEvent<HTMLElement>) => {
     ev.preventDefault();
   };
+
+  const colorHeader = `hsla(${column.color?.[0]}, ${column.color?.[1]}%, ${column.color?.[2]}%, 0.75)`;
+  const colorBody = `hsla(${column.color?.[0]}, ${column.color?.[1]}%, ${column.color?.[2]}%, 0.1)`;
 
   return (
     <article
@@ -50,50 +59,92 @@ export default function KanbanColumn({
     `}
     >
       <header
+        style={{ backgroundColor: `${colorHeader}` }}
         className="flex items-center justify-between h-12 px-4 bg-woodsmoke-100 ease-in-out duration-300
         dark:bg-woodsmoke-950
         "
       >
-        <h2
-          className="text-xl font-medium text-woodsmoke-800
+        {isEditingColumnTitle ? (
+          <h2
+            className="text-xl font-medium text-woodsmoke-800 cursor-pointer
         dark:text-woodsmoke-200 ease-in-out duration-300
         "
-        >
-          {column?.columnName}
-        </h2>
-      </header>
-      {index === 0 && (
+            onClick={() => setEditingIsColumnTitle(true)}
+          >
+            {column?.columnName}
+          </h2>
+        ) : (
+          <input
+            type="text"
+            value={columnName}
+            className="w-[60%] font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 bg-transparent ease-in-out duration-300 truncate"
+            onChange={(ev) => setColumnName(ev.target.value)}
+            onBlur={() => {
+              updateColumn(column.id, { ...column, columnName: columnName });
+              setEditingIsColumnTitle(false);
+            }}
+            onKeyDown={(ev) => {
+              if (ev.key === "Enter") {
+                updateColumn(column.id, { ...column, columnName: columnName });
+                setEditingIsColumnTitle(false);
+              }
+            }}
+          />
+        )}
         <Button
+          action={() => setIsOptionsOpen(!isOptionsOpen)}
+          ariaLabel="Configurações da Coluna"
+          icon={<AiFillSetting />}
           extraStyles={{
-            button: `h-20 w-[calc(100%-1rem)] mx-2 mt-2 border-dashed rounded-lg text-woodsmoke-900
-                dark:text-woodsmoke-200
-                hover:bg-apple-600
-                dark:hover:shadow-btn dark:hover:shadow-apple-600/25
-              `,
+            button: `
+              border rounded-full bg-woodsmoke-100 text-woodsmoke-900
+              hover:text-woodsmoke-925
+              dark:text-woodsmoke-200 dark:bg-woodsmoke-925
+              dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
+          `,
           }}
-          action={() =>
-            toggleModal({
-              content: "kanbanCreateTask",
-              type: "create",
-              headerTitle: "Criar Tarefa Kanban",
-            })
-          }
-          icon={<AiFillPlusCircle />}
-          label="Criar nova Tarefa"
         />
-      )}
-      <ul className="flex flex-col gap-2 h-[calc(100%-3rem)] p-2 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950">
-        {taskList
-          .filter((task) => column.tasksId.includes(task.id))
-          .map((task) => (
-            <KanbanTask
-              key={task.id}
-              task={task}
-              dragStart={dragStart}
-              columnId={column.id}
-            />
-          ))}
-      </ul>
+      </header>
+      <KanbanColumnOption column={column} isOptionsOpen={isOptionsOpen} />
+      <section
+        style={{ backgroundColor: `${colorBody}` }}
+        className={`h-full
+        ${index === 0 && "pt-2"}
+      `}
+      >
+        {index === 0 && (
+          <Button
+            extraStyles={{
+              button: `h-20 w-[calc(100%-1rem)] mx-2 border-dashed rounded-lg text-woodsmoke-900
+                  dark:text-woodsmoke-200
+                  hover:bg-apple-600
+                  dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+                `,
+            }}
+            action={() =>
+              toggleModal({
+                content: "kanbanCreateTask",
+                type: "create",
+                headerTitle: "Criar Tarefa Kanban",
+              })
+            }
+            icon={<AiFillPlusCircle />}
+            label="Criar nova Tarefa"
+          />
+        )}
+        <ul className="flex flex-col gap-2 h-[calc(100%-3rem)] p-2 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950">
+          {taskList
+            .filter((task) => column.tasksId.includes(task.id))
+            .map((task) => (
+              <KanbanTask
+                key={task.id}
+                task={task}
+                dragStart={dragStart}
+                columnId={column.id}
+              />
+            ))}
+        </ul>
+      </section>
     </article>
   );
 }
