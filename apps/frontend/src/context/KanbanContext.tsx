@@ -30,7 +30,10 @@ interface IKanbanContext {
     itemId: string,
     originalColumnId: string
   ) => void;
+  updateColumn: (id: string, data: IColumn) => void;
   deleteKanban: (id: string) => void;
+  deleteColumn: (id: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 const KanbanContext = createContext({} as IKanbanContext);
@@ -41,28 +44,6 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   const [taskList, setTaskList] = useState<IKanbanTask[]>(mockKanbanTaskList);
 
   const [selectedKanban, setSelectedKanban] = useState<IKanban | null>(null);
-
-  function deleteTask(taskId: string) {
-    const taskIndex = taskList.findIndex((task) => task.id === taskId);
-    if (taskIndex === -1) return;
-
-    taskList.splice(taskIndex, 1);
-    setTaskList(taskList);
-  }
-
-  function deleteColumn(columnId: string) {
-    const columnIndex = columnList.findIndex(
-      (column) => column.id === columnId
-    );
-    if (columnIndex === -1) return;
-
-    const columnToDelete = columnList[columnIndex];
-    if (columnToDelete.tasksId.length > 0)
-      columnToDelete.tasksId.forEach((taskId) => deleteTask(taskId));
-
-    columnList.splice(columnIndex, 1);
-    setColumnList(columnList);
-  }
 
   const selectKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
@@ -152,6 +133,28 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setColumnList([...columnList]);
   };
 
+  const deleteTask = (taskId: string) => {
+    const taskIndex = taskList.findIndex((task) => task.id === taskId);
+    if (taskIndex === -1) return;
+
+    taskList.splice(taskIndex, 1);
+    setTaskList([...taskList]);
+  };
+
+  const deleteColumn = (columnId: string) => {
+    const columnIndex = columnList.findIndex(
+      (column) => column.id === columnId
+    );
+    if (columnIndex === -1) return;
+
+    const columnToDelete = columnList[columnIndex];
+    if (columnToDelete.tasksId.length > 0)
+      columnToDelete.tasksId.forEach((taskId) => deleteTask(taskId));
+
+    columnList.splice(columnIndex, 1);
+    setColumnList([...columnList]);
+  };
+
   const deleteKanban = (id: string) => {
     const kanbanIndex = kanbanList.findIndex((kanban) => kanban.id === id);
     if (kanbanIndex === -1) return;
@@ -163,6 +166,14 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     if (!kanban) return;
 
     setKanbanList(kanbanList.filter((kanban) => kanban.id !== id));
+  };
+
+  const updateColumn = (id: string, data: IColumn) => {
+    const columnIndex = columnList.findIndex((column) => column.id === id);
+    if (columnIndex === -1) return;
+
+    columnList[columnIndex] = data;
+    setColumnList([...columnList]);
   };
 
   return (
@@ -178,7 +189,10 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         createTask,
         updateKanban,
         updateColumnDragAndDrop,
+        updateColumn,
         deleteKanban,
+        deleteColumn,
+        deleteTask,
       }}
     >
       {children.children}
