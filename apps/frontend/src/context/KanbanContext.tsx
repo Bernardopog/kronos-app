@@ -42,6 +42,28 @@ const KanbanProvider = (children: { children: ReactNode }) => {
 
   const [selectedKanban, setSelectedKanban] = useState<IKanban | null>(null);
 
+  function deleteTask(taskId: string) {
+    const taskIndex = taskList.findIndex((task) => task.id === taskId);
+    if (taskIndex === -1) return;
+
+    taskList.splice(taskIndex, 1);
+    setTaskList(taskList);
+  }
+
+  function deleteColumn(columnId: string) {
+    const columnIndex = columnList.findIndex(
+      (column) => column.id === columnId
+    );
+    if (columnIndex === -1) return;
+
+    const columnToDelete = columnList[columnIndex];
+    if (columnToDelete.tasksId.length > 0)
+      columnToDelete.tasksId.forEach((taskId) => deleteTask(taskId));
+
+    columnList.splice(columnIndex, 1);
+    setColumnList(columnList);
+  }
+
   const selectKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
     if (!kanban) return;
@@ -63,13 +85,16 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   };
 
   const createColumn = (title: string) => {
+    const newColumnId = new IdGenerator(16).id;
     const newColumn: IColumn = {
-      id: new IdGenerator(16).id,
+      id: newColumnId,
       kanbanId: selectedKanban?.id ?? "",
       columnName: title,
       tasksId: [],
     };
 
+    selectedKanban?.columnsId.push(newColumnId);
+    setKanbanList(kanbanList);
     setColumnList([...columnList, newColumn]);
   };
 
@@ -128,6 +153,12 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   };
 
   const deleteKanban = (id: string) => {
+    const kanbanIndex = kanbanList.findIndex((kanban) => kanban.id === id);
+    if (kanbanIndex === -1) return;
+
+    const kanbanToDelete = kanbanList[kanbanIndex];
+    kanbanToDelete.columnsId.forEach((columnId) => deleteColumn(columnId));
+
     const kanban = kanbanList.find((kanban) => kanban.id === id);
     if (!kanban) return;
 
