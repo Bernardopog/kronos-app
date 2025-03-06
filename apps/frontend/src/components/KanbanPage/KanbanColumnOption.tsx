@@ -23,7 +23,7 @@ export default function KanbanColumnOption({
     <div
       className={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
         dark:bg-woodsmoke-925
-        ${isOptionsOpen ? "h-full p-2" : "h-0"}
+        ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
       `}
     >
       <div className="flex items-center justify-between pr-4">
