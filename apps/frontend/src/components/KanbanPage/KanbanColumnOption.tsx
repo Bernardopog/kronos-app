@@ -52,10 +52,8 @@ export default function KanbanColumnOption({
       </section>
       <Divider />
       <ul
-        className="
-            grid grid-cols-7 gap-2 mt-2 p-2 border rounded-lg border-woodsmoke-300 bg-woodsmoke-200 
-          dark:bg-woodsmoke-925 dark:border-woodsmoke-600
-          "
+        className="grid grid-cols-7 gap-2 mt-2 p-2 border rounded-lg border-woodsmoke-300 bg-woodsmoke-200 ease-in-out duration-300
+          dark:bg-woodsmoke-925 dark:border-woodsmoke-600"
       >
         {Object.keys(icons).map((iconkey) => {
           return (
@@ -63,9 +61,10 @@ export default function KanbanColumnOption({
               <Button
                 extraStyles={{
                   button: `text-woodsmoke-600 ease-in-out duration-300
-                        hover:text-woodsmoke-950 hover:shadow-btn hover:shadow-woodsmoke-500/25
-                        dark:text-woodsmoke-300                         dark:hover:text-woodsmoke-100
-                      `,
+                    hover:text-woodsmoke-950 hover:shadow-btn hover:shadow-woodsmoke-500/25
+                    dark:text-woodsmoke-300 dark:hover:text-woodsmoke-100
+                    ${iconkey === icon && "bg-apple-400 text-woodsmoke-925 hover:text-woodsmoke-950 dark:text-woodsmoke-925 dark:hover:text-woodsmoke-950"}
+                  `,
                 }}
                 action={() => {
                   console.log(iconkey);
