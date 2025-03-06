@@ -15,6 +15,9 @@ export default function NoteListItem({ data, action }: INoteListItemProps) {
 
   return (
     <li
+      tabIndex={0}
+      role="button"
+      aria-label={`Abrir nota ${data.title}`}
       className={`
         grid grid-cols-12 items-center relative min-h-12 px-2 rounded-lg border text-woodsmoke-925 cursor-pointer ease-in-out duration-300
         ${

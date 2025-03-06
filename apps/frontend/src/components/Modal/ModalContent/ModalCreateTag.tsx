@@ -17,7 +17,7 @@ export default function ModalCreateTag() {
 
   const checkTagName = () => {
     if (tagName.trim() === "") {
-      setErrorMessage("O nome da tag nao pode estar em branco");
+      setErrorMessage("O nome da tag não pode estar em branco");
       return true;
     } else {
       setErrorMessage("");

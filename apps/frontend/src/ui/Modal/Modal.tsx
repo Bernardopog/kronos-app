@@ -20,7 +20,8 @@ import { ModalContext } from "@/context/ModalContext";
 import { useContext } from "react";
 
 export default function Modal() {
-  const { isModalOpen, modalData, toggleModal } = useContext(ModalContext);
+  const { isModalOpen, modalData, toggleModal, modalRef } =
+    useContext(ModalContext);
 
   return (
     <>
@@ -31,13 +32,23 @@ export default function Modal() {
             toggleModal(null);
           }}
         >
+          <div aria-live="assertive" className="opacity-0 absolute -z-50">
+            Modal Aberto
+          </div>
           <section
+            ref={modalRef}
+            tabIndex={-1}
             className="
               relative min-w-72 w-5/6 max-w-[32rem] h-auto rounded-2xl bg-woodsmoke-50 animate-move-in
               dark:bg-woodsmoke-950 dark:shadow-xl dark:shadow-woodsmoke-500/25
             "
             onClick={(ev) => {
               ev.stopPropagation();
+            }}
+            onKeyDown={(ev) => {
+              if (ev.key === "Escape") {
+                toggleModal(null);
+              }
             }}
           >
             <ModalHeader

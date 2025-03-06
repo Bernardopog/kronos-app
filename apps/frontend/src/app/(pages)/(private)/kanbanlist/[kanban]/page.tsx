@@ -77,6 +77,7 @@ export default function Kanban() {
           />
         )}
         <Button
+          ariaLabel="Deletar o respectivo kanban"
           action={() => {
             toggleModal({
               content: "kanbanDelete",

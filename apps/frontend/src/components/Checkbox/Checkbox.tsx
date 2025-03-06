@@ -8,12 +8,13 @@ interface ICheckboxProps {
 
 export default function Checkbox({ label, htmlFor, action }: ICheckboxProps) {
   return (
-    <label htmlFor={htmlFor} className="flex items-center gap-x-2">
+    <label htmlFor={htmlFor} className="flex items-center gap-x-2 relative">
       <input
         type="checkbox"
-        className="peer hidden"
+        className="peer absolute opacity-0"
         id={htmlFor}
         onChange={action}
+        tabIndex={0}
       />
       <div
         className="

@@ -15,7 +15,7 @@ export default function ModalKanbanCreateColumn() {
 
   const checkTitle = () => {
     if (title.trim() === "") {
-      setErrorMessage("O Título nao pode estar em branco");
+      setErrorMessage("O Título da Coluna não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

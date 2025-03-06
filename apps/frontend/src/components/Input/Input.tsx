@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
-interface IInputProps {
+interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name?: string;
   id: string;
@@ -19,6 +19,14 @@ export default function Input({
   setValue,
   errorMessage,
 }: IInputProps) {
+  const [delayError, setDelayError] = useState<string>("");
+
+  {
+    setTimeout(() => {
+      setDelayError(errorMessage);
+    }, 50);
+  }
+
   return (
     <div className="relative">
       <input
@@ -46,7 +54,13 @@ export default function Input({
         {label}
       </label>
       {errorMessage && (
-        <span className="font-bold text-sm text-poppy-600">{errorMessage}</span>
+        <span
+          className="font-bold text-sm text-poppy-600"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          {delayError}
+        </span>
       )}
     </div>
   );

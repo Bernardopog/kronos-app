@@ -3,6 +3,7 @@ interface IColorPickerInputRangeProps {
   value: number;
   action: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   minmax: { min: number; max: number };
+  ariaLabel: string;
 }
 
 export default function ColorPickerInputRange({
@@ -10,6 +11,7 @@ export default function ColorPickerInputRange({
   value,
   action,
   minmax,
+  ariaLabel,
 }: IColorPickerInputRangeProps) {
   return (
     <input
@@ -23,6 +25,7 @@ export default function ColorPickerInputRange({
       max={minmax.max}
       value={value}
       onChange={(ev) => action(ev)}
+      aria-label={ariaLabel}
     />
   );
 }

@@ -14,7 +14,10 @@ export default function ModalToDoRemove() {
 
   return (
     <>
-      <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100">
+      <div
+        className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100"
+        aria-live="polite"
+      >
         <p className="text-center">Qual tipo de tarefa você deseja apagar?</p>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button

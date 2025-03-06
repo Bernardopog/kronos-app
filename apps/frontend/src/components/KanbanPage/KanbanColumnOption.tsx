@@ -47,10 +47,15 @@ export default function KanbanColumnOption({
       <ul
         className="grid grid-cols-7 gap-2 mt-2 p-2 border rounded-lg border-woodsmoke-300 bg-woodsmoke-200 ease-in-out duration-300
           dark:bg-woodsmoke-925 dark:border-woodsmoke-600"
+        onKeyDown={(ev) => {
+          if (ev.key === "Escape") {
+            ev.currentTarget.blur();
+          }
+        }}
       >
         {Object.keys(icons).map((iconkey) => {
           return (
-            <li key={iconkey}>
+            <li key={iconkey} role="option" aria-selected={iconkey === icon}>
               <Button
                 extraStyles={{
                   button: `text-woodsmoke-600 ease-in-out duration-300
@@ -64,6 +69,7 @@ export default function KanbanColumnOption({
                   setIcon(iconkey);
                 }}
                 icon={icons[iconkey as keyof typeof icons]}
+                ariaLabel={`${iconkey} Ícone`}
               />
             </li>
           );

@@ -18,7 +18,7 @@ export default function ModalKanbanCreate() {
 
   const checkTitle = () => {
     if (title.trim() === "") {
-      setErrorMessage("O Título nao pode estar em branco");
+      setErrorMessage("O Título do Kanban não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

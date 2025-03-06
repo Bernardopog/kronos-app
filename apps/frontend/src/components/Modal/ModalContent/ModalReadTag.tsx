@@ -35,6 +35,7 @@ export default function ModalReadTag() {
                         removeTag(tag.id);
                     }}
                     label={tag.tagName}
+                    ariaLabel={`Adicionar Tag ${tag.tagName}`}
                   />
                 </li>
               );
@@ -104,6 +105,9 @@ export default function ModalReadTag() {
                       label={
                         tagList[tagList.findIndex((t) => t.id === tag)].tagName
                       }
+                      ariaLabel={`Remover Tag ${
+                        tagList[tagList.findIndex((t) => t.id === tag)].tagName
+                      }`}
                     />
                   </li>
                 );

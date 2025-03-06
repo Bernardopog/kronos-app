@@ -14,7 +14,10 @@ export default function ModalKanbanDelete() {
 
   return (
     <>
-      <div className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100">
+      <div
+        className="flex flex-col py-4 px-2 gap-4 text-woodsmoke-950 dark:text-woodsmoke-100"
+        aria-live="polite"
+      >
         <p className="text-center">
           Você tem certeza que deseja excluir o Kanban: <br />
           <span className="font-bold text-2xl">{selectedKanban?.title}</span>

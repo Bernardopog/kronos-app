@@ -2,6 +2,7 @@
 
 import Button from "@/components/Button/Button";
 import FilterTab from "@/components/FilterTab/FilterTab";
+import Inert from "@/components/Inert/Inert";
 import Radio from "@/components/Radio/Radio";
 import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
@@ -11,8 +12,9 @@ export function NoteFilter({ state }: { state: boolean }) {
     useContext(NoteContext);
 
   return (
-    <section
-      className={`
+    <Inert
+      value={state}
+      style={`
         flex flex-col absolute z-10 w-full h-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 ease-in-out duration-300
         dark:bg-woodsmoke-925 dark:text-woodsmoke-200
         ${state ? "top-0" : "-top-full"}
@@ -83,6 +85,6 @@ export function NoteFilter({ state }: { state: boolean }) {
           })}
         </ul>
       </FilterTab>
-    </section>
+    </Inert>
   );
 }

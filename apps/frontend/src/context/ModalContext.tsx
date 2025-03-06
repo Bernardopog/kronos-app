@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, RefObject, useRef, useState } from "react";
 
 export type TypeModal = "create" | "read" | "update" | "delete" | "none";
 type ModalContent =
@@ -31,6 +31,7 @@ interface IModalData {
 interface IModalContext {
   isModalOpen: boolean;
   modalData: IModalData | null;
+  modalRef: RefObject<HTMLDivElement | null>;
   toggleModal: (modalData: IModalData | null) => void;
   changeModalData: (modalData: IModalData) => void;
 }
@@ -41,6 +42,8 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalData, setModalData] = useState<IModalData | null>(null);
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
   /**
    * Toggles the state of the modal between open and closed.
    * If called with an argument, it also updates the modalData state.
@@ -49,6 +52,9 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const toggleModal = (modalData: IModalData | null) => {
     setIsModalOpen(!isModalOpen);
     if (modalData) setModalData(modalData);
+    setTimeout(() => {
+      if (modalRef.current) modalRef.current.focus();
+    }, 50);
   };
 
   const changeModalData = (modalData: IModalData) => {
@@ -62,6 +68,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         modalData,
         toggleModal,
         changeModalData,
+        modalRef,
       }}
     >
       {children}

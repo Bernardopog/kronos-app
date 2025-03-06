@@ -23,7 +23,7 @@ export default function ModalToDoCreate() {
 
   const checkTitle = () => {
     if (title.trim() === "") {
-      setErrorMessage("O Título nao pode estar em branco");
+      setErrorMessage("O Título não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

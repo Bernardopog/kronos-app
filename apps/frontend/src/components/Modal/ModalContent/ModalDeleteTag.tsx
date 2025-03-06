@@ -12,7 +12,7 @@ export default function ModalDeleteTag() {
 
   return (
     <>
-      <div className="flex flex-col p-2 py-6 gap-y-4">
+      <div className="flex flex-col p-2 py-6 gap-y-4" aria-live="polite">
         {tagToDelete ? (
           <p className="text-woodsmoke-800 text-center dark:text-woodsmoke-100">
             Você tem certeza que deseja excluir a nota: <br />

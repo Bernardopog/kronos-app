@@ -21,7 +21,7 @@ export default function ModalKanbanCreateTask() {
 
   const checkTitle = () => {
     if (title.trim() === "") {
-      setErrorMessage("O Título nao pode estar em branco");
+      setErrorMessage("O Título da Tarefa não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

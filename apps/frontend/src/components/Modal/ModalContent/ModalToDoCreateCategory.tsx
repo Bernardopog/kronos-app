@@ -14,7 +14,7 @@ export default function ModalToDoCreateCategory() {
 
   const checkName = () => {
     if (categoryName.trim() === "") {
-      setErrorMessage("O Nome da categoria nao pode estar em branco");
+      setErrorMessage("O Nome da categoria não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

@@ -3,6 +3,7 @@ interface IColorPickerInputTextProps {
   unit: string;
   value: number;
   action: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+  ariaLabel: string;
 }
 
 export default function ColorPickerInputText({
@@ -10,12 +11,14 @@ export default function ColorPickerInputText({
   unit,
   value,
   action,
+  ariaLabel,
 }: IColorPickerInputTextProps) {
   return (
     <>
       <div className="flex gap-x-2">
         <span className="select-none text-woodsmoke-400">{name}:</span>
         <input
+          aria-label={ariaLabel}
           className="w-2/6 bg-transparent text-woodsmoke-100 text-right"
           type="text"
           value={value}

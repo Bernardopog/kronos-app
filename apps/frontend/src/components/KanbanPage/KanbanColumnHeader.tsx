@@ -84,7 +84,7 @@ export default function KanbanColumnHeader({
       </div>
       <Button
         action={() => setIsOptionsOpen(!isOptionsOpen)}
-        ariaLabel="Configurações da Coluna"
+        ariaLabel={isOptionsOpen ? "Fechar Configuração" : "Abrir Configuração"}
         icon={<AiFillSetting />}
         extraStyles={{
           button: `

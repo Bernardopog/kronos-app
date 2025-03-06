@@ -30,7 +30,7 @@ export default function ModalToDoUpdate() {
 
   const checkTitle = () => {
     if (newTitle.trim() === "") {
-      setErrorMessage("O título nao pode estar em branco");
+      setErrorMessage("O título não pode estar em branco");
       return true;
     } else setErrorMessage("");
   };

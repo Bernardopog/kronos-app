@@ -41,18 +41,21 @@ export default function ColorPicker({
           unit="°"
           value={hue}
           action={changeHue}
+          ariaLabel={"Matiz"}
         />
         <ColorPickerInputText
           name="Sat"
           unit="%"
           value={saturation}
           action={changeSaturation}
+          ariaLabel={"Saturação"}
         />
         <ColorPickerInputText
           name="Lgt"
           unit="%"
           value={lightness}
           action={changeLightness}
+          ariaLabel={"Luminosidade"}
         />
       </div>
       <ColorPickerInputRange
@@ -60,18 +63,21 @@ export default function ColorPicker({
         value={hue}
         action={changeHue}
         minmax={{ min: 0, max: 360 }}
+        ariaLabel="Ajuste Matiz"
       />
       <ColorPickerInputRange
         style={`linear-gradient(to right, hsl(${hue}, 0%, ${lightness}%), hsl(${hue}, 100%, ${lightness}%))`}
         value={saturation}
         action={changeSaturation}
         minmax={{ min: 0, max: 100 }}
+        ariaLabel="Ajuste Saturação"
       />
       <ColorPickerInputRange
         style={`linear-gradient(to right, hsl(${hue}, ${saturation}%, 0%), hsl(${hue}, ${saturation}%, 100%))`}
         value={lightness}
         action={changeLightness}
         minmax={{ min: 0, max: 100 }}
+        ariaLabel="Ajuste Luminosidade"
       />
     </>
   );

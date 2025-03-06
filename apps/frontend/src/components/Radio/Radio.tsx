@@ -23,9 +23,10 @@ export default function Radio({
       dark:from-woodsmoke-950 dark:to-woodsmoke-925
       "
       onClick={action}
+      tabIndex={0}
     >
       <input
-        className="peer hidden"
+        className="peer absolute opacity-0"
         type="radio"
         id={htmlFor}
         name={collection}
@@ -41,7 +42,7 @@ export default function Radio({
           dark:bg-woodsmoke-900
           dark:after:bg-woodsmoke-200
       "
-      ></div>
+      />
       <span
         className="
           text-woodsmoke-500 duration-300 ease-in-out

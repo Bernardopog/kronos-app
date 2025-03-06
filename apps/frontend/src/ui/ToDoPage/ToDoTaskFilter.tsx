@@ -34,6 +34,7 @@ export default function ToDoTaskFilter() {
             ${filterShowControl ? "-left-0" : "-left-full"}
           `}
         id="td-filter"
+        aria-label="Filtros"
       >
         <TabCloseButton
           action={() => toggleFilter("close")}
