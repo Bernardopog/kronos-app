@@ -3,6 +3,9 @@ import { useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import KanbanColumnOptionsFooter from "./KanbanColumnOptionsFooter";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
+import Button from "../Button/Button";
+import { icons } from "@/icons/icons";
+import Divider from "../Divider/Divider";
 
 interface IKanbanColumnOptionProps {
   column: IColumn;
@@ -17,6 +20,8 @@ export default function KanbanColumnOption({
   const [saturation, setSaturation] = useState<number>(column.color?.[1] ?? 0);
   const [lightness, setLightness] = useState<number>(column.color?.[2] ?? 0);
 
+  const [icon, setIcon] = useState<string>(column.icon ?? "");
+
   const columnColor = [hue, saturation, lightness];
 
   return (
@@ -26,24 +31,57 @@ export default function KanbanColumnOption({
         ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
       `}
     >
-      <div className="flex items-center justify-between pr-4">
-        <div
-          style={{
-            backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-          }}
-          className="size-12 rounded-lg"
+      <section className="mb-2">
+        <div className="flex items-center justify-between pr-4">
+          <div
+            style={{
+              backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+            }}
+            className="size-12 rounded-lg"
+          />
+          <p className="text-white">{`hsl(${hue}, ${saturation}%, ${lightness}%)`}</p>
+        </div>
+        <ColorPicker
+          hue={hue}
+          saturation={saturation}
+          lightness={lightness}
+          setHue={setHue}
+          setSaturation={setSaturation}
+          setLightness={setLightness}
         />
-        <div className="text-white">{`hsl(${hue}, ${saturation}%, ${lightness}%)`}</div>
-      </div>
-      <ColorPicker
-        hue={hue}
-        saturation={saturation}
-        lightness={lightness}
-        setHue={setHue}
-        setSaturation={setSaturation}
-        setLightness={setLightness}
+      </section>
+      <Divider />
+      <ul
+        className="
+            grid grid-cols-7 gap-2 mt-2 p-2 border rounded-lg border-woodsmoke-300 bg-woodsmoke-200 
+          dark:bg-woodsmoke-925 dark:border-woodsmoke-600
+          "
+      >
+        {Object.keys(icons).map((iconkey) => {
+          return (
+            <li key={iconkey}>
+              <Button
+                extraStyles={{
+                  button: `text-woodsmoke-600 ease-in-out duration-300
+                        hover:text-woodsmoke-950 hover:shadow-btn hover:shadow-woodsmoke-500/25
+                        dark:text-woodsmoke-300                         dark:hover:text-woodsmoke-100
+                      `,
+                }}
+                action={() => {
+                  console.log(iconkey);
+                  setIcon(iconkey);
+                }}
+                icon={icons[iconkey as keyof typeof icons]}
+              />
+            </li>
+          );
+        })}
+      </ul>
+      <KanbanColumnOptionsFooter
+        column={column}
+        color={columnColor}
+        icon={icon}
       />
-      <KanbanColumnOptionsFooter column={column} color={columnColor} />
     </div>
   );
 }

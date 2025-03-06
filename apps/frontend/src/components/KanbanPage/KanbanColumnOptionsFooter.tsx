@@ -7,11 +7,13 @@ import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 interface IKanbanColumnOptionsFooterProps {
   column: IColumn;
   color: number[];
+  icon: string;
 }
 
 export default function KanbanColumnOptionsFooter({
   column,
   color,
+  icon,
 }: IKanbanColumnOptionsFooterProps) {
   const { deleteColumn, updateColumn } = useContext(KanbanContext);
 
@@ -34,6 +36,7 @@ export default function KanbanColumnOptionsFooter({
           updateColumn(column.id, {
             ...column,
             color: [color[0], color[1], color[2]],
+            icon: icon,
           });
         }}
       />

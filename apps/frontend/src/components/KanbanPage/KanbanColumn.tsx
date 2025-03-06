@@ -8,6 +8,7 @@ import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
 import KanbanColumnOption from "./KanbanColumnOption";
+import { icons } from "@/icons/icons";
 
 interface IKanbanColumnProps {
   column: IColumn;
@@ -64,35 +65,48 @@ export default function KanbanColumn({
         dark:bg-woodsmoke-950
         "
       >
-        {isEditingColumnTitle ? (
-          <h2
-            className="text-xl font-medium text-woodsmoke-800 cursor-pointer
-        dark:text-woodsmoke-200 ease-in-out duration-300
-        "
-            onClick={() => setEditingIsColumnTitle(true)}
-          >
-            {column?.columnName}
-          </h2>
-        ) : (
-          <input
-            type="text"
-            value={columnName}
-            className={`w-[60%] font-bold text-2xl bg-transparent ease-in-out duration-300 truncate
-              ${(column.color?.[2] ?? 0) > 60 ? "text-woodsmoke-950 dark:text-woodsmoke-950" : "text-woodsmoke-50 dark:text-woodsmoke-50"}
-            `}
-            onChange={(ev) => setColumnName(ev.target.value)}
-            onBlur={() => {
-              updateColumn(column.id, { ...column, columnName: columnName });
-              setEditingIsColumnTitle(false);
-            }}
-            onKeyDown={(ev) => {
-              if (ev.key === "Enter") {
+        <div className="flex items-center gap-x-2">
+          {column.icon && (
+            <span
+              className={`text-2xl
+            ${(column.color?.[2] ?? 0) > 60 ? "text-woodsmoke-950 dark:text-woodsmoke-950" : "text-woodsmoke-50 dark:text-woodsmoke-50"}`}
+            >
+              {icons[column.icon as keyof typeof icons]}
+            </span>
+          )}
+          {isEditingColumnTitle ? (
+            <h2
+              className="text-xl font-medium text-woodsmoke-800 cursor-pointer
+          dark:text-woodsmoke-200 ease-in-out duration-300
+          "
+              onClick={() => setEditingIsColumnTitle(true)}
+            >
+              {column?.columnName}
+            </h2>
+          ) : (
+            <input
+              type="text"
+              value={columnName}
+              className={`w-[60%] font-bold text-2xl bg-transparent ease-in-out duration-300 truncate
+                ${(column.color?.[2] ?? 0) > 60 ? "text-woodsmoke-950 dark:text-woodsmoke-950" : "text-woodsmoke-50 dark:text-woodsmoke-50"}
+              `}
+              onChange={(ev) => setColumnName(ev.target.value)}
+              onBlur={() => {
                 updateColumn(column.id, { ...column, columnName: columnName });
                 setEditingIsColumnTitle(false);
-              }
-            }}
-          />
-        )}
+              }}
+              onKeyDown={(ev) => {
+                if (ev.key === "Enter") {
+                  updateColumn(column.id, {
+                    ...column,
+                    columnName: columnName,
+                  });
+                  setEditingIsColumnTitle(false);
+                }
+              }}
+            />
+          )}
+        </div>
         <Button
           action={() => setIsOptionsOpen(!isOptionsOpen)}
           ariaLabel="Configurações da Coluna"
