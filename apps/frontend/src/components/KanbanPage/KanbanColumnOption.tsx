@@ -9,12 +9,10 @@ import Divider from "../Divider/Divider";
 
 interface IKanbanColumnOptionProps {
   column: IColumn;
-  isOptionsOpen: boolean;
 }
 
 export default function KanbanColumnOption({
   column,
-  isOptionsOpen,
 }: IKanbanColumnOptionProps) {
   const [hue, setHue] = useState<number>(column.color?.[0] ?? 0);
   const [saturation, setSaturation] = useState<number>(column.color?.[1] ?? 0);
@@ -25,12 +23,7 @@ export default function KanbanColumnOption({
   const columnColor = [hue, saturation, lightness];
 
   return (
-    <div
-      className={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
-        dark:bg-woodsmoke-925
-        ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
-      `}
-    >
+    <>
       <section className="mb-2">
         <div className="flex items-center justify-between pr-4">
           <div
@@ -81,6 +74,6 @@ export default function KanbanColumnOption({
         color={columnColor}
         icon={icon}
       />
-    </div>
+    </>
   );
 }

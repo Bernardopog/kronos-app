@@ -9,6 +9,7 @@ import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
 import KanbanColumnOption from "./KanbanColumnOption";
 import KanbanColumnHeader from "./KanbanColumnHeader";
+import Inert from "../Inert/Inert";
 
 interface IKanbanColumnProps {
   column: IColumn;
@@ -67,7 +68,15 @@ export default function KanbanColumn({
         isEditingColumnTitle={isEditingColumnTitle}
         setEditingIsColumnTitle={setEditingIsColumnTitle}
       />
-      <KanbanColumnOption column={column} isOptionsOpen={isOptionsOpen} />
+      <Inert
+        value={isOptionsOpen}
+        style={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
+          dark:bg-woodsmoke-925
+          ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
+        `}
+      >
+        <KanbanColumnOption column={column} />
+      </Inert>
       <section
         style={{ backgroundColor: `${colorBody}` }}
         className={`h-full
