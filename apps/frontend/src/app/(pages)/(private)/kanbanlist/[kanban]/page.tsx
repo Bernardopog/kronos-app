@@ -46,12 +46,13 @@ export default function Kanban() {
   return (
     <main
       id="main"
-      className="page px-8 pb-4 flex flex-col gap-4 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950"
+      className="page px-8 pb-4 flex flex-col gap-4 overflow-x-auto overflow-y-clip scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950 
+      dark:scrollbar-thumb-woodsmoke-600"
     >
       <header className="flex items-center justify-between">
         {editingTitle ? (
           <h2
-            className="font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 ease-in-out duration-300"
+            className="font-bold w-[20%] text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 ease-in-out duration-300"
             onClick={() => {
               setEditingTitle(true);
             }}
@@ -62,7 +63,7 @@ export default function Kanban() {
           <input
             type="text"
             value={kanbanTitle}
-            className="w-[60%] font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 bg-transparent ease-in-out duration-300 truncate"
+            className="w-[30%] font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 bg-transparent ease-in-out duration-300 truncate"
             onChange={(ev) => setKanbanTitle(ev.target.value)}
             onBlur={() => {
               updateKanban(kanbanTitle);
