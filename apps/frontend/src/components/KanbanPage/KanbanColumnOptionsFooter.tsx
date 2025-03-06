@@ -1,6 +1,6 @@
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Button from "../Button/Button";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 
@@ -8,12 +8,14 @@ interface IKanbanColumnOptionsFooterProps {
   column: IColumn;
   color: number[];
   icon: string;
+  setIsOptionsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function KanbanColumnOptionsFooter({
   column,
   color,
   icon,
+  setIsOptionsOpen,
 }: IKanbanColumnOptionsFooterProps) {
   const { deleteColumn, updateColumn } = useContext(KanbanContext);
 
@@ -38,6 +40,7 @@ export default function KanbanColumnOptionsFooter({
             color: [color[0], color[1], color[2]],
             icon: icon,
           });
+          setIsOptionsOpen(false);
         }}
       />
       <Button

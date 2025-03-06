@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import KanbanColumnOptionsFooter from "./KanbanColumnOptionsFooter";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
@@ -9,10 +9,12 @@ import Divider from "../Divider/Divider";
 
 interface IKanbanColumnOptionProps {
   column: IColumn;
+  setIsOptionsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function KanbanColumnOption({
   column,
+  setIsOptionsOpen,
 }: IKanbanColumnOptionProps) {
   const [hue, setHue] = useState<number>(column.color?.[0] ?? 0);
   const [saturation, setSaturation] = useState<number>(column.color?.[1] ?? 0);
@@ -79,6 +81,7 @@ export default function KanbanColumnOption({
         column={column}
         color={columnColor}
         icon={icon}
+        setIsOptionsOpen={setIsOptionsOpen}
       />
     </>
   );

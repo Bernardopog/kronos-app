@@ -75,7 +75,7 @@ export default function KanbanColumn({
           ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
         `}
       >
-        <KanbanColumnOption column={column} />
+        <KanbanColumnOption column={column} setIsOptionsOpen={setIsOptionsOpen} />
       </Inert>
       <section
         style={{ backgroundColor: `${colorBody}` }}
