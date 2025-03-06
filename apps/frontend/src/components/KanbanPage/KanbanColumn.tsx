@@ -77,7 +77,9 @@ export default function KanbanColumn({
           <input
             type="text"
             value={columnName}
-            className="w-[60%] font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 bg-transparent ease-in-out duration-300 truncate"
+            className={`w-[60%] font-bold text-2xl bg-transparent ease-in-out duration-300 truncate
+              ${(column.color?.[2] ?? 0) > 60 ? "text-woodsmoke-950 dark:text-woodsmoke-950" : "text-woodsmoke-50 dark:text-woodsmoke-50"}
+            `}
             onChange={(ev) => setColumnName(ev.target.value)}
             onBlur={() => {
               updateColumn(column.id, { ...column, columnName: columnName });
