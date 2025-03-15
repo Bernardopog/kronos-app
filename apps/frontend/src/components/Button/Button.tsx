@@ -25,6 +25,7 @@ export default function Button({
 }: IButtonProps) {
   return (
     <button
+      title={ariaLabel ?? ""}
       onClick={action}
       aria-label={ariaLabel}
       className={`btn-base active:brightness-75 ${extraStyles?.button}`}
