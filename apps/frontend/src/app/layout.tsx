@@ -37,7 +37,7 @@ export default function RootLayout({
                 <KanbanProvider>
                   <ModalProvider>
                     <body
-                      className={`grid min-h-screen main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                      className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
                     >
                       <Modal />
                       <Header />
