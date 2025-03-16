@@ -72,6 +72,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
       kanbanId: selectedKanban?.id ?? "",
       columnName: title,
       tasksId: [],
+      color: [0, 0, 10],
     };
 
     selectedKanban?.columnsId.push(newColumnId);

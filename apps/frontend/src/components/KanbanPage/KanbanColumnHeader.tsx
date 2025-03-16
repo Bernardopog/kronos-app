@@ -33,9 +33,7 @@ export default function KanbanColumnHeader({
       style={{
         backgroundColor: `${colorHeader}`,
       }}
-      className="flex items-center justify-between h-12 px-4 bg-woodsmoke-100 ease-in-out duration-300
-      dark:bg-woodsmoke-950
-      "
+      className="flex items-center justify-between h-12 px-4 ease-in-out duration-300"
     >
       <div className="flex items-center gap-x-2">
         {column.icon && (

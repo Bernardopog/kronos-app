@@ -3,7 +3,7 @@ export interface IColumn {
   columnName: string;
   tasksId: string[];
   kanbanId: string;
-  color?: number[];
+  color: number[];
   icon?: string;
 }
 
@@ -29,6 +29,7 @@ const mockColumnList: IColumn[] = [
     columnName: "Done",
     tasksId: ["h2q72", "1x9f2"],
     kanbanId: "1234567890abcdef",
+    color: [100, 50, 50],
   },
 ];
 
