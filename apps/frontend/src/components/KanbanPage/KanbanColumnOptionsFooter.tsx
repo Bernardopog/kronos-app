@@ -25,9 +25,23 @@ export default function KanbanColumnOptionsFooter({
       dark:bg-woodsmoke-900"
     >
       <Button
-        label="Atualizar"
+        label="Deletar"
         extraStyles={{
           button: `w-full rounded-none rounded-bl-lg text-woodsmoke-950
+            hover:bg-poppy-600
+            dark:text-woodsmoke-100
+            dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+          `,
+        }}
+        icon={<AiFillDelete />}
+        action={() => {
+          deleteColumn(column.id);
+        }}
+      />
+      <Button
+        label="Atualizar"
+        extraStyles={{
+          button: `w-full rounded-none rounded-br-lg text-woodsmoke-950
             hover:bg-crud-update-light
             dark:text-woodsmoke-100 
             dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25
@@ -41,20 +55,6 @@ export default function KanbanColumnOptionsFooter({
             icon: icon,
           });
           setIsOptionsOpen(false);
-        }}
-      />
-      <Button
-        label="Deletar"
-        extraStyles={{
-          button: `w-full rounded-none rounded-br-lg text-woodsmoke-950
-            hover:bg-poppy-600
-            dark:text-woodsmoke-100
-            dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
-          `,
-        }}
-        icon={<AiFillDelete />}
-        action={() => {
-          deleteColumn(column.id);
         }}
       />
     </div>
