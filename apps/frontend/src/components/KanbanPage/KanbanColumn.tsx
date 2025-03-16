@@ -53,9 +53,10 @@ export default function KanbanColumn({
         setIsDragOver(false);
         dragDrop(ev, column.id);
       }}
-      className={`min-w-80 max-w-80 min-h-[85vh] max-h-[85vh] rounded-lg border border-woodsmoke-200 overflow-clip duration-300 ease-in-out
+      className={`min-w-80 max-w-80 min-h-[460px] h-[100dvh] max-h-[calc(100%-6rem)] rounded-lg border border-woodsmoke-200 overflow-clip duration-300 ease-in-out
       dark:border-woodsmoke-800
       hover:shadow-btn hover:shadow-woodsmoke-800/25
+      lg:min-h-[85vh] lg:max-h-[85vh]
       ${isDragOver && "shadow-btn shadow-woodsmoke-800/50"}
     `}
     >
@@ -72,14 +73,17 @@ export default function KanbanColumn({
         value={isOptionsOpen}
         style={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
           dark:bg-woodsmoke-925
-          ${isOptionsOpen ? "h-full p-2 blur-0" : "h-0 blur-sm"}
+          ${isOptionsOpen ? "h-full p-2 lg:blur-0" : "h-0 lg:blur-sm"}
         `}
       >
-        <KanbanColumnOption column={column} setIsOptionsOpen={setIsOptionsOpen} />
+        <KanbanColumnOption
+          column={column}
+          setIsOptionsOpen={setIsOptionsOpen}
+        />
       </Inert>
       <section
         style={{ backgroundColor: `${colorBody}` }}
-        className={`h-full
+        className={`min-h-[508px] h-[calc(100vh-14rem)] lg:h-full
         ${index === 0 && "pt-2"}
       `}
       >
@@ -103,7 +107,11 @@ export default function KanbanColumn({
             label="Criar nova Tarefa"
           />
         )}
-        <ul className="flex flex-col gap-2 h-[calc(100vh-18rem)] p-2 overflow-y-auto scrollbar-none">
+        <ul
+          className="flex flex-col gap-2 h-[calc(100vh-18rem)] p-2 overflow-y-auto scrollbar-none
+          lg:gap-2
+        "
+        >
           {taskList
             .filter((task) => column.tasksId.includes(task.id))
             .map((task) => (
