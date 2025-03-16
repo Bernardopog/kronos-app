@@ -34,7 +34,7 @@ export default function KanbanColumnOption({
             }}
             className="size-12 rounded-lg"
           />
-          <p className="text-white">{`hsl(${hue}, ${saturation}%, ${lightness}%)`}</p>
+          <p className="text-woodsmoke-950 dark:text-woodsmoke-100">{`hsl(${hue}, ${saturation}%, ${lightness}%)`}</p>
         </div>
         <ColorPicker
           hue={hue}
@@ -67,7 +67,6 @@ export default function KanbanColumnOption({
                   `,
                 }}
                 action={() => {
-                  console.log(iconkey);
                   setIcon(iconkey);
                 }}
                 icon={icons[iconkey as keyof typeof icons]}

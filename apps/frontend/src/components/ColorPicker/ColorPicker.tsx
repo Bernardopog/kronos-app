@@ -1,5 +1,5 @@
 import ColorPickerInputRange from "./ColorPickerInputRange";
-import ColorPickerInputText from "./ColorPickerInputText";
+import ColorPickerInput from "./ColorPickerInput";
 
 interface IColorPicker {
   hue: number;
@@ -18,39 +18,53 @@ export default function ColorPicker({
   setSaturation,
   setLightness,
 }: IColorPicker) {
+  const numberRegex: RegExp = /^[0-9]+$/;
+
   const changeHue = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(ev.target.value) > 360 || Number(ev.target.value) < 0) return;
-    else setHue(parseInt(ev.target.value));
+    const value = Number(ev.target.value);
+
+    if (numberRegex.test(ev.target.value) === false) return;
+
+    if (value > 360 || value < 0) return;
+    else setHue(value);
   };
 
   const changeSaturation = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(ev.target.value) > 100 || Number(ev.target.value) < 0) return;
-    else setSaturation(parseInt(ev.target.value));
+    const value = Number(ev.target.value);
+
+    if (numberRegex.test(ev.target.value) === false) return;
+
+    if (value > 100 || value < 0) return;
+    else setSaturation(value);
   };
 
   const changeLightness = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(ev.target.value) > 100 || Number(ev.target.value) < 0) return;
-    else setLightness(parseInt(ev.target.value));
+    const value = Number(ev.target.value);
+
+    if (numberRegex.test(ev.target.value) === false) return;
+
+    if (value > 100 || value < 0) return;
+    else setLightness(value);
   };
 
   return (
     <>
       <div className="flex justify-between gap-x-1 my-2 p-1 border rounded-lg border-woodsmoke-800">
-        <ColorPickerInputText
+        <ColorPickerInput
           name="Hue"
           unit="°"
           value={hue}
           action={changeHue}
           ariaLabel={"Matiz"}
         />
-        <ColorPickerInputText
+        <ColorPickerInput
           name="Sat"
           unit="%"
           value={saturation}
           action={changeSaturation}
           ariaLabel={"Saturação"}
         />
-        <ColorPickerInputText
+        <ColorPickerInput
           name="Lgt"
           unit="%"
           value={lightness}
