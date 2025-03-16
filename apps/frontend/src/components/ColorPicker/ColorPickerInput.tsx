@@ -6,7 +6,7 @@ interface IColorPickerInputTextProps {
   ariaLabel: string;
 }
 
-export default function ColorPickerInputText({
+export default function ColorPickerInput({
   name,
   unit,
   value,
@@ -16,11 +16,13 @@ export default function ColorPickerInputText({
   return (
     <>
       <div className="flex gap-x-2">
-        <span className="select-none text-woodsmoke-400">{name}:</span>
+        <span className="select-none text-woodsmoke-700 dark:text-woodsmoke-400">
+          {name}:
+        </span>
         <input
           aria-label={ariaLabel}
-          className="w-2/6 bg-transparent text-woodsmoke-100 text-right"
-          type="text"
+          className="w-2/6 bg-transparent text-right text-woodsmoke-950 dark:text-woodsmoke-100"
+          type="number"
           value={value}
           onChange={(ev) => action(ev)}
         />
