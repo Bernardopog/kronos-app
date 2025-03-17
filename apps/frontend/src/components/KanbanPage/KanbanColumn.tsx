@@ -90,7 +90,7 @@ export default function KanbanColumn({
         {index === 0 && (
           <Button
             extraStyles={{
-              button: `h-20 w-[calc(100%-1rem)] mx-2 border-dashed rounded-lg text-woodsmoke-900
+              button: `min-h-16 w-[calc(100%-1rem)] mx-2 border-dashed rounded-lg text-woodsmoke-900
                   dark:text-woodsmoke-200
                   hover:bg-apple-600
                   dark:hover:shadow-btn dark:hover:shadow-apple-600/25
