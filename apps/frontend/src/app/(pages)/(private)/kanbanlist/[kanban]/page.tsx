@@ -1,6 +1,8 @@
 "use client";
 import Button from "@/components/Button/Button";
+import Inert from "@/components/Inert/Inert";
 import KanbanColumn from "@/components/KanbanPage/KanbanColumn";
+import KanbanModal from "@/components/Modal/KanbanModal/KanbanModal";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import { useParams } from "next/navigation";
@@ -14,6 +16,7 @@ export default function Kanban() {
     columnList,
     updateKanban,
     updateColumnDragAndDrop,
+    isTaskModalOpen,
   } = useContext(KanbanContext);
   const { toggleModal } = useContext(ModalContext);
 
@@ -102,7 +105,16 @@ export default function Kanban() {
           }}
         />
       </header>
-      <div className="flex h-full gap-4">
+      <Inert
+        style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/75 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
+        dark:bg-woodsmoke-950/75 dark:text-woodsmoke-100
+        ${isTaskModalOpen ? "h-full px-8 py-16" : "h-0 p-0"}
+      `}
+        value={true}
+      >
+        <KanbanModal />
+      </Inert>
+      <div className="flex h-full gap-2">
         {columnList
           .filter((column) => column.kanbanId === kanbanId)
           .map((column, index) => (

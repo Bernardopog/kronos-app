@@ -1,8 +1,9 @@
 import { IKanbanTask } from "@/mock/kanban/mockKanbanTasks";
-import { DragEvent } from "react";
+import { DragEvent, useContext } from "react";
 
 import { AiOutlineRead } from "react-icons/ai";
 import Button from "../Button/Button";
+import { KanbanContext } from "@/context/KanbanContext";
 
 interface IKanbanTaskProps {
   task: IKanbanTask;
@@ -19,6 +20,8 @@ export default function KanbanTask({
   dragStart,
   columnId,
 }: IKanbanTaskProps) {
+  const { selectKanbanTask, toggleTaskModal } = useContext(KanbanContext);
+
   return (
     <li
       draggable="true"
@@ -33,7 +36,10 @@ export default function KanbanTask({
         {task?.taskName}
       </h3>
       <Button
-        action={() => {}}
+        action={() => {
+          selectKanbanTask(task.id);
+          toggleTaskModal();
+        }}
         ariaLabel="Visualizar Tarefa"
         extraStyles={{
           button: `absolute right-2 text-woodsmoke-800 

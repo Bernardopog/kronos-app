@@ -20,7 +20,9 @@ interface IKanbanContext {
   columnList: IColumn[];
   taskList: IKanbanTask[];
   selectedKanban: IKanban | null;
+  selectedKanbanTask: IKanbanTask | null;
   selectKanban: (id: string) => void;
+  selectKanbanTask: (id: string) => void;
   createKanban: (title: string) => IKanban;
   createColumn: (title: string) => void;
   createTask: ({ taskName, description, priority }: CreateTask) => void;
@@ -34,6 +36,9 @@ interface IKanbanContext {
   deleteKanban: (id: string) => void;
   deleteColumn: (id: string) => void;
   deleteTask: (id: string) => void;
+
+  toggleTaskModal: () => void;
+  isTaskModalOpen: boolean;
 }
 
 const KanbanContext = createContext({} as IKanbanContext);
@@ -44,12 +49,23 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   const [taskList, setTaskList] = useState<IKanbanTask[]>(mockKanbanTaskList);
 
   const [selectedKanban, setSelectedKanban] = useState<IKanban | null>(null);
+  const [selectedKanbanTask, setSelectedKanbanTask] =
+    useState<IKanbanTask | null>(null);
+
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false);
 
   const selectKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
     if (!kanban) return;
 
     setSelectedKanban(kanban);
+  };
+
+  const selectKanbanTask = (id: string) => {
+    const kanbanTask = taskList.find((task) => task.id === id);
+    if (!kanbanTask) return;
+
+    setSelectedKanbanTask(kanbanTask);
   };
 
   const createKanban = (title: string): IKanban => {
@@ -177,6 +193,10 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setColumnList([...columnList]);
   };
 
+  const toggleTaskModal = () => {
+    setIsTaskModalOpen(!isTaskModalOpen);
+  };
+
   return (
     <KanbanContext.Provider
       value={{
@@ -184,7 +204,9 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         columnList,
         taskList,
         selectedKanban,
+        selectedKanbanTask,
         selectKanban,
+        selectKanbanTask,
         createKanban,
         createColumn,
         createTask,
@@ -194,6 +216,8 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         deleteKanban,
         deleteColumn,
         deleteTask,
+        toggleTaskModal,
+        isTaskModalOpen,
       }}
     >
       {children.children}
