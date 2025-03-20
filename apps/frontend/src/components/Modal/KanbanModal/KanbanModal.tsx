@@ -11,7 +11,12 @@ import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { IKanbanTask, TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { AiOutlineClose, AiOutlineSave } from "react-icons/ai";
+import {
+  AiOutlineCheck,
+  AiOutlineClose,
+  AiOutlineDelete,
+  AiOutlineSave,
+} from "react-icons/ai";
 
 export default function KanbanModal() {
   const {
@@ -20,6 +25,7 @@ export default function KanbanModal() {
     columnList,
     updateColumnDragAndDrop,
     updateTask,
+    deleteTask,
   } = useContext(KanbanContext);
 
   const [newTaskName, setNewTaskName] = useState<string>("");
@@ -35,6 +41,7 @@ export default function KanbanModal() {
     useState<boolean>(false);
   const [isEditingDescription, setIsEditingDescription] =
     useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   useEffect(() => {
     setNewTaskName(selectedKanbanTask?.taskName ?? "");
@@ -124,6 +131,47 @@ export default function KanbanModal() {
         </section>
       )}
       <footer className="flex justify-end relative right-0 bottom-8 h-12 w-full mb-2 py-1 gap-x-4">
+        {confirmDelete ? (
+          <div className="flex mr-auto gap-x-2">
+            <Button
+              action={() => setConfirmDelete(false)}
+              ariaLabel="Cancelar Deleção"
+              extraStyles={{
+                button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
+            hover:bg-crud-create-light
+            dark:hover:shadow-btn dark:hover:shadow-crud-create-light/25`,
+              }}
+              icon={<AiOutlineClose />}
+            />
+            <Button
+              action={() => {
+                deleteTask(selectedKanbanTask!.id);
+                setConfirmDelete(false);
+                toggleTaskModal();
+                resetFields();
+              }}
+              ariaLabel="Confirmar Deleção"
+              extraStyles={{
+                button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
+          hover:bg-crud-delete-light
+          dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25`,
+              }}
+              icon={<AiOutlineCheck />}
+            />
+          </div>
+        ) : (
+          <Button
+            action={() => setConfirmDelete(true)}
+            label="Deletar"
+            extraStyles={{
+              button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
+            hover:bg-crud-delete-light
+            dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25`,
+            }}
+            icon={<AiOutlineDelete />}
+          />
+        )}
+
         <Button
           action={() => {
             toggleTaskModal();
