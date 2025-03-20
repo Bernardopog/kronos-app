@@ -13,6 +13,7 @@ interface IButtonProps {
     button?: string;
     icon?: string;
   };
+  type?: "submit" | "button";
 }
 
 export default function Button({
@@ -22,6 +23,7 @@ export default function Button({
   ariaLabel,
   icon,
   extraStyles,
+  type,
 }: IButtonProps) {
   return (
     <button
@@ -29,7 +31,7 @@ export default function Button({
       onClick={action}
       aria-label={ariaLabel}
       className={`btn-base active:brightness-75 ${extraStyles?.button}`}
-      type="button"
+      type={type ?? "button"}
     >
       {(children || icon) && (
         <span className={`text-2xl ${extraStyles?.icon}`}>
