@@ -106,11 +106,11 @@ export default function Kanban() {
         />
       </header>
       <Inert
-        style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/75 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
-        dark:bg-woodsmoke-950/75 dark:text-woodsmoke-100
-        ${isTaskModalOpen ? "h-full px-8 py-16" : "h-0 p-0"}
+        style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
+        dark:bg-woodsmoke-950/90 dark:text-woodsmoke-100
+        ${isTaskModalOpen ? "h-full px-2 py-8 lg:pl-8 lg:pr-0" : "h-0 p-0"}
       `}
-        value={true}
+        value={isTaskModalOpen}
       >
         <KanbanModal />
       </Inert>
