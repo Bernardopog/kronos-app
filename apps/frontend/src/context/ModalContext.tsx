@@ -20,6 +20,7 @@ type ModalContent =
   | "kanbanCreateColumn"
   | "kanbanCreateTask"
   | "kanbanDelete"
+  | "kanbanColumnDelete"
   | "none";
 
 interface IModalData {
@@ -32,7 +33,8 @@ interface IModalContext {
   isModalOpen: boolean;
   modalData: IModalData | null;
   modalRef: RefObject<HTMLDivElement | null>;
-  toggleModal: (modalData: IModalData | null) => void;
+  fromId: string;
+  toggleModal: (modalData: IModalData | null, dataId?: string) => void;
   changeModalData: (modalData: IModalData) => void;
 }
 
@@ -41,6 +43,7 @@ const ModalContext = createContext({} as IModalContext);
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalData, setModalData] = useState<IModalData | null>(null);
+  const [fromId, setFromId] = useState<string>("");
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +52,8 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
    * If called with an argument, it also updates the modalData state.
    * @param {IModalData | null} modalData The modal data to update if the modal is being opened.
    */
-  const toggleModal = (modalData: IModalData | null) => {
+  const toggleModal = (modalData: IModalData | null, dataId?: string) => {
+    if (dataId) setFromId(dataId);
     setIsModalOpen(!isModalOpen);
     if (modalData) setModalData(modalData);
     setTimeout(() => {
@@ -69,6 +73,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         toggleModal,
         changeModalData,
         modalRef,
+        fromId,
       }}
     >
       {children}

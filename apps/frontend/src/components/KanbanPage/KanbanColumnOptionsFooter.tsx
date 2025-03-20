@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
+import { ModalContext } from "@/context/ModalContext";
 
 interface IKanbanColumnOptionsFooterProps {
   column: IColumn;
@@ -17,7 +18,8 @@ export default function KanbanColumnOptionsFooter({
   icon,
   setIsOptionsOpen,
 }: IKanbanColumnOptionsFooterProps) {
-  const { deleteColumn, updateColumn } = useContext(KanbanContext);
+  const { updateColumn } = useContext(KanbanContext);
+  const { toggleModal } = useContext(ModalContext);
 
   return (
     <div
@@ -35,7 +37,14 @@ export default function KanbanColumnOptionsFooter({
         }}
         icon={<AiFillDelete />}
         action={() => {
-          deleteColumn(column.id);
+          toggleModal(
+            {
+              type: "delete",
+              headerTitle: "Deletar Coluna",
+              content: "kanbanColumnDelete",
+            },
+            column.id
+          );
         }}
       />
       <Button
