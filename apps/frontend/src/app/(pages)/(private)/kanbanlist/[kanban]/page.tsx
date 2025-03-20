@@ -98,7 +98,7 @@ export default function Kanban() {
           }}
           icon={<AiFillDelete />}
           extraStyles={{
-            button: `text-woodsmoke-800
+            button: `fixed right-4 text-woodsmoke-800
               dark:text-woodsmoke-200 
               hover:bg-poppy-600 
               dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
