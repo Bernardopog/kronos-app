@@ -33,6 +33,7 @@ interface IKanbanContext {
     originalColumnId: string
   ) => void;
   updateColumn: (id: string, data: IColumn) => void;
+  updateTask: (id: string, data: IKanbanTask) => void;
   deleteKanban: (id: string) => void;
   deleteColumn: (id: string) => void;
   deleteTask: (id: string) => void;
@@ -150,6 +151,22 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setColumnList([...columnList]);
   };
 
+  const updateColumn = (id: string, data: IColumn) => {
+    const columnIndex = columnList.findIndex((column) => column.id === id);
+    if (columnIndex === -1) return;
+
+    columnList[columnIndex] = data;
+    setColumnList([...columnList]);
+  };
+
+  const updateTask = (id: string, data: IKanbanTask) => {
+    const taskIndex = taskList.findIndex((task) => task.id === id);
+    if (taskIndex === -1) return;
+
+    taskList[taskIndex] = data;
+    setTaskList([...taskList]);
+  };
+
   const deleteTask = (taskId: string) => {
     const taskIndex = taskList.findIndex((task) => task.id === taskId);
     if (taskIndex === -1) return;
@@ -185,14 +202,6 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setKanbanList(kanbanList.filter((kanban) => kanban.id !== id));
   };
 
-  const updateColumn = (id: string, data: IColumn) => {
-    const columnIndex = columnList.findIndex((column) => column.id === id);
-    if (columnIndex === -1) return;
-
-    columnList[columnIndex] = data;
-    setColumnList([...columnList]);
-  };
-
   const toggleTaskModal = () => {
     setIsTaskModalOpen(!isTaskModalOpen);
   };
@@ -213,6 +222,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         updateKanban,
         updateColumnDragAndDrop,
         updateColumn,
+        updateTask,
         deleteKanban,
         deleteColumn,
         deleteTask,
