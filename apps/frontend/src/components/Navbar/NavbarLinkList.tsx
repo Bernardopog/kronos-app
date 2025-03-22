@@ -1,13 +1,16 @@
 "use client";
 import { NavbarContext } from "@/context/NavbarContext";
-import linkList from "@/shared/linkList";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
+import NavbarLinkListItem from "./NavbarLinkListItem";
+import Divider from "../Divider/Divider";
+import { BsFileText, BsKanban, BsListCheck } from "react-icons/bs";
+import { AiOutlineForm, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function NavbarLinkList() {
-  const { currentPage, selectCurrentPage, selectedLink, selectLink } =
-    useContext(NavbarContext);
+  const { currentPage, selectLink } = useContext(NavbarContext);
+  const { user, logout } = useContext(AuthContext);
 
   const pathname = usePathname();
 
@@ -22,43 +25,59 @@ export default function NavbarLinkList() {
   return (
     <ul
       className="
-      flex w-full
-      lg:flex-col lg:items-end lg:pt-16 lg:gap-y-2
+      link-list lg:pt-12
     "
     >
-      {linkList.map((link) => (
-        <li
-          className="
-            flex items-center justify-center h-full w-2/6 rounded-none 
-            lg:w-auto lg:rounded-l-lg
-          "
-          key={link.name}
-          onClick={() => {
-            selectCurrentPage(link.name);
-          }}
-        >
-          <Link
-            href={link.path}
-            className={`
-              flex justify-center size-full p-2 gap-x-12 font-bold text-2xl text-nowrap duration-300
-              lg:justify-end lg:rounded-l-lg lg:pr-0.5
-              ${
-                selectedLink === link.name
-                  ? "bg-woodsmoke-50 text-woodsmoke-950 dark:bg-woodsmoke-925 dark:text-woodsmoke-50"
-                  : `
-              bg-woodsmoke-200 text-woodsmoke-800 
-              hover:bg-woodsmoke-100 
-              dark:bg-woodsmoke-950 dark:text-woodsmoke-600 
-              dark:hover:bg-woodsmoke-950 dark:hover:text-woodsmoke-300
-              `
-              }
-            `}
-          >
-            <span className="hidden lg:inline">{link.label}</span>
-            <span className="text-3xl">{link.icon}</span>
-          </Link>
-        </li>
-      ))}
+      {user && (
+        <>
+          <NavbarLinkListItem
+            name="kanban"
+            link="/kanbanlist"
+            icon={<BsKanban />}
+            label="Kanban"
+          />
+          <NavbarLinkListItem
+            name="todo"
+            link="/todo"
+            icon={<BsListCheck />}
+            label="Tarefas"
+          />
+          <NavbarLinkListItem
+            name="note"
+            link="/note"
+            icon={<BsFileText />}
+            label="Notas"
+          />
+          <li className="hidden w-full h-fit lg:block">
+            <Divider className="bg-woodsmoke-300" />
+          </li>
+        </>
+      )}
+      {!user && (
+        <>
+          <NavbarLinkListItem
+            name="signin"
+            link="/signin"
+            icon={<AiOutlineLogin />}
+            label="Entrar"
+          />
+          <NavbarLinkListItem
+            name="signup"
+            link="/signup"
+            icon={<AiOutlineForm />}
+            label="Registrar"
+          />
+        </>
+      )}
+      {user && (
+        <NavbarLinkListItem
+          name="signout"
+          link="/signin"
+          icon={<AiOutlineLogout />}
+          label="Sair"
+          action={() => logout()}
+        />
+      )}
     </ul>
   );
 }
