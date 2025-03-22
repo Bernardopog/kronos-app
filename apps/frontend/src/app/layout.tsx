@@ -11,6 +11,7 @@ import { ModalProvider } from "@/context/ModalContext";
 import { DeviceScreenProvider } from "@/context/DeviceScreenContext";
 import { NoteProvider } from "@/context/NoteContext";
 import { KanbanProvider } from "@/context/KanbanContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -29,28 +30,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <DeviceScreenProvider>
-        <NavbarProvider>
-          <ToDoProvider>
-            <ToDoCategoryProvider>
-              <NoteProvider>
-                <KanbanProvider>
-                  <ModalProvider>
-                    <body
-                      className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
-                    >
-                      <Modal />
-                      <Header />
-                      <Navbar />
-                      {children}
-                    </body>
-                  </ModalProvider>
-                </KanbanProvider>
-              </NoteProvider>
-            </ToDoCategoryProvider>
-          </ToDoProvider>
-        </NavbarProvider>
-      </DeviceScreenProvider>
+      <AuthProvider>
+        <DeviceScreenProvider>
+          <NavbarProvider>
+            <ToDoProvider>
+              <ToDoCategoryProvider>
+                <NoteProvider>
+                  <KanbanProvider>
+                    <ModalProvider>
+                      <body
+                        className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                      >
+                        <Modal />
+                        <Header />
+                        <Navbar />
+                        {children}
+                      </body>
+                    </ModalProvider>
+                  </KanbanProvider>
+                </NoteProvider>
+              </ToDoCategoryProvider>
+            </ToDoProvider>
+          </NavbarProvider>
+        </DeviceScreenProvider>
+      </AuthProvider>
     </html>
   );
 }
