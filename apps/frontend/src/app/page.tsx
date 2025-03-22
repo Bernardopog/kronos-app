@@ -1,4 +1,5 @@
 import HomeCard from "@/components/Card/HomeCard";
+import WelcomeMessage from "@/components/WelcomeMessage";
 import linkList from "@/shared/linkList";
 
 export default function Home() {
@@ -11,15 +12,12 @@ export default function Home() {
       id="main"
     >
       <header className="px-8 py-4">
-        <h2 className="text-[2rem] text-woodsmoke-950 dark:text-woodsmoke-50">
-          Olá, <span className="font-bold">John Doe</span>, seja bem-vindo!
-        </h2>
+        <WelcomeMessage />
       </header>
       <section
         className="
-        flex flex-col items-center justify-center h-full gap-8
-        md:gap-4
-        lg:flex-row lg:h-[calc(100%-6rem)]
+        flex flex-col items-center justify-start h-[calc(100%-6rem)] mt-6 gap-8
+        lg:flex-row lg:justify-center lg:h-[calc(100%-7rem)]
       "
       >
         {linkList.map((link, idx) => (

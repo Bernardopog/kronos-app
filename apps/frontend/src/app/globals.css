@@ -13,7 +13,7 @@
 @layer components {
   /* Page Base */
   .page {
-    @apply bg-woodsmoke-50 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;
+    @apply bg-woodsmoke-100 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;
   }
 
   /* Page - Kanban */
