@@ -9,6 +9,7 @@ export interface INote {
   date: { createDate: Date; updateDate?: Date };
   tags: string[];
   icon?: IconsTypes;
+  userId: string;
 }
 
 export const mockNoteList: INote[] = [
@@ -18,8 +19,9 @@ export const mockNoteList: INote[] = [
     description: "Estudar React, estudar sobre Context, Hooks, etc.",
     isFavorite: true,
     date: { createDate: new Date(2024, 11, 5) },
-    tags: [mockTagList[0].id, mockTagList[1].id, mockTagList[2].id],
+    tags: [mockTagList[0].id, mockTagList[1].id],
     icon: "book",
+    userId: "123",
   },
   {
     id: "8a3b5",
@@ -28,6 +30,7 @@ export const mockNoteList: INote[] = [
     isFavorite: false,
     date: { createDate: new Date(2024, 10, 2) },
     tags: [mockTagList[0].id],
+    userId: "123",
   },
   {
     id: "l00pa",
@@ -36,5 +39,6 @@ export const mockNoteList: INote[] = [
     date: { createDate: new Date(2024, 9, 12) },
     tags: [],
     icon: "book",
+    userId: "456",
   },
 ];

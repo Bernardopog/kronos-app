@@ -10,6 +10,7 @@ export interface IToDoTask {
   creationDate: Date;
   isCompleted: boolean;
   category: string | null;
+  userId: string;
 }
 
 export const mockToDoList: IToDoTask[] = [
@@ -21,6 +22,7 @@ export const mockToDoList: IToDoTask[] = [
     creationDate: new Date(2024, 11, 5),
     isCompleted: false,
     category: mockCategoryList[0].id,
+    userId: "123",
   },
   {
     id: "k8a93",
@@ -29,6 +31,7 @@ export const mockToDoList: IToDoTask[] = [
     creationDate: new Date(2024, 10, 26),
     isCompleted: true,
     category: mockCategoryList[0].id,
+    userId: "123",
   },
   {
     id: "hh192",
@@ -38,5 +41,6 @@ export const mockToDoList: IToDoTask[] = [
     creationDate: new Date(2024, 2, 1),
     isCompleted: false,
     category: mockCategoryList[1].id,
+    userId: "456",
   },
 ];
