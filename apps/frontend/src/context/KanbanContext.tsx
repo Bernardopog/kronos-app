@@ -24,6 +24,7 @@ interface CreateTask {
 
 interface IKanbanContext {
   kanbanList: IKanban[];
+  authorizedKanbanList: IKanban[];
   columnList: IColumn[];
   taskList: IKanbanTask[];
   selectedKanban: IKanban | null;
@@ -53,6 +54,8 @@ const KanbanContext = createContext({} as IKanbanContext);
 
 const KanbanProvider = (children: { children: ReactNode }) => {
   const [kanbanList, setKanbanList] = useState<IKanban[]>(mockKanbanList);
+  const [authorizedKanbanList, setAuthorizedKanbanList] =
+    useState<IKanban[]>(mockKanbanList);
   const [columnList, setColumnList] = useState<IColumn[]>(mockColumnList);
   const [taskList, setTaskList] = useState<IKanbanTask[]>(mockKanbanTaskList);
 
@@ -69,6 +72,11 @@ const KanbanProvider = (children: { children: ReactNode }) => {
       setKanbanList((prev) =>
         prev.filter((kanban) => kanban.userId === user.id)
       );
+      setAuthorizedKanbanList(
+        mockKanbanList.filter((kanban) =>
+          kanban.authorizedUserId.some((authUser) => authUser.id === user.id)
+        )
+      );
     } else {
       setKanbanList(mockKanbanList);
     }
@@ -76,9 +84,15 @@ const KanbanProvider = (children: { children: ReactNode }) => {
 
   const selectKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
-    if (!kanban) return;
+    let invitedKanban: IKanban | null = null;
 
-    setSelectedKanban(kanban);
+    if (!kanban) {
+      invitedKanban =
+        authorizedKanbanList.find((kanban) => kanban.id === id) ?? null;
+    }
+
+    if (!kanban && !invitedKanban) return;
+    setSelectedKanban(kanban ?? invitedKanban);
   };
 
   const selectKanbanTask = (id: string) => {
@@ -94,6 +108,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
       title,
       columnsId: [],
       userId: user!.id,
+      authorizedUserId: [],
     };
     mockKanbanList.push(newKanban);
 
@@ -229,6 +244,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     <KanbanContext.Provider
       value={{
         kanbanList,
+        authorizedKanbanList,
         columnList,
         taskList,
         selectedKanban,
