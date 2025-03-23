@@ -4,7 +4,14 @@ import { IconsTypes } from "@/icons/icons";
 import { INote, mockNoteList } from "@/mock/mockNote";
 import { ITag, mockTagList } from "@/mock/mockTagList";
 import IdGenerator from "@/utils/IdGenerator";
-import { createContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { AuthContext } from "./AuthContext";
 
 type FilterFavoriteType = "all" | "favorites" | "notFavorites";
 type FilterTagType = "all" | string;
@@ -56,6 +63,19 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     return note;
   }
 
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    setSelectedNote(null);
+    if (user) {
+      setNoteList((prev) => prev.filter((note) => note.userId === user.id));
+      setTagList((prev) => prev.filter((tag) => tag.userId === user.id));
+    } else {
+      setNoteList(mockNoteList);
+      setTagList(mockTagList);
+    }
+  }, [user]);
+
   const toggleList = (type: "close" | "open") => {
     if (type === "open") {
       setIsListShow(true);
@@ -90,7 +110,11 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       },
       description: "",
       tags: [],
+      userId: user!.id,
     };
+
+    mockNoteList.push(newNote);
+
     setNoteList([...noteList, newNote]);
     setSelectedNote(newNote);
   };
@@ -173,7 +197,15 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const createTag = (tagName: string) => {
-    setTagList([...tagList, { id: new IdGenerator(8).id, tagName }]);
+    const newTag: ITag = {
+      id: new IdGenerator(8).id,
+      tagName,
+      userId: user!.id,
+    };
+
+    mockTagList.push(newTag);
+
+    setTagList([...tagList, newTag]);
   };
 
   const deleteTag = (id: string) => {

@@ -2,13 +2,20 @@
 
 import { ICategory, mockCategoryList } from "@/mock/mockCategoryList";
 import IdGenerator from "@/utils/IdGenerator";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { ToDoContext } from "./ToDoContext";
+import { AuthContext } from "./AuthContext";
 
 interface IToDoCategoryContext {
   categoryList: ICategory[];
-  selectedCategory: ICategory | null;
-  selectCategory: (category: ICategory) => void;
+  selectedCategory: Partial<ICategory> | ICategory | null;
+  selectCategory: (category: Partial<ICategory>) => void;
   createCategory: (title: string) => void;
   updateCategory: (id: string, newTitle: string) => void;
   deleteCategory: (id: string) => void;
@@ -21,16 +28,36 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
 
   const [categoryList, setCategoryList] =
     useState<ICategory[]>(mockCategoryList);
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
-    null
-  );
+  const [selectedCategory, setSelectedCategory] = useState<
+    Partial<ICategory> | ICategory | null
+  >(null);
 
-  const selectCategory = (category: ICategory) => {
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      setCategoryList((prev) =>
+        prev.filter((category) => category.userId === user.id)
+      );
+    } else {
+      setCategoryList(mockCategoryList);
+    }
+  }, [user]);
+
+  const selectCategory = (category: Partial<ICategory>) => {
     setSelectedCategory(category);
   };
 
   const createCategory = (title: string) => {
-    setCategoryList([...categoryList, { id: new IdGenerator(8).id, title }]);
+    const newCategory: ICategory = {
+      id: new IdGenerator(8).id,
+      title,
+      userId: user!.id,
+    };
+
+    mockCategoryList.push(newCategory);
+
+    setCategoryList([...categoryList, newCategory]);
   };
   const updateCategory = (id: string, newTitle: string) => {
     const targetCategory = categoryList.find((category) => category.id === id);

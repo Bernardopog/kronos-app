@@ -2,7 +2,8 @@
 
 import { IToDoTask, mockToDoList } from "@/mock/mockToDoList";
 import IdGenerator from "@/utils/IdGenerator";
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
@@ -60,6 +61,17 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [generalShowControl, setGeneralShowControl] = useState<boolean>(false);
 
   const [recentList, setRecentList] = useState<IToDoRecentList[]>([]);
+
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      setToDoTaskList((prev) => prev.filter((task) => task.userId === user.id));
+    } else {
+      setToDoTaskList(mockToDoList);
+      setRecentList([]);
+    }
+  }, [user]);
 
   const changeFilterStatus = (status: FilterStatusType) => {
     setFilterStatus(status);
@@ -129,7 +141,10 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       priority: taskData.priority!,
       description: taskData.description!,
       title: taskData.title!,
+      userId: user!.id,
     };
+
+    mockToDoList.push(newTask);
 
     setToDoTaskList([...toDoTaskList, newTask]);
 

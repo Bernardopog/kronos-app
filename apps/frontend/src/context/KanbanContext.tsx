@@ -7,7 +7,14 @@ import mockKanbanTaskList, {
   TaskPriorityType,
 } from "@/mock/kanban/mockKanbanTasks";
 import IdGenerator from "@/utils/IdGenerator";
-import { createContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { AuthContext } from "./AuthContext";
 
 interface CreateTask {
   taskName: string;
@@ -55,6 +62,18 @@ const KanbanProvider = (children: { children: ReactNode }) => {
 
   const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false);
 
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      setKanbanList((prev) =>
+        prev.filter((kanban) => kanban.userId === user.id)
+      );
+    } else {
+      setKanbanList(mockKanbanList);
+    }
+  }, [user]);
+
   const selectKanban = (id: string) => {
     const kanban = kanbanList.find((kanban) => kanban.id === id);
     if (!kanban) return;
@@ -72,11 +91,11 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   const createKanban = (title: string): IKanban => {
     const newKanban: IKanban = {
       id: new IdGenerator(16).id,
-      creator: "",
       title,
       columnsId: [],
-      autorizedUsers: [],
+      userId: user!.id,
     };
+    mockKanbanList.push(newKanban);
 
     setKanbanList([...kanbanList, newKanban]);
     return newKanban;
