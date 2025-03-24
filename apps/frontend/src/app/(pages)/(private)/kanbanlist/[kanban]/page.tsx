@@ -2,12 +2,16 @@
 import Button from "@/components/Button/Button";
 import Inert from "@/components/Inert/Inert";
 import KanbanColumn from "@/components/KanbanPage/KanbanColumn";
+import KanbanOptions from "@/components/KanbanPage/KanbanOptions";
+import KanbanOptionsTeam from "@/components/KanbanPage/KanbanOptionsTeam";
 import KanbanModal from "@/components/Modal/KanbanModal/KanbanModal";
+import { AuthContext } from "@/context/AuthContext";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
+import { RoleType } from "@/mock/kanban/mockKanbans";
 import { useParams } from "next/navigation";
 import { DragEvent, useContext, useEffect, useRef, useState } from "react";
-import { AiFillDelete, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 export default function Kanban() {
   const {
@@ -20,6 +24,8 @@ export default function Kanban() {
   } = useContext(KanbanContext);
   const { toggleModal } = useContext(ModalContext);
 
+  const { user } = useContext(AuthContext);
+
   const params = useParams();
   const kanbanId = params.kanban as string;
 
@@ -30,6 +36,11 @@ export default function Kanban() {
 
   const [kanbanTitle, setKanbanTitle] = useState<string>("");
   const [editingTitle, setEditingTitle] = useState<boolean>(false);
+
+  const [role, setRole] = useState<RoleType | null>(null);
+
+  const [isKanbanTeamOptionsOpen, setIsKanbanTeamOptionsOpen] =
+    useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,6 +58,24 @@ export default function Kanban() {
     const originalColumnId = ev.dataTransfer.getData("originalColumnId");
     updateColumnDragAndDrop(columnId, itemId, originalColumnId);
   };
+
+  useEffect(() => {
+    const roleInSelectedKanban = selectedKanban?.authorizedUserId.find(
+      (authUser) => authUser.id === user?.id
+    )?.role;
+
+    if (user) {
+      if (selectedKanban?.userId === user.id) {
+        setRole("admin");
+      } else if (roleInSelectedKanban === "admin") {
+        setRole("admin");
+      } else if (roleInSelectedKanban === "write") {
+        setRole("write");
+      } else if (roleInSelectedKanban === "read") {
+        setRole("read");
+      }
+    }
+  }, [selectedKanban?.authorizedUserId, selectedKanban?.userId, user]);
 
   return (
     <main
@@ -76,8 +105,10 @@ export default function Kanban() {
           />
         ) : (
           <h2
-            className="font-bold w-4/5 text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 ease-in-out duration-300 cursor-pointer"
+            className={`font-bold w-4/5 text-2xl text-woodsmoke-950 dark:text-woodsmoke-50 ease-in-out duration-300
+              ${role === "admin" && "cursor-pointer"}`}
             onClick={() => {
+              if (role !== "admin") return;
               setEditingTitle(true);
               setTimeout(() => {
                 inputRef.current?.focus();
@@ -87,23 +118,13 @@ export default function Kanban() {
             {selectedKanban?.title}
           </h2>
         )}
-        <Button
-          ariaLabel="Deletar o respectivo kanban"
-          action={() => {
-            toggleModal({
-              content: "kanbanDelete",
-              type: "delete",
-              headerTitle: "Deletar Kanban",
-            });
-          }}
-          icon={<AiFillDelete />}
-          extraStyles={{
-            button: `fixed right-4 text-woodsmoke-800
-              dark:text-woodsmoke-200 
-              hover:bg-poppy-600 
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
-          }}
-        />
+        {role !== "read" && (
+          <KanbanOptions
+            isKanbanTeamOptionsOpen={isKanbanTeamOptionsOpen}
+            setIsKanbanTeamOptionsOpen={setIsKanbanTeamOptionsOpen}
+            role={role}
+          />
+        )}
       </header>
       <Inert
         style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
@@ -114,6 +135,17 @@ export default function Kanban() {
       >
         <KanbanModal />
       </Inert>
+      {role !== "read" && (
+        <Inert
+          style={`flex flex-col items-center fixed top-28 right-4 z-50 w-64 rounded-lg border-woodsmoke-400 bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
+          dark:bg-woodsmoke-950/90 dark:border-woodsmoke-800 dark:text-woodsmoke-100
+        ${isKanbanTeamOptionsOpen ? "min-h-40 h-[80vh] max-h-[80vh] p-4 border" : "h-0 p-0 border-none"}
+      `}
+          value={isKanbanTeamOptionsOpen}
+        >
+          <KanbanOptionsTeam />
+        </Inert>
+      )}
       <div className="flex h-full gap-2">
         {columnList
           .filter((column) => column.kanbanId === kanbanId)
@@ -124,9 +156,10 @@ export default function Kanban() {
               index={index}
               dragStart={handleDragStart}
               dragDrop={handleDragDrop}
+              role={role}
             />
           ))}
-        {(selectedKanban?.columnsId.length ?? 0) < 8 && (
+        {(selectedKanban?.columnsId.length ?? 0) < 8 && role !== "read" && (
           <Button
             extraStyles={{
               button: `min-w-80 max-w-80 min-h-[460px] h-[100dvh] max-h-[calc(100%-6rem)] border-dashed rounded-lg text-woodsmoke-900

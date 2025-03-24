@@ -4,6 +4,7 @@ import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, useContext } from "react";
 import { AiFillSetting } from "react-icons/ai";
 import Button from "../Button/Button";
+import { RoleType } from "@/mock/kanban/mockKanbans";
 
 interface IKanbanColumnHeaderProps {
   column: IColumn;
@@ -13,6 +14,7 @@ interface IKanbanColumnHeaderProps {
   setIsOptionsOpen: Dispatch<React.SetStateAction<boolean>>;
   isEditingColumnTitle: boolean;
   setEditingIsColumnTitle: Dispatch<React.SetStateAction<boolean>>;
+  role: RoleType | null;
 }
 
 export default function KanbanColumnHeader({
@@ -23,6 +25,7 @@ export default function KanbanColumnHeader({
   setEditingIsColumnTitle,
   isOptionsOpen,
   setIsOptionsOpen,
+  role,
 }: IKanbanColumnHeaderProps) {
   const { updateColumn } = useContext(KanbanContext);
 
@@ -45,15 +48,6 @@ export default function KanbanColumnHeader({
           </span>
         )}
         {isEditingColumnTitle ? (
-          <h2
-            className="text-xl font-medium text-woodsmoke-800 cursor-pointer
-              dark:text-woodsmoke-200 ease-in-out duration-300
-              "
-            onClick={() => setEditingIsColumnTitle(true)}
-          >
-            {column?.columnName}
-          </h2>
-        ) : (
           <input
             type="text"
             value={columnName}
@@ -78,21 +72,39 @@ export default function KanbanColumnHeader({
               }
             }}
           />
+        ) : (
+          <h2
+            className={`text-xl font-medium
+              ease-in-out duration-300
+              ${(column.color?.[2] ?? 0) > 60 ? "text-woodsmoke-950 dark:text-woodsmoke-950" : "text-woodsmoke-50 dark:text-woodsmoke-50"}
+              ${role !== "read" && "cursor-pointer"}
+              `}
+            onClick={() => {
+              if (role === "read") return;
+              setEditingIsColumnTitle(true);
+            }}
+          >
+            {column?.columnName}
+          </h2>
         )}
       </div>
-      <Button
-        action={() => setIsOptionsOpen(!isOptionsOpen)}
-        ariaLabel={isOptionsOpen ? "Fechar Configuração" : "Abrir Configuração"}
-        icon={<AiFillSetting />}
-        extraStyles={{
-          button: `
+      {role !== "read" && (
+        <Button
+          action={() => setIsOptionsOpen(!isOptionsOpen)}
+          ariaLabel={
+            isOptionsOpen ? "Fechar Configuração" : "Abrir Configuração"
+          }
+          icon={<AiFillSetting />}
+          extraStyles={{
+            button: `
             border rounded-full bg-woodsmoke-100 text-woodsmoke-900
             hover:text-woodsmoke-925
             dark:text-woodsmoke-200 dark:bg-woodsmoke-925
             dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
         `,
-        }}
-      />
+          }}
+        />
+      )}
     </header>
   );
 }

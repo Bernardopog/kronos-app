@@ -10,6 +10,7 @@ import { ModalContext } from "@/context/ModalContext";
 import KanbanColumnOption from "./KanbanColumnOption";
 import KanbanColumnHeader from "./KanbanColumnHeader";
 import Inert from "../Inert/Inert";
+import { RoleType } from "@/mock/kanban/mockKanbans";
 
 interface IKanbanColumnProps {
   column: IColumn;
@@ -20,6 +21,7 @@ interface IKanbanColumnProps {
     originalColumnId: string
   ) => void;
   dragDrop: (ev: DragEvent<HTMLElement>, columnId: string) => void;
+  role: RoleType | null;
 }
 
 export default function KanbanColumn({
@@ -27,6 +29,7 @@ export default function KanbanColumn({
   index,
   dragStart,
   dragDrop,
+  role,
 }: IKanbanColumnProps) {
   const { toggleModal } = useContext(ModalContext);
   const { taskList } = useContext(KanbanContext);
@@ -68,26 +71,29 @@ export default function KanbanColumn({
         setIsOptionsOpen={setIsOptionsOpen}
         isEditingColumnTitle={isEditingColumnTitle}
         setEditingIsColumnTitle={setEditingIsColumnTitle}
+        role={role}
       />
-      <Inert
-        value={isOptionsOpen}
-        style={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
+      {role !== "read" && (
+        <Inert
+          value={isOptionsOpen}
+          style={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
           dark:bg-woodsmoke-925
           ${isOptionsOpen ? "h-full p-2 lg:blur-0" : "h-0 lg:blur-sm"}
         `}
-      >
-        <KanbanColumnOption
-          column={column}
-          setIsOptionsOpen={setIsOptionsOpen}
-        />
-      </Inert>
+        >
+          <KanbanColumnOption
+            column={column}
+            setIsOptionsOpen={setIsOptionsOpen}
+          />
+        </Inert>
+      )}
       <section
         style={{ backgroundColor: `${colorBody}` }}
         className={`min-h-[508px] h-[calc(100vh-14rem)] lg:h-full
         ${index === 0 && "pt-2"}
       `}
       >
-        {index === 0 && (
+        {index === 0 && role !== "read" && (
           <Button
             extraStyles={{
               button: `min-h-16 w-[calc(100%-1rem)] mx-2 border-dashed rounded-lg text-woodsmoke-900
@@ -120,6 +126,7 @@ export default function KanbanColumn({
                 task={task}
                 dragStart={dragStart}
                 columnId={column.id}
+                role={role}
               />
             ))}
         </ul>

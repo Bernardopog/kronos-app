@@ -4,6 +4,7 @@ import { DragEvent, useContext } from "react";
 import { AiOutlineRead } from "react-icons/ai";
 import Button from "../Button/Button";
 import { KanbanContext } from "@/context/KanbanContext";
+import { RoleType } from "@/mock/kanban/mockKanbans";
 
 interface IKanbanTaskProps {
   task: IKanbanTask;
@@ -13,12 +14,14 @@ interface IKanbanTaskProps {
     originalColumnId: string
   ) => void;
   columnId: string;
+  role: RoleType | null;
 }
 
 export default function KanbanTask({
   task,
   dragStart,
   columnId,
+  role,
 }: IKanbanTaskProps) {
   const { selectKanbanTask, toggleTaskModal } = useContext(KanbanContext);
 
@@ -38,8 +41,10 @@ export default function KanbanTask({
 
   return (
     <li
-      draggable="true"
-      onDragStart={(ev) => dragStart(ev, task.id, columnId)}
+      draggable={role !== "read"}
+      onDragStart={(ev) => {
+        if (role !== "read") dragStart(ev, task.id, columnId);
+      }}
       className="flex items-center relative min-h-16 rounded-lg border border-woodsmoke-300 bg-woodsmoke-200 overflow-clip ease-in-out duration-300
       dark:border-woodsmoke-700 dark:bg-woodsmoke-950"
     >
@@ -54,21 +59,23 @@ export default function KanbanTask({
       >
         {task?.taskName}
       </h3>
-      <Button
-        action={() => {
-          selectKanbanTask(task.id);
-          toggleTaskModal();
-        }}
-        ariaLabel="Visualizar Tarefa"
-        extraStyles={{
-          button: `absolute right-2 text-woodsmoke-800 
+      {role !== "read" && (
+        <Button
+          action={() => {
+            selectKanbanTask(task.id);
+            toggleTaskModal();
+          }}
+          ariaLabel="Visualizar Tarefa"
+          extraStyles={{
+            button: `absolute right-2 text-woodsmoke-800 
           hover:text-woodsmoke-950
           dark:text-woodsmoke-200
           dark:hover:text-woodsmoke-100 dark:hover:shadow-btn dark:hover:shadow-woodsmoke-300/25
           `,
-        }}
-        icon={<AiOutlineRead />}
-      />
+          }}
+          icon={<AiOutlineRead />}
+        />
+      )}
     </li>
   );
 }
