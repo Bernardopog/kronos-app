@@ -82,7 +82,7 @@ export default function KanbanModal() {
 
   return (
     <form
-      className="max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-400 scrollbar-track-transparent lg:pr-8"
+      className="max-h-[100dvh] overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-400 scrollbar-track-transparent lg:pr-8"
       onSubmit={handleSubmit}
     >
       <Button
