@@ -22,6 +22,20 @@ export default function KanbanTask({
 }: IKanbanTaskProps) {
   const { selectKanbanTask, toggleTaskModal } = useContext(KanbanContext);
 
+  let priorityColor: string = "";
+
+  switch (task.priority) {
+    case "low":
+      priorityColor = "bg-priority-lowest";
+      break;
+    case "medium":
+      priorityColor = "bg-priority-medium";
+      break;
+    case "high":
+      priorityColor = "bg-priority-highest";
+      break;
+  }
+
   return (
     <li
       draggable="true"
@@ -29,6 +43,11 @@ export default function KanbanTask({
       className="flex items-center relative min-h-16 rounded-lg border border-woodsmoke-300 bg-woodsmoke-200 overflow-clip ease-in-out duration-300
       dark:border-woodsmoke-700 dark:bg-woodsmoke-950"
     >
+      <div
+        className={` h-1 w-full absolute top-0
+        ${priorityColor}
+      `}
+      />
       <h3
         className="px-2 text-woodsmoke-800 ease-in-out duration-300 truncate
       dark:text-woodsmoke-200"
