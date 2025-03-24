@@ -19,5 +19,12 @@ export const mockUserList: IUser[] = [
     username: "user2",
     email: "user2@email.com",
     password: "123",
+    displayName: "Jane Doe",
+  },
+  {
+    id: "789",
+    username: "user3",
+    email: "user3@email.com",
+    password: "123",
   },
 ];
