@@ -1,6 +1,10 @@
 "use client";
 
-import mockKanbanList, { IKanban } from "@/mock/kanban/mockKanbans";
+import mockKanbanList, {
+  IAuthorizedUser,
+  IKanban,
+  RoleType,
+} from "@/mock/kanban/mockKanbans";
 import mockColumnList, { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import mockKanbanTaskList, {
   IKanbanTask,
@@ -46,6 +50,10 @@ interface IKanbanContext {
   deleteColumn: (id: string) => void;
   deleteTask: (id: string) => void;
 
+  addUserToKanban: (id: string) => number;
+  removeUserFromKanban: (id: string) => void;
+  changeUserRole: (id: string, role: RoleType) => void;
+
   toggleTaskModal: () => void;
   isTaskModalOpen: boolean;
 }
@@ -65,7 +73,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
 
   const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false);
 
-  const { user } = useContext(AuthContext);
+  const { user, userList } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) {
@@ -240,6 +248,55 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     setIsTaskModalOpen(!isTaskModalOpen);
   };
 
+  const addUserToKanban = (id: string) => {
+    const userFound = userList.find((user) => user.id === id);
+    if (!userFound) return 404;
+
+    const userToAdd: IAuthorizedUser = {
+      id: userFound.id,
+      role: "read",
+    };
+
+    const kanban = mockKanbanList.find(
+      (kanban) => kanban.id === selectedKanban?.id
+    );
+    if (!kanban) return 404;
+
+    const alreadyExist = kanban.authorizedUserId.find((user) => user.id === id);
+    if (alreadyExist) return 400;
+
+    kanban.authorizedUserId.push(userToAdd);
+    setKanbanList([...kanbanList]);
+    return 200;
+  };
+
+  const removeUserFromKanban = (id: string) => {
+    const kanban = mockKanbanList.find((kanban) => {
+      return kanban.id === selectedKanban?.id;
+    });
+    if (!kanban) return;
+
+    kanban.authorizedUserId = kanban.authorizedUserId.filter(
+      (user) => user.id !== id
+    );
+
+    setKanbanList([...kanbanList]);
+    setAuthorizedKanbanList([...authorizedKanbanList]);
+  };
+
+  const changeUserRole = (id: string, role: RoleType) => {
+    const kanban = mockKanbanList.find(
+      (kanban) => kanban.id === selectedKanban?.id
+    );
+    if (!kanban) return;
+
+    const user = kanban.authorizedUserId.find((user) => user.id === id);
+    if (!user) return;
+
+    user.role = role;
+    setKanbanList([...kanbanList]);
+  };
+
   return (
     <KanbanContext.Provider
       value={{
@@ -263,6 +320,9 @@ const KanbanProvider = (children: { children: ReactNode }) => {
         deleteTask,
         toggleTaskModal,
         isTaskModalOpen,
+        addUserToKanban,
+        removeUserFromKanban,
+        changeUserRole,
       }}
     >
       {children.children}

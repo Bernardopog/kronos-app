@@ -9,8 +9,15 @@ import { AuthContext } from "@/context/AuthContext";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import { RoleType } from "@/mock/kanban/mockKanbans";
-import { useParams } from "next/navigation";
-import { DragEvent, useContext, useEffect, useRef, useState } from "react";
+import { redirect, useParams } from "next/navigation";
+import {
+  DragEvent,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 export default function Kanban() {
@@ -58,6 +65,19 @@ export default function Kanban() {
     const originalColumnId = ev.dataTransfer.getData("originalColumnId");
     updateColumnDragAndDrop(columnId, itemId, originalColumnId);
   };
+
+  useLayoutEffect(() => {
+    if (selectedKanban?.userId === user?.id) {
+      return;
+    }
+    if (
+      !selectedKanban?.authorizedUserId.find(
+        (authUser) => authUser.id === user?.id
+      )
+    ) {
+      redirect("/kanbanlist");
+    }
+  }, [selectedKanban, user]);
 
   useEffect(() => {
     const roleInSelectedKanban = selectedKanban?.authorizedUserId.find(
