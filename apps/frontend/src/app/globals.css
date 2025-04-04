@@ -166,3 +166,69 @@
     grid-template-columns: 240px 1fr 32px;
   }
 }
+
+/** Loading */
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.loader::after,
+.loader::before {
+  content: "";
+  background: conic-gradient(
+    from var(--angle),
+    transparent 50%,
+    #e54e4e 25%,
+    #54b125
+  );
+  width: 110%;
+  height: 110%;
+  position: absolute;
+  border-radius: 100%;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  animation: spin 1s linear infinite;
+}
+
+.loader::before {
+  filter: blur(8px);
+}
+
+.loader-title {
+  background: #1a1a1a;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
