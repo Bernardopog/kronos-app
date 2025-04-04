@@ -5,7 +5,6 @@ import Divider from "@/components/Divider/Divider";
 import AuthInput from "@/components/Input/AuthInput";
 import PasswordHint from "@/components/PasswordHint";
 import { AuthContext } from "@/context/AuthContext";
-import IdGenerator from "@/utils/IdGenerator";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FormEvent, useContext, useState } from "react";
@@ -19,13 +18,17 @@ export default function SignUpPage() {
 
   const { signUp, errorStatus } = useContext(AuthContext);
 
-  function handleSubmit(ev: FormEvent) {
+  async function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
 
-    const id = new IdGenerator(16).id;
+    const formatFields = (field: string) => field.trim().toLowerCase();
 
-    const res: boolean = signUp(
-      { id, email, password, username },
+    const res = await signUp(
+      {
+        email: formatFields(email),
+        password,
+        username: formatFields(username),
+      },
       confirmPassword
     );
 
@@ -61,10 +64,11 @@ export default function SignUpPage() {
             placeholder="Digite seu Nome de usuário"
             label="Nome de Usuário"
             error={
-              errorStatus.field === "userName" || errorStatus.field === "all"
+              errorStatus.fields.includes("username") ||
+              errorStatus.fields.includes("all")
             }
             errorMessage={
-              errorStatus.field === "userName" ? errorStatus.message : ""
+              errorStatus.fields.includes("username") ? errorStatus.message : ""
             }
           />
           <AuthInput
@@ -75,9 +79,12 @@ export default function SignUpPage() {
             inputType="email"
             placeholder="Digite seu Email"
             label="Email"
-            error={errorStatus.field === "email" || errorStatus.field === "all"}
+            error={
+              errorStatus.fields.includes("email") ||
+              errorStatus.fields.includes("all")
+            }
             errorMessage={
-              errorStatus.field === "email" ? errorStatus.message : ""
+              errorStatus.fields.includes("email") ? errorStatus.message : ""
             }
           />
           <AuthInput
@@ -89,10 +96,11 @@ export default function SignUpPage() {
             placeholder="Digite sua Senha"
             label="Senha"
             error={
-              errorStatus.field === "password" || errorStatus.field === "all"
+              errorStatus.fields.includes("password") ||
+              errorStatus.fields.includes("all")
             }
             errorMessage={
-              errorStatus.field === "password" ? errorStatus.message : ""
+              errorStatus.fields.includes("password") ? errorStatus.message : ""
             }
           />
           <AuthInput
@@ -104,10 +112,11 @@ export default function SignUpPage() {
             placeholder="Confirme sua Senha"
             label="Confirmar Senha"
             error={
-              errorStatus.field === "password" || errorStatus.field === "all"
+              errorStatus.fields.includes("password") ||
+              errorStatus.fields.includes("all")
             }
             errorMessage={
-              errorStatus.field === "password" ? errorStatus.message : ""
+              errorStatus.fields.includes("password") ? errorStatus.message : ""
             }
           />
           <section className="p-2 border rounded-lg border-woodsmoke-400 text-woodsmoke-800 dark:border-woodsmoke-800 dark:text-woodsmoke-200">
@@ -134,7 +143,7 @@ export default function SignUpPage() {
             />
             <PasswordHint
               pass={numberChar.test(password)}
-              text="Números - [1-9]"
+              text="Números - [0-9]"
             />
             <PasswordHint
               pass={specialChar.test(password)}
@@ -153,7 +162,7 @@ export default function SignUpPage() {
                 `,
               }}
             />
-            {errorStatus.field === "all" && (
+            {errorStatus.fields.includes("all") && (
               <p className="text-sm text-poppy-600">{errorStatus.message}</p>
             )}
           </div>

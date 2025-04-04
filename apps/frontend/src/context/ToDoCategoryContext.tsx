@@ -52,7 +52,7 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
     const newCategory: ICategory = {
       id: new IdGenerator(8).id,
       title,
-      userId: user!.id,
+      userId: user?.id ?? "",
     };
 
     mockCategoryList.push(newCategory);

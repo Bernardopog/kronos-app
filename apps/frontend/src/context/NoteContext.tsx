@@ -110,7 +110,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       },
       description: "",
       tags: [],
-      userId: user!.id,
+      userId: user?.id ?? "",
     };
 
     mockNoteList.push(newNote);
@@ -200,7 +200,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
     const newTag: ITag = {
       id: new IdGenerator(8).id,
       tagName,
-      userId: user!.id,
+      userId: user?.id ?? "",
     };
 
     mockTagList.push(newTag);

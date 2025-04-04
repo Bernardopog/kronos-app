@@ -141,7 +141,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       priority: taskData.priority!,
       description: taskData.description!,
       title: taskData.title!,
-      userId: user!.id,
+      userId: user?.id ?? "",
     };
 
     mockToDoList.push(newTask);

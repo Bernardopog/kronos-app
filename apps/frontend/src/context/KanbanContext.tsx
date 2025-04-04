@@ -115,7 +115,7 @@ const KanbanProvider = (children: { children: ReactNode }) => {
       id: new IdGenerator(16).id,
       title,
       columnsId: [],
-      userId: user!.id,
+      userId: user?.id ?? "",
       authorizedUserId: [],
     };
     mockKanbanList.push(newKanban);

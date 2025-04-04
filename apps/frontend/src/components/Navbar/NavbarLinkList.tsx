@@ -1,6 +1,6 @@
 "use client";
 import { NavbarContext } from "@/context/NavbarContext";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
 import NavbarLinkListItem from "./NavbarLinkListItem";
 import Divider from "../Divider/Divider";
@@ -10,7 +10,7 @@ import { AuthContext } from "@/context/AuthContext";
 
 export default function NavbarLinkList() {
   const { currentPage, selectLink } = useContext(NavbarContext);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const pathname = usePathname();
 
@@ -75,7 +75,7 @@ export default function NavbarLinkList() {
           link="/signin"
           icon={<AiOutlineLogout />}
           label="Sair"
-          action={() => logout()}
+          action={() => redirect("/signout")}
         />
       )}
     </ul>

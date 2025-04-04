@@ -13,10 +13,15 @@ export default function SignInPage() {
 
   const { login, errorStatus } = useContext(AuthContext);
 
-  function handleSubmit(ev: FormEvent) {
+  async function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
 
-    login(email, password);
+    const res = await login(email, password);
+
+    if (res) {
+      setEmail("");
+      setPassword("");
+    }
   }
 
   return (
@@ -37,9 +42,12 @@ export default function SignInPage() {
             inputType="email"
             placeholder="Digite seu Email"
             label="Email"
-            error={errorStatus.field === "email" || errorStatus.field === "all"}
+            error={
+              errorStatus.fields.includes("email") ||
+              errorStatus.fields.includes("all")
+            }
             errorMessage={
-              errorStatus.field === "email" ? errorStatus.message : ""
+              errorStatus.fields.includes("email") ? errorStatus.message : ""
             }
           />
           <AuthInput
@@ -51,10 +59,11 @@ export default function SignInPage() {
             placeholder="Digite sua Senha"
             label="Senha"
             error={
-              errorStatus.field === "password" || errorStatus.field === "all"
+              errorStatus.fields.includes("password") ||
+              errorStatus.fields.includes("all")
             }
             errorMessage={
-              errorStatus.field === "password" ? errorStatus.message : ""
+              errorStatus.fields.includes("password") ? errorStatus.message : ""
             }
           />
           <div className="flex flex-col self-end">
@@ -69,7 +78,7 @@ export default function SignInPage() {
                 `,
               }}
             />
-            {errorStatus.field === "all" && (
+            {errorStatus.fields.includes("all") && (
               <p className="text-sm text-poppy-600">{errorStatus.message}</p>
             )}
           </div>
