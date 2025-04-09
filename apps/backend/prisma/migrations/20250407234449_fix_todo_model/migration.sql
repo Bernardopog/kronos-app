@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Todo" ALTER COLUMN "creationDate" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "isCompleted" SET DEFAULT false;

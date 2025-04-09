@@ -19,4 +19,41 @@ model User {
   email String @unique
   displayName String?
   password String
+
+  todoTask Todo[]
+  todoCategories Category[]
+}
+
+enum TodoPriority {
+  level_0
+  level_1
+  level_2
+  level_3
+  level_4
+  level_5
+}
+
+model Todo {
+  id String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  title String
+  description String?
+  priority TodoPriority
+  creationDate DateTime @default(now())
+  isCompleted Boolean @default(false)
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  categoryId String? @db.Uuid
+  category Category? @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  title String
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  tasks Todo[]
 }
