@@ -1,9 +1,16 @@
 "use client";
 
-import { IToDoTask, mockToDoList } from "@/mock/mockToDoList";
-import IdGenerator from "@/utils/IdGenerator";
+import { IToDoTask } from "@/mock/mockToDoList";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import {
+  createToDoTaskFetch,
+  deleteManyToDoTasksFetch,
+  deleteToDoTaskFetch,
+  getToDoTasksFetch,
+  toggleToDoTaskFetch,
+  updateToDoTaskFetch,
+} from "@/mod/fetchToDo";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
@@ -36,9 +43,9 @@ interface IToDoContext {
   toggleTaskCompletion: (taskToToggle: IToDoTask) => void;
   selectTask: (task: IToDoTask) => void;
   createTask: (taskData: Partial<IToDoTask>) => void;
-  removeTask: (type: string) => void;
-  updateTask: (updatedData: IToDoTask) => void;
+  updateTask: (updatedData: Partial<IToDoTask>) => void;
   deleteSpecificTask: (id: string) => void;
+  deleteManyTasks: (type: "all" | "completed" | "uncompleted") => void;
   recentList: IToDoRecentList[];
 
   deletedCategory: (id: string) => void;
@@ -47,13 +54,15 @@ interface IToDoContext {
 const ToDoContext = createContext({} as IToDoContext);
 
 const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toDoTaskList, setToDoTaskList] = useState<IToDoTask[]>(mockToDoList);
+  const [toDoTaskList, setToDoTaskList] = useState<IToDoTask[]>([]);
   const [selectedTask, setSelectedTask] = useState<IToDoTask | null>(null);
+
   const [filterStatus, setFilterStatus] = useState<FilterStatusType>("all");
   const [filterPriority, setFilterPriority] =
     useState<FilterPriorityType>("all");
   const [filterCategory, setFilterCategory] =
     useState<FilterCategoryType>("all");
+
   const [isFilterShow, setIsFilterShow] = useState<boolean>(false);
   const [isGeneralShow, setIsGeneralShow] = useState<boolean>(false);
 
@@ -66,10 +75,15 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (user) {
-      setToDoTaskList((prev) => prev.filter((task) => task.userId === user.id));
-    } else {
-      setToDoTaskList(mockToDoList);
-      setRecentList([]);
+      const getData = async () => {
+        const data = (await getToDoTasksFetch()) as IToDoTask[];
+        const formattedData = data.map((task) => ({
+          ...task,
+          creationDate: new Date(task.creationDate),
+        }));
+        setToDoTaskList(formattedData);
+      };
+      getData();
     }
   }, [user]);
 
@@ -104,119 +118,83 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  /**
-   * Toggles the completion status of a specific task.
-   * @param {IToDoTask} taskToToggle The task to toggle.
-   */
-  const toggleTaskCompletion = (taskToToggle: IToDoTask) => {
-    const updatedTasks = toDoTaskList.map((task) =>
-      task.id === taskToToggle.id
-        ? { ...task, isCompleted: !task.isCompleted }
-        : task
-    );
+  const toggleTaskCompletion = async (taskToToggle: IToDoTask) => {
+    const toggledTask = await toggleToDoTaskFetch(taskToToggle.id);
 
-    setToDoTaskList(updatedTasks);
+    if (toggledTask) {
+      const updatedTasks = toDoTaskList.map((task) =>
+        task.id === taskToToggle.id
+          ? { ...task, isCompleted: !task.isCompleted }
+          : task
+      );
+      setToDoTaskList(updatedTasks);
+    }
   };
 
-  /**
-   * Selects a task to be displayed in the modal.
-   * @param {IToDoTask} task The task to select.
-   */
   const selectTask = (task: IToDoTask) => {
+    task.creationDate = new Date(task.creationDate);
     setSelectedTask(task);
   };
 
-  /**
-   * Creates a new task and adds it to the to-do task list.
-   * @param {Partial<IToDoTask>} taskData - The partial data for the task, including title, description, and priority.
-   */
+  const createTask = async (newTaskData: Partial<IToDoTask>) => {
+    const createdTask = await createToDoTaskFetch(newTaskData);
 
-  const createTask = (taskData: Partial<IToDoTask>) => {
-    const newTask: IToDoTask = {
-      id: new IdGenerator(8).id,
-      isCompleted: false,
-      creationDate: new Date(),
+    if (!createdTask) return;
 
-      category: taskData.category!,
-      priority: taskData.priority!,
-      description: taskData.description!,
-      title: taskData.title!,
-      userId: user?.id ?? "",
-    };
-
-    mockToDoList.push(newTask);
-
-    setToDoTaskList([...toDoTaskList, newTask]);
+    setToDoTaskList([...toDoTaskList, createdTask]);
 
     if (recentList.length >= 3) {
-      setRecentList([...recentList.slice(1), newTask]);
+      setRecentList([...recentList.slice(1), createdTask]);
     } else {
-      setRecentList([...recentList, newTask]);
+      setRecentList([...recentList, createdTask]);
     }
   };
 
-  /**
-   * Removes tasks from the to-do list based on the specified type.
-   * @param {string} type - The type of tasks to remove.
-   *                        "all" removes all tasks,
-   *                        "completed" removes only completed tasks,
-   *                        any other value removes uncompleted tasks.
-   */
+  const updateTask = async (newTaskData: Partial<IToDoTask>) => {
+    const updatedTask = await updateToDoTaskFetch(selectedTask!.id, {
+      title: newTaskData.title,
+      description: newTaskData.description,
+      priority: newTaskData.priority,
+      categoryId: newTaskData.categoryId ?? null,
+    });
 
-  const removeTask = (type: string) => {
-    if (type === "all") {
-      setToDoTaskList(toDoTaskList.filter(() => false));
-    } else if (type === "completed") {
+    if (updatedTask)
       setToDoTaskList(
-        toDoTaskList.filter((task) => {
-          return !task.isCompleted;
-        })
+        toDoTaskList.map((task) =>
+          task.id === selectedTask!.id ? updatedTask : task
+        )
       );
-    } else {
-      setToDoTaskList(
-        toDoTaskList.filter((task) => {
-          return task.isCompleted;
-        })
-      );
-    }
   };
 
-  /**
-   * Updates a task in the to-do list with the given data.
-   * @param {IToDoTask} updatedData - The data to update the task with.
-   *                                The id property must match the id of an existing task.
-   */
-  const updateTask = (updatedData: IToDoTask) => {
-    const { id, title, description, priority, category } = updatedData;
+  const deleteSpecificTask = async (id: string) => {
+    const deletedTask = await deleteToDoTaskFetch(id);
 
-    const targetTask = toDoTaskList.find((task) => task.id === id);
+    if (!deletedTask) return;
 
-    if (!targetTask) return;
-
-    const updatedTask: IToDoTask = {
-      ...targetTask,
-      title,
-      description,
-      priority,
-      category,
-    };
-
-    setToDoTaskList(
-      toDoTaskList.map((task) => (task.id === id ? updatedTask : task))
-    );
-  };
-
-  /**
-   * Deletes a specific task from the to-do list based on its id.
-   * @param {string} id - The id of the task to delete.
-   */
-  const deleteSpecificTask = (id: string) => {
     setToDoTaskList(toDoTaskList.filter((task) => task.id !== id));
+  };
+
+  const deleteManyTasks = async (
+    target: "all" | "completed" | "uncompleted"
+  ) => {
+    const deletedManyTasks = await deleteManyToDoTasksFetch(target);
+
+    if (deletedManyTasks) {
+      if (target === "all") {
+        setToDoTaskList([]);
+      } else {
+        setToDoTaskList(
+          toDoTaskList.filter(
+            (task) => task.isCompleted === !(target === "completed")
+          )
+        );
+      }
+    }
   };
 
   const deletedCategory = (id: string) => {
     const listRemovedCategoeries = toDoTaskList.map((task) => {
-      if (task.category === id) task.category = null;
+      if (task.categoryId === id) task.categoryId = null;
       return task;
     });
     setToDoTaskList(listRemovedCategoeries);
@@ -242,7 +220,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         toggleTaskCompletion,
         selectTask,
         createTask,
-        removeTask,
+        deleteManyTasks,
         updateTask,
         deleteSpecificTask,
         recentList,

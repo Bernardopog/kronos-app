@@ -8,9 +8,11 @@ import Button from "@/components/Button/Button";
 
 export default function ModalToDoRemove() {
   const { toggleModal } = useContext(ModalContext);
-  const { removeTask } = useContext(ToDoContext);
+  const { deleteManyTasks } = useContext(ToDoContext);
 
-  const [removalType, setRemovalType] = useState<string>("");
+  const [removalType, setRemovalType] = useState<
+    "all" | "completed" | "uncompleted"
+  >("completed");
 
   return (
     <>
@@ -77,7 +79,7 @@ export default function ModalToDoRemove() {
         type={"delete"}
         action={() => {
           toggleModal(null);
-          removeTask(removalType);
+          deleteManyTasks(removalType);
         }}
       />
     </>

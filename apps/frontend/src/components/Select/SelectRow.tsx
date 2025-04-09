@@ -16,22 +16,22 @@ export default function SelectRow({ value, setValue }: ISelectRowProps) {
   let color: string;
 
   switch (value) {
-    case "0":
+    case "level_0":
       color = "bg-priority-none";
       break;
-    case "1":
+    case "level_1":
       color = "bg-priority-lowest";
       break;
-    case "2":
+    case "level_2":
       color = "bg-priority-lower";
       break;
-    case "3":
+    case "level_3":
       color = "bg-priority-medium";
       break;
-    case "4":
+    case "level_4":
       color = "bg-priority-higher";
       break;
-    case "5":
+    case "level_5":
       color = "bg-priority-highest";
       break;
     default:
@@ -70,7 +70,7 @@ export default function SelectRow({ value, setValue }: ISelectRowProps) {
           `}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {value ? value : <AiFillQuestionCircle />}
+          {value ? value.replace("level_", "") : <AiFillQuestionCircle />}
         </button>
         {isMenuOpen && (
           <>
@@ -78,37 +78,37 @@ export default function SelectRow({ value, setValue }: ISelectRowProps) {
               label="0"
               animationDelay={0.15}
               bgColor="bg-priority-none"
-              action={() => setValue("0")}
+              action={() => setValue("level_0")}
             />
             <PriorityButton
               label="1"
               animationDelay={0.2}
               bgColor="bg-priority-lowest"
-              action={() => setValue("1")}
+              action={() => setValue("level_1")}
             />
             <PriorityButton
               label="2"
               animationDelay={0.25}
               bgColor="bg-priority-lower"
-              action={() => setValue("2")}
+              action={() => setValue("level_2")}
             />
             <PriorityButton
               label="3"
               animationDelay={0.3}
               bgColor="bg-priority-medium"
-              action={() => setValue("3")}
+              action={() => setValue("level_3")}
             />
             <PriorityButton
               label="4"
               animationDelay={0.35}
               bgColor="bg-priority-higher"
-              action={() => setValue("4")}
+              action={() => setValue("level_4")}
             />
             <PriorityButton
               label="5"
               animationDelay={0.4}
               bgColor="bg-priority-highest"
-              action={() => setValue("5")}
+              action={() => setValue("level_5")}
             />
           </>
         )}

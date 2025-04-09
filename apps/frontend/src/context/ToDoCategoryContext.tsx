@@ -1,7 +1,6 @@
 "use client";
 
-import { ICategory, mockCategoryList } from "@/mock/mockCategoryList";
-import IdGenerator from "@/utils/IdGenerator";
+import { ICategory } from "@/mock/mockCategoryList";
 import {
   createContext,
   ReactNode,
@@ -11,6 +10,12 @@ import {
 } from "react";
 import { ToDoContext } from "./ToDoContext";
 import { AuthContext } from "./AuthContext";
+import {
+  createCategoryFetch,
+  deleteCategoryFetch,
+  getCategoriesFetch,
+  renameCategoryFetch,
+} from "@/mod/fetchToDo";
 
 interface IToDoCategoryContext {
   categoryList: ICategory[];
@@ -26,8 +31,7 @@ const ToDoCategoryContext = createContext({} as IToDoCategoryContext);
 const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
   const { deletedCategory } = useContext(ToDoContext);
 
-  const [categoryList, setCategoryList] =
-    useState<ICategory[]>(mockCategoryList);
+  const [categoryList, setCategoryList] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<
     Partial<ICategory> | ICategory | null
   >(null);
@@ -36,11 +40,11 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (user) {
-      setCategoryList((prev) =>
-        prev.filter((category) => category.userId === user.id)
-      );
-    } else {
-      setCategoryList(mockCategoryList);
+      const getData = async () => {
+        const data = (await getCategoriesFetch()) as ICategory[];
+        setCategoryList(data);
+      };
+      getData();
     }
   }, [user]);
 
@@ -48,36 +52,28 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
     setSelectedCategory(category);
   };
 
-  const createCategory = (title: string) => {
-    const newCategory: ICategory = {
-      id: new IdGenerator(8).id,
-      title,
-      userId: user?.id ?? "",
-    };
+  const createCategory = async (title: string) => {
+    const createdCategory = await createCategoryFetch(title);
 
-    mockCategoryList.push(newCategory);
-
-    setCategoryList([...categoryList, newCategory]);
+    if (createdCategory) setCategoryList([...categoryList, createdCategory]);
   };
-  const updateCategory = (id: string, newTitle: string) => {
-    const targetCategory = categoryList.find((category) => category.id === id);
+  const updateCategory = async (id: string, newTitle: string) => {
+    const renamedCategory = await renameCategoryFetch(id, newTitle);
 
-    if (!targetCategory) return;
-
-    const updatedCategory: ICategory = {
-      ...targetCategory,
-      title: newTitle,
-    };
-
-    setCategoryList(
-      categoryList.map((category) =>
-        category.id === id ? updatedCategory : category
-      )
-    );
+    if (renamedCategory)
+      setCategoryList(
+        categoryList.map((category) =>
+          category.id === id ? renamedCategory : category
+        )
+      );
   };
-  const deleteCategory = (id: string) => {
-    setCategoryList(categoryList.filter((category) => category.id !== id));
-    deletedCategory(id);
+  const deleteCategory = async (id: string) => {
+    const deletedCategoryFetch = await deleteCategoryFetch(id);
+
+    if (deletedCategoryFetch) {
+      setCategoryList(categoryList.filter((category) => category.id !== id));
+      deletedCategory(id);
+    }
   };
 
   return (

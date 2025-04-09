@@ -13,7 +13,7 @@ import SelectCategory from "@/components/Select/SelectCategory";
 export default function ModalToDoCreate() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<PriorityType>("0");
+  const [priority, setPriority] = useState<PriorityType>("level_0");
   const [category, setCategory] = useState<string>("");
 
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -56,7 +56,7 @@ export default function ModalToDoCreate() {
             title,
             description,
             priority,
-            category: category.length > 0 ? category : undefined,
+            categoryId: category.length > 0 ? category : undefined,
           });
         }}
       />

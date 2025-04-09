@@ -44,25 +44,25 @@ export default function ModalToDoRead() {
         <div className="flex justify-between items-center">
           <h3 className="font-bold">Prioridade:</h3>
           <div className="flex flex-col items-center min-w-24 p-1 border rounded-lg font-medium border-woodsmoke-200 dark:border-woodsmoke-800">
-            {selectedTask?.priority === "0" && "Nenhuma"}
-            {selectedTask?.priority === "1" && "Muito Baixa"}
-            {selectedTask?.priority === "2" && "Baixa"}
-            {selectedTask?.priority === "3" && "Media"}
-            {selectedTask?.priority === "4" && "Alta"}
-            {selectedTask?.priority === "5" && "Muito Alta"}
+            {selectedTask?.priority === "level_0" && "Nenhuma"}
+            {selectedTask?.priority === "level_1" && "Muito Baixa"}
+            {selectedTask?.priority === "level_2" && "Baixa"}
+            {selectedTask?.priority === "level_3" && "Media"}
+            {selectedTask?.priority === "level_4" && "Alta"}
+            {selectedTask?.priority === "level_5" && "Muito Alta"}
 
             <div
               className={`
               flex items-center justify-center w-fit px-2 rounded-md font-bold dark:text-woodsmoke-950
-              ${selectedTask?.priority === "0" && "bg-priority-none"}
-              ${selectedTask?.priority === "1" && "bg-priority-lowest"}
-              ${selectedTask?.priority === "2" && "bg-priority-lower"}
-              ${selectedTask?.priority === "3" && "bg-priority-medium"}
-              ${selectedTask?.priority === "4" && "bg-priority-higher"}
-              ${selectedTask?.priority === "5" && "bg-priority-highest"}
+              ${selectedTask?.priority === "level_0" && "bg-priority-none"}
+              ${selectedTask?.priority === "level_1" && "bg-priority-lowest"}
+              ${selectedTask?.priority === "level_2" && "bg-priority-lower"}
+              ${selectedTask?.priority === "level_3" && "bg-priority-medium"}
+              ${selectedTask?.priority === "level_4" && "bg-priority-higher"}
+              ${selectedTask?.priority === "level_5" && "bg-priority-highest"}
             `}
             >
-              {selectedTask?.priority}
+              {selectedTask?.priority.replace("level_", "")}
             </div>
           </div>
         </div>
@@ -83,7 +83,8 @@ export default function ModalToDoRead() {
           <h3 className="font-bold">Data de Criação:</h3>
           <div className="w-fit p-1 border rounded-lg font-medium border-woodsmoke-200 dark:border-woodsmoke-800">
             <p>
-              {selectedTask!.creationDate.getDate()} /{" "}
+              {selectedTask!.creationDate.getDate().toString().padStart(2, "0")}{" "}
+              /{" "}
               {(selectedTask!.creationDate.getMonth() + 1)
                 .toString()
                 .padStart(2, "0")}{" "}
@@ -96,7 +97,7 @@ export default function ModalToDoRead() {
           <h3 className="font-bold">Categoria:</h3>
           <p className="p-1 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800">
             {categoryList.find((category) => {
-              return category.id === selectedTask?.category;
+              return category.id === selectedTask?.categoryId;
             })?.title ?? (
               <span className="italic text-woodsmoke-950/50 dark:text-woodsmoke-300/50">
                 Nenhuma Categoria

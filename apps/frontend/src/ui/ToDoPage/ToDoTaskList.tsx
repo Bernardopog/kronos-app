@@ -23,7 +23,7 @@ export default function ToDoTaskList() {
         toDoTaskList
           .filter((task) => {
             if (filterCategory === "all") return true;
-            else return task.category === filterCategory;
+            else return task.categoryId === filterCategory;
           })
           .filter((task) => {
             if (filterStatus === "all") return true;
@@ -33,12 +33,28 @@ export default function ToDoTaskList() {
           .sort((a, b) => {
             if (filterPriority === "all") return 0;
             else if (filterPriority === "high") {
-              if (+a.priority > +b.priority) return -1;
-              else if (+a.priority < +b.priority) return 1;
+              if (
+                +a.priority.replace("level_", "") >
+                +b.priority.replace("level_", "")
+              )
+                return -1;
+              else if (
+                +a.priority.replace("level_", "") <
+                +b.priority.replace("level_", "")
+              )
+                return 1;
               else return 0;
             } else if (filterPriority === "low") {
-              if (+a.priority > +b.priority) return 1;
-              else if (+a.priority < +b.priority) return -1;
+              if (
+                +a.priority.replace("level_", "") >
+                +b.priority.replace("level_", "")
+              )
+                return 1;
+              else if (
+                +a.priority.replace("level_", "") <
+                +b.priority.replace("level_", "")
+              )
+                return -1;
               else return 0;
             } else return 0;
           })
@@ -46,6 +62,7 @@ export default function ToDoTaskList() {
             <ToDoTask
               key={task.id}
               taskData={task}
+              piority={task.priority.replace("level_", "")}
               animationDelay={50 * (idx + 1)}
             />
           ))

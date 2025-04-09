@@ -22,10 +22,10 @@ export default function ModalToDoUpdate() {
   );
 
   const [newPriority, setNewPriority] = useState<PriorityType>(
-    selectedTask?.priority ?? "0"
+    selectedTask?.priority ?? "level_0"
   );
   const [newCategory, setNewCategory] = useState<string>(
-    selectedTask?.category ?? ""
+    selectedTask?.categoryId ?? ""
   );
 
   const checkTitle = () => {
@@ -60,11 +60,10 @@ export default function ModalToDoUpdate() {
         action={() => {
           if (checkTitle()) return;
           updateTask({
-            ...selectedTask!,
             title: newTitle,
             description: newDescription,
             priority: newPriority,
-            category: newCategory,
+            categoryId: newCategory,
           });
           toggleModal(null);
         }}
