@@ -189,7 +189,7 @@ const formaterText = (text: string) => {
         .map((name) => name!.replace(/\+/g, " "))
         .join("+");
 
-      return `<address class="inline text-woodsmoke-950 dark:text-woodsmoke-50"><a class="inline underline" href="https://www.google.com.br/maps/place/${formattedAddres}" target="_blank" rel="noopener noreferrer">${addrNames.filter((value) => value !== "").join(" ")}</a>
+      return `<address class="inline-flex text-woodsmoke-950 dark:text-woodsmoke-50"><a class="inline underline" href="https://www.google.com.br/maps/place/${formattedAddres}" target="_blank" rel="noopener noreferrer">${addrNames.filter((value) => value !== "").join(", ")}</a>
       </address>`;
     });
   textFormated.replace(regexpNewLine, "<br>");
