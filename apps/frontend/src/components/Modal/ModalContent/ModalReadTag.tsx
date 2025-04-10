@@ -30,9 +30,11 @@ export default function ModalReadTag() {
                       icon: "text-xl",
                     }}
                     action={() => {
-                      addTag(tag.id);
-                      if (selectedNote?.tags.includes(tag.id))
+                      if (selectedNote?.tags.includes(tag.id)) {
                         removeTag(tag.id);
+                      } else {
+                        addTag(tag.id);
+                      }
                     }}
                     label={tag.tagName}
                     ariaLabel={`Adicionar Tag ${tag.tagName}`}

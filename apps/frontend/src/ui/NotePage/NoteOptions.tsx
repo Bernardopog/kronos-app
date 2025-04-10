@@ -87,7 +87,7 @@ export default function NoteOptions() {
               }}
               ariaLabel={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
               label={`${selectedNote?.isFavorite ? "Desfavoritar Nota" : "Favoritar Nota"}`}
-              action={toggleFavorite}
+              action={() => toggleFavorite(selectedNote?.id)}
               icon={
                 selectedNote?.isFavorite ? <AiOutlineHeart /> : <AiFillHeart />
               }

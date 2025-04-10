@@ -10,7 +10,7 @@ interface INoteMainBodyProps {
 }
 
 export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
-  const { updateNote } = useContext(NoteContext);
+  const { changeContent } = useContext(NoteContext);
 
   const descInputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -46,7 +46,7 @@ export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
             else setNoteDescription(ev.target.value);
           }}
           onBlur={() => {
-            updateNote({ ...selectedNote, description: noteDescription });
+            changeContent(noteDescription);
             setEditableDesc(false);
           }}
         />

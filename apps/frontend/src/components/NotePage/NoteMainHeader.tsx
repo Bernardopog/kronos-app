@@ -23,11 +23,11 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const { updateNote, chooseIcon, tagList } = useContext(NoteContext);
+  const { renameNote, chooseIcon, tagList } = useContext(NoteContext);
   const { toggleModal } = useContext(ModalContext);
 
-  const noteCreateDate = selectedNote?.date.createDate;
-  const noteUpdateDate = selectedNote?.date.updateDate;
+  const noteCreateDate = selectedNote?.creationDate;
+  const noteUpdateDate = selectedNote?.updateDate;
 
   const icon = selectedNote.icon ? icons[selectedNote.icon] : null;
 
@@ -96,12 +96,12 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
               setNoteTitle(ev.target.value);
             }}
             onBlur={() => {
-              updateNote({ ...selectedNote, title: noteTitle });
+              renameNote(noteTitle);
               setEditableTitle(false);
             }}
             onKeyDown={(ev) => {
               if (ev.key === "Enter") {
-                updateNote({ ...selectedNote, title: noteTitle });
+                renameNote(noteTitle);
                 setEditableTitle(false);
               }
             }}
