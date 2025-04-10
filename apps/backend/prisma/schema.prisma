@@ -22,6 +22,8 @@ model User {
 
   todoTask Todo[]
   todoCategories Category[]
+  notes Note[]
+  tags Tag[]
 }
 
 enum TodoPriority {
@@ -56,4 +58,39 @@ model Category {
   user User @relation(fields: [userId], references: [id])
 
   tasks Todo[]
+}
+
+model Note {
+  id String @id @db.Uuid @default(uuid())
+  title String @default("Nova Nota")
+  description String?
+  isFavorite Boolean @default(false)
+  creationDate DateTime @default(now())
+  updateDate DateTime?
+  icon String?
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  tags NoteTag[]
+}
+
+model NoteTag {
+  noteId String @db.Uuid
+  note Note @relation(fields: [noteId], references: [id])
+
+  tagId String @db.Uuid
+  tag Tag @relation(fields: [tagId], references: [id])
+
+  @@id([noteId, tagId])
+}
+
+model Tag {
+  id String @id @db.Uuid @default(uuid())
+  tagName String
+  
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  notes NoteTag[]
 }
