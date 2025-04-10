@@ -11,8 +11,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { CategoryService } from './category.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { CategoryService } from '../services/category.service';
 
 @Controller('category')
 @UseGuards(AuthGuard)

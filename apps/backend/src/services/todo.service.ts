@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateTodoTaskDTO, UpdateTodoTaskDTO } from './dto/todo.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateTodoTaskDTO, UpdateTodoTaskDTO } from '../dto/todo.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class TodoService {

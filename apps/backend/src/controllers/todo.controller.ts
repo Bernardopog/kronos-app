@@ -13,9 +13,9 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { TodoService } from './todo.service';
-import { CreateTodoTaskDTO, UpdateTodoTaskDTO } from './dto/todo.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { TodoService } from '../services/todo.service';
+import { CreateTodoTaskDTO, UpdateTodoTaskDTO } from '../dto/todo.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('todo')
 @UseGuards(AuthGuard)

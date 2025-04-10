@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDTO, SignUpDTO } from './dto/auth.dto';
+import { SignInDTO, SignUpDTO } from '../dto/auth.dto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthGuard } from 'src/guards/auth.guard';
 

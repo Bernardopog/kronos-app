@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { SignInDTO, SignUpDTO } from './dto/auth.dto';
+import { SignInDTO, SignUpDTO } from '../dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { jwtConstants } from 'src/constants/jwt.constant';
+import { jwtConstants } from '../constants/jwt.constant';
 
 type fieldTypes = 'email' | 'password' | 'username';
 type fields = fieldTypes[];

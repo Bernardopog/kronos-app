@@ -9,8 +9,8 @@ import {
   Patch,
   Body,
 } from '@nestjs/common';
-import { NoteService } from './note.service';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { NoteService } from '../services/note.service';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('note')
 @UseGuards(AuthGuard)

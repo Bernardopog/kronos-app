@@ -8,8 +8,8 @@ import {
   Body,
   Param,
 } from '@nestjs/common';
-import { TagService } from './tag.service';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { TagService } from '../services/tag.service';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('tag')
 @UseGuards(AuthGuard)
