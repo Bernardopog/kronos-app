@@ -3,14 +3,7 @@
 import { IToDoTask } from "@/mock/mockToDoList";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import {
-  createToDoTaskFetch,
-  deleteManyToDoTasksFetch,
-  deleteToDoTaskFetch,
-  getToDoTasksFetch,
-  toggleToDoTaskFetch,
-  updateToDoTaskFetch,
-} from "@/mod/fetchToDo";
+import { Fetcher } from "@/classes/Fetcher";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
@@ -73,10 +66,12 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { user } = useContext(AuthContext);
 
+  const fetcher = new Fetcher("todo");
+
   useEffect(() => {
     if (user) {
       const getData = async () => {
-        const data = (await getToDoTasksFetch()) as IToDoTask[];
+        const data = (await new Fetcher("todo").get()) as IToDoTask[];
         const formattedData = data.map((task) => ({
           ...task,
           creationDate: new Date(task.creationDate),
@@ -119,7 +114,9 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleTaskCompletion = async (taskToToggle: IToDoTask) => {
-    const toggledTask = await toggleToDoTaskFetch(taskToToggle.id);
+    const toggledTask = await fetcher.patch<IToDoTask, IToDoTask>({
+      id: taskToToggle.id,
+    });
 
     if (toggledTask) {
       const updatedTasks = toDoTaskList.map((task) =>
@@ -137,7 +134,9 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const createTask = async (newTaskData: Partial<IToDoTask>) => {
-    const createdTask = await createToDoTaskFetch(newTaskData);
+    const createdTask = await fetcher.post<Partial<IToDoTask>, IToDoTask>(
+      newTaskData
+    );
 
     if (!createdTask) return;
 
@@ -151,12 +150,15 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const updateTask = async (newTaskData: Partial<IToDoTask>) => {
-    const updatedTask = await updateToDoTaskFetch(selectedTask!.id, {
-      title: newTaskData.title,
-      description: newTaskData.description,
-      priority: newTaskData.priority,
-      categoryId: newTaskData.categoryId ?? null,
-    });
+    const updatedTask = await fetcher.put<Partial<IToDoTask>, IToDoTask>(
+      {
+        title: newTaskData.title,
+        description: newTaskData.description,
+        priority: newTaskData.priority,
+        categoryId: newTaskData.categoryId ?? null,
+      },
+      { id: selectedTask!.id }
+    );
 
     if (updatedTask)
       setToDoTaskList(
@@ -167,7 +169,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const deleteSpecificTask = async (id: string) => {
-    const deletedTask = await deleteToDoTaskFetch(id);
+    const deletedTask = await fetcher.delete({ id });
 
     if (!deletedTask) return;
 
@@ -177,7 +179,9 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const deleteManyTasks = async (
     target: "all" | "completed" | "uncompleted"
   ) => {
-    const deletedManyTasks = await deleteManyToDoTasksFetch(target);
+    const deletedManyTasks = await fetcher.delete({
+      query: { key: "target", value: target },
+    });
 
     if (deletedManyTasks) {
       if (target === "all") {

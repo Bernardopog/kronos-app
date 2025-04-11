@@ -11,21 +11,7 @@ import {
   useState,
 } from "react";
 import { AuthContext } from "./AuthContext";
-import {
-  addTagToNoteFetch,
-  changeNoteContentFetch,
-  changeNoteIconFetch,
-  createNoteFetch,
-  createTagFetch,
-  deleteNoteFetch,
-  deleteTagFetch,
-  favoriteNoteFetch,
-  getNoteFetch,
-  getSpecificNoteFetch,
-  getTagsFetch,
-  removeTagFromNoteFetch,
-  renameNoteFetch,
-} from "@/mod/fetchNote";
+import { Fetcher } from "@/classes/Fetcher";
 
 type FilterFavoriteType = "all" | "favorites" | "notFavorites";
 type FilterTagType = "all" | string;
@@ -75,23 +61,21 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
 
   const { user } = useContext(AuthContext);
 
+  const noteFetcher = new Fetcher("note");
+  const tagFetcher = new Fetcher("tag");
+
   useEffect(() => {
     setSelectedNote(null);
-
-    const getData = async () => {
-      const noteData = (await getNoteFetch()) as INote[];
-      console.log(noteData);
-      setNoteList(noteData);
-      const tagData = (await getTagsFetch()) as ITag[];
-      setTagList(tagData);
-    };
-    getData();
+    if (user) {
+      const getData = async () => {
+        const noteData = (await new Fetcher("note").get()) as INote[];
+        setNoteList(noteData);
+        const tagData = (await new Fetcher("tag").get()) as ITag[];
+        setTagList(tagData);
+      };
+      getData();
+    }
   }, [user]);
-
-  function dateFormatter(field: string | null) {
-    if (!field) return null;
-    return new Date(field);
-  }
 
   const toggleList = (type: "close" | "open") => {
     if (type === "open") {
@@ -114,7 +98,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const selectNote = async (note: INote) => {
-    const selectedNote = await getSpecificNoteFetch(note.id);
+    const selectedNote = await noteFetcher.get<INote>({ id: note.id });
 
     if (selectedNote)
       setSelectedNote({
@@ -125,7 +109,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const createNote = async () => {
-    const createdNote = await createNoteFetch();
+    const createdNote = (await noteFetcher.post()) as INote;
 
     if (createdNote) {
       setNoteList([...noteList, createdNote]);
@@ -137,7 +121,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deleteNote = async (id: string) => {
-    const deletedNote = await deleteNoteFetch(id);
+    const deletedNote = await noteFetcher.delete({ id });
 
     if (deletedNote) {
       setNoteList(noteList.filter((note) => note.id !== id));
@@ -146,7 +130,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const toggleFavorite = async (id: string) => {
-    const favoritedNote = await favoriteNoteFetch(id);
+    const favoritedNote = await noteFetcher.patch<null, INote>({
+      id,
+      endpoint: "favorite",
+    });
 
     if (favoritedNote) {
       setNoteList(
@@ -154,22 +141,32 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
           note.id === id
             ? ({
                 ...favoritedNote,
-                creationDate: dateFormatter(favoritedNote.creationDate),
-                updateDate: dateFormatter(favoritedNote.updateDate),
+                creationDate: new Date(favoritedNote.creationDate),
+                updateDate: favoritedNote.updateDate
+                  ? new Date(favoritedNote.updateDate)
+                  : undefined,
               } as INote)
             : note
         )
       );
       setSelectedNote({
         ...favoritedNote,
-        creationDate: dateFormatter(favoritedNote.creationDate),
-        updateDate: dateFormatter(favoritedNote.updateDate),
+        creationDate: new Date(favoritedNote.creationDate),
+        updateDate: favoritedNote.updateDate
+          ? new Date(favoritedNote.updateDate)
+          : undefined,
       });
     }
   };
 
   const chooseIcon = async (icon: IconsTypes) => {
-    const changedNote = await changeNoteIconFetch(selectedNote!.id, icon);
+    const changedNote = await noteFetcher.patch<Partial<INote>, INote>(
+      { icon },
+      {
+        id: selectedNote!.id,
+        endpoint: "icon",
+      }
+    );
 
     if (changedNote) {
       setNoteList(
@@ -178,8 +175,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
             ? ({
                 ...changedNote,
                 icon,
-                creationDate: dateFormatter(changedNote.creationDate),
-                updateDate: dateFormatter(changedNote.updateDate),
+                creationDate: new Date(changedNote.creationDate),
+                updateDate: changedNote.updateDate
+                  ? new Date(changedNote.updateDate)
+                  : undefined,
               } as INote)
             : note
         )
@@ -187,28 +186,40 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       setSelectedNote({
         ...changedNote,
         icon,
-        creationDate: dateFormatter(changedNote.creationDate),
-        updateDate: dateFormatter(changedNote.updateDate),
+        creationDate: new Date(changedNote.creationDate),
+        updateDate: changedNote.updateDate
+          ? new Date(changedNote.updateDate)
+          : undefined,
       });
     }
   };
 
   const renameNote = async (title: string) => {
-    const renamedNote = await renameNoteFetch(selectedNote!.id, title);
+    const renamedNote = await noteFetcher.patch<Partial<INote>, INote>(
+      { title },
+      {
+        id: selectedNote!.id,
+        endpoint: "rename",
+      }
+    );
 
     if (renamedNote) {
       setSelectedNote({
         ...renamedNote,
-        creationDate: dateFormatter(renamedNote.creationDate),
-        updateDate: dateFormatter(renamedNote.updateDate),
+        creationDate: new Date(renamedNote.creationDate),
+        updateDate: renamedNote.updateDate
+          ? new Date(renamedNote.updateDate)
+          : undefined,
       } as INote);
       setNoteList(
         noteList.map((note) =>
           note.id === selectedNote?.id
             ? {
                 ...renamedNote,
-                creationDate: dateFormatter(renamedNote.creationDate),
-                updateDate: dateFormatter(renamedNote.updateDate),
+                creationDate: new Date(renamedNote.creationDate),
+                updateDate: renamedNote.updateDate
+                  ? new Date(renamedNote.updateDate)
+                  : undefined,
               }
             : note
         )
@@ -217,21 +228,31 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const changeContent = async (content: string) => {
-    const changedNote = await changeNoteContentFetch(selectedNote!.id, content);
+    const changedNote = await noteFetcher.patch<{ content: string }, INote>(
+      { content },
+      {
+        id: selectedNote!.id,
+        endpoint: "content",
+      }
+    );
 
     if (changedNote) {
       setSelectedNote({
         ...changedNote,
-        creationDate: dateFormatter(changedNote.creationDate),
-        updateDate: dateFormatter(changedNote.updateDate),
+        creationDate: new Date(changedNote.creationDate),
+        updateDate: changedNote.updateDate
+          ? new Date(changedNote.updateDate)
+          : undefined,
       } as INote);
       setNoteList(
         noteList.map((note) =>
           note.id === selectedNote?.id
             ? ({
                 ...changedNote,
-                creationDate: dateFormatter(changedNote.creationDate),
-                updateDate: dateFormatter(changedNote.updateDate),
+                creationDate: new Date(changedNote.creationDate),
+                updateDate: changedNote.updateDate
+                  ? new Date(changedNote.updateDate)
+                  : undefined,
               } as INote)
             : note
         )
@@ -240,7 +261,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addTag = async (tagId: string) => {
-    const addedTag = await addTagToNoteFetch(selectedNote!.id, tagId);
+    const addedTag = await noteFetcher.post(
+      { noteId: selectedNote!.id, tagId },
+      { endpoint: "tag" }
+    );
 
     if (addedTag) {
       if (selectedNote?.id) {
@@ -271,7 +295,10 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeTag = async (tagId: string) => {
-    const removedTag = await removeTagFromNoteFetch(selectedNote!.id, tagId);
+    const removedTag = await noteFetcher.delete(
+      { noteId: selectedNote!.id, tagId },
+      { endpoint: "tag" }
+    );
 
     if (removedTag) {
       if (selectedNote?.id) {
@@ -301,13 +328,15 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const createTag = async (tagName: string) => {
-    const createdTag = await createTagFetch(tagName);
+    const createdTag = await tagFetcher.post<{ tagName: string }, ITag>({
+      tagName,
+    });
 
     if (createdTag) setTagList([...tagList, createdTag]);
   };
 
   const deleteTag = async (id: string) => {
-    const deletedTag = await deleteTagFetch(id);
+    const deletedTag = await tagFetcher.delete({ id });
 
     if (deletedTag) {
       setTagList(tagList.filter((tag) => tag.id !== id));

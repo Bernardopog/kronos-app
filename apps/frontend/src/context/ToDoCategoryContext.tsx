@@ -10,12 +10,7 @@ import {
 } from "react";
 import { ToDoContext } from "./ToDoContext";
 import { AuthContext } from "./AuthContext";
-import {
-  createCategoryFetch,
-  deleteCategoryFetch,
-  getCategoriesFetch,
-  renameCategoryFetch,
-} from "@/mod/fetchToDo";
+import { Fetcher } from "@/classes/Fetcher";
 
 interface IToDoCategoryContext {
   categoryList: ICategory[];
@@ -38,10 +33,12 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
 
   const { user } = useContext(AuthContext);
 
+  const fetcher = new Fetcher("category");
+
   useEffect(() => {
     if (user) {
       const getData = async () => {
-        const data = (await getCategoriesFetch()) as ICategory[];
+        const data = (await new Fetcher("category").get()) as ICategory[];
         setCategoryList(data);
       };
       getData();
@@ -53,12 +50,19 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const createCategory = async (title: string) => {
-    const createdCategory = await createCategoryFetch(title);
+    const createdCategory = await fetcher.post<Partial<ICategory>, ICategory>({
+      title,
+    });
 
     if (createdCategory) setCategoryList([...categoryList, createdCategory]);
   };
-  const updateCategory = async (id: string, newTitle: string) => {
-    const renamedCategory = await renameCategoryFetch(id, newTitle);
+  const updateCategory = async (id: string, title: string) => {
+    const renamedCategory = await fetcher.patch<Partial<ICategory>, ICategory>(
+      { title },
+      {
+        id,
+      }
+    );
 
     if (renamedCategory)
       setCategoryList(
@@ -68,7 +72,7 @@ const ToDoCategoryProvider = ({ children }: { children: ReactNode }) => {
       );
   };
   const deleteCategory = async (id: string) => {
-    const deletedCategoryFetch = await deleteCategoryFetch(id);
+    const deletedCategoryFetch = await fetcher.delete({ id });
 
     if (deletedCategoryFetch) {
       setCategoryList(categoryList.filter((category) => category.id !== id));

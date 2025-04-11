@@ -1,9 +1,9 @@
 "use client";
 
+import { Fetcher } from "@/classes/Fetcher";
 import { IUser, mockUserList } from "@/mock/mockUsers";
 import { checkFieldsSignIn } from "@/mod/checkFieldSignIn";
 import checkFieldsSignUp from "@/mod/checkFieldSignUp";
-import { loginFetch, logoutFetch, meFetch, signUpFetch } from "@/mod/fetch";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
@@ -42,6 +42,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const route = useRouter();
 
+  const fetcher = new Fetcher("auth");
+
   useEffect(() => {
     setErrorStatus({
       error: false,
@@ -49,7 +51,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       message: "",
     });
     const getMe = async () => {
-      const userData = await meFetch();
+      const userData = (await new Fetcher("auth").get({ endpoint: "me" })) as {
+        user: IUser;
+      };
       setUser(userData.user);
     };
     const publicRoutes = ["/signin", "/signup", "/signout"];
@@ -64,15 +68,18 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
 
-    const res = await loginFetch(email, password);
+    const res = await fetcher.post<Partial<IUser>, IFieldError>(
+      { email, password },
+      { endpoint: "signin" }
+    );
 
-    if (res.error) {
+    if (res?.error) {
       setErrorStatus(res);
       return false;
     }
 
-    const userData = await meFetch();
-    const user: Partial<IUser> = await userData.user;
+    const userData = (await fetcher.get({ endpoint: "me" })) as { user: IUser };
+    const user: Partial<IUser> = userData.user;
 
     const userInfo: Partial<IUser> = {
       id: user.id,
@@ -85,7 +92,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await logoutFetch();
+    await fetcher.get({ endpoint: "signout" });
     setUser(null);
   };
 
@@ -105,8 +112,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
 
-    const res = await signUpFetch(newUser);
-    if (res.error) {
+    const res = await fetcher.post<Partial<IUser>, IFieldError>(newUser, {
+      endpoint: "signup",
+    });
+    if (res?.error) {
       setErrorStatus(res);
       return false;
     }
