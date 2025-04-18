@@ -34,6 +34,9 @@ export default function SignInPage() {
           onSubmit={(ev) => handleSubmit(ev)}
           className="flex flex-col gap-y-8 w-full"
         >
+          <h2 className="text-center text-3xl font-medium text-woodsmoke-950 dark:text-woodsmoke-50">
+            Entrar
+          </h2>
           <AuthInput
             icon={<AiOutlineMail />}
             value={email}

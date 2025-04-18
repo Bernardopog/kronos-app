@@ -55,6 +55,9 @@ export default function SignUpPage() {
           onSubmit={(ev) => handleSubmit(ev)}
           className="flex flex-col gap-y-8 w-full"
         >
+          <h2 className="text-center text-3xl font-medium text-woodsmoke-950 dark:text-woodsmoke-50">
+            Registrar-se
+          </h2>
           <AuthInput
             icon={<AiOutlineUser />}
             value={username}
@@ -169,7 +172,7 @@ export default function SignUpPage() {
         </form>
         <Divider />
         <p className="self-end text-woodsmoke-950 dark:text-woodsmoke-100">
-          Já possui uma conta ainda?
+          Já possui uma conta?
           <Link
             href="/signin"
             className="inline-block font-bold underline ml-2"
