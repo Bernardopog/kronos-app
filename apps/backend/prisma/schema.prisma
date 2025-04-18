@@ -24,6 +24,10 @@ model User {
   todoCategories Category[]
   notes Note[]
   tags Tag[]
+  kanbans Kanban[]
+  columns Column[]
+  kanbanTasks KanbanTask[]
+  authorizedKanbans AuthorizedUser[]
 }
 
 enum TodoPriority {
@@ -93,4 +97,74 @@ model Tag {
   user User @relation(fields: [userId], references: [id])
 
   notes NoteTag[]
+}
+
+enum RoleType {
+  admin
+  write
+  read
+}
+
+model AuthorizedUser {
+  id String @id @db.Uuid @default(uuid())
+
+  role RoleType
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  kanbanId String? @db.Uuid
+  kanban Kanban? @relation(fields: [kanbanId], references: [id])
+}
+
+model Kanban {
+  id String @id @db.Uuid @default(uuid())
+  title String
+  
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+  
+  columns Column[]
+  authorizedUsers AuthorizedUser[]
+}
+
+model Column {
+  id String @id @db.Uuid @default(uuid())
+  columnName String
+  color Json @default("[0,0,10]")
+  icon String?
+  createAt DateTime @default(now())
+
+  tasks KanbanTask[]
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  kanbanId String @db.Uuid
+  kanban Kanban @relation(fields: [kanbanId], references: [id])
+}
+
+enum TaskPriorityType {
+  low
+  medium
+  high
+}
+
+model KanbanTask {
+  id String @id @db.Uuid @default(uuid())
+  taskName String
+  description String?
+  creationDate DateTime @default(now())
+  completionDate DateTime?
+  isCompleted Boolean @default(false)
+
+  priority TaskPriorityType @default(low)
+
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id])
+
+  columnId String @db.Uuid
+  column Column @relation(fields: [columnId], references: [id])
+  
+  team String[]
 }
