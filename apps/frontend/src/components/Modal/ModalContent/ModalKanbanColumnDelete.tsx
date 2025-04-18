@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import ModalFooter from "../ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
-import { KanbanContext } from "@/context/KanbanContext";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 
 export default function ModalKanbanColumnDelete() {
-  const { columnList, deleteColumn } = useContext(KanbanContext);
+  const { columnList, deleteColumn } = useContext(KanbanColumnContext);
   const { toggleModal, fromId } = useContext(ModalContext);
 
   const columnName = columnList.find(

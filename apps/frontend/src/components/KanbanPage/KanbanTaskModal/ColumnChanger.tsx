@@ -1,6 +1,6 @@
 import Button from "@/components/Button/Button";
 import Inert from "@/components/Inert/Inert";
-import { KanbanContext } from "@/context/KanbanContext";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 import { icons } from "@/icons/icons";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, SetStateAction, useContext } from "react";
@@ -21,7 +21,7 @@ export default function ColumnChanger({
   newColumn,
   setNewColumn,
 }: IColumnChangerProps) {
-  const { columnList } = useContext(KanbanContext);
+  const { columnList } = useContext(KanbanColumnContext);
 
   return (
     <>

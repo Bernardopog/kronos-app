@@ -99,6 +99,30 @@ export default function Calendar({ date, setDate, type }: ICalendarProps) {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
 
+  const getTitle = (day: number, month: number, year: number) => {
+    if (
+      day === new Date().getDate() &&
+      month === new Date().getMonth() + 1 &&
+      year === new Date().getFullYear()
+    )
+      return "Hoje";
+    else if (
+      day === date?.getDate() &&
+      month === date?.getMonth() + 1 &&
+      year === date?.getFullYear() &&
+      type !== "read"
+    )
+      return "Data para Completar";
+    else if (
+      day === date?.getDate() &&
+      month === date?.getMonth() + 1 &&
+      year === date?.getFullYear() &&
+      type === "read"
+    )
+      return "Data de Criação";
+    else return "";
+  };
+
   return (
     <section
       className="w-full max-w-[425px] p-1 border rounded-lg border-woodsmoke-400 dark:border-woodsmoke-800
@@ -142,6 +166,11 @@ export default function Calendar({ date, setDate, type }: ICalendarProps) {
             <tr key={index} className="grid grid-cols-7 gap-2 m-2 px-2">
               {week.map((day, index) => (
                 <td
+                  title={
+                    date && day && month && year
+                      ? getTitle(day, month, year)
+                      : ""
+                  }
                   key={index}
                   onClick={() => {
                     if (typeof day !== "number") return;
@@ -157,6 +186,7 @@ export default function Calendar({ date, setDate, type }: ICalendarProps) {
                     }
                     ${day === new Date().getDate() && month === new Date().getMonth() + 1 && year === new Date().getFullYear() && "bg-[#e5e54e] dark:bg-woodsmoke-600"}
                     ${day === date?.getDate() && month === date?.getMonth() + 1 && year === date?.getFullYear() && type !== "read" && "bg-poppy-500 text-woodsmoke-950 dark:bg-woodsmoke-200"}
+                    ${day === date?.getDate() && month === date?.getMonth() + 1 && year === date?.getFullYear() && type !== "update" && "bg-apple-500 text-woodsmoke-950 dark:bg-woodsmoke-200"}
                   `}
                 >
                   {day}

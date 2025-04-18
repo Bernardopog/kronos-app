@@ -3,7 +3,6 @@
 import Button from "../Button/Button";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { DragEvent, useContext, useState } from "react";
-import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
@@ -11,6 +10,7 @@ import KanbanColumnOption from "./KanbanColumnOption";
 import KanbanColumnHeader from "./KanbanColumnHeader";
 import Inert from "../Inert/Inert";
 import { RoleType } from "@/mock/kanban/mockKanbans";
+import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 
 interface IKanbanColumnProps {
   column: IColumn;
@@ -32,7 +32,7 @@ export default function KanbanColumn({
   role,
 }: IKanbanColumnProps) {
   const { toggleModal } = useContext(ModalContext);
-  const { taskList } = useContext(KanbanContext);
+  const { taskList } = useContext(KanbanTaskContext);
 
   const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -114,12 +114,12 @@ export default function KanbanColumn({
           />
         )}
         <ul
-          className="flex flex-col gap-2 h-[calc(100vh-18rem)] p-2 overflow-y-auto scrollbar-none
+          className="flex flex-col gap-2 h-[calc(100vh-12rem)] p-2 overflow-y-auto scrollbar-none
           lg:gap-2
         "
         >
           {taskList
-            .filter((task) => column.tasksId.includes(task.id))
+            .filter((task) => column.tasks?.includes(task.id))
             .map((task) => (
               <KanbanTask
                 key={task.id}

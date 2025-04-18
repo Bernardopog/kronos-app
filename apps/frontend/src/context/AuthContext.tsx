@@ -1,7 +1,7 @@
 "use client";
 
 import { Fetcher } from "@/classes/Fetcher";
-import { IUser, mockUserList } from "@/mock/mockUsers";
+import { IUser } from "@/mock/mockUsers";
 import { checkFieldsSignIn } from "@/mod/checkFieldSignIn";
 import checkFieldsSignUp from "@/mod/checkFieldSignUp";
 import { usePathname, useRouter } from "next/navigation";
@@ -17,7 +17,6 @@ export interface IFieldError {
 
 interface IAuthContext {
   user: IUser | Partial<IUser> | null;
-  userList: IUser[];
   errorStatus: IFieldError;
   login: (email: string, password: string) => Promise<false | undefined>;
   logout: () => void;
@@ -32,7 +31,6 @@ const AuthContext = createContext({} as IAuthContext);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | Partial<IUser> | null>(null);
-  const [userList] = useState<IUser[]>(mockUserList);
   const [errorStatus, setErrorStatus] = useState<IFieldError>({
     error: false,
     fields: [],
@@ -137,7 +135,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, userList, errorStatus, login, logout, signUp, setError }}
+      value={{ user, errorStatus, login, logout, signUp, setError }}
     >
       {children}
     </AuthContext.Provider>

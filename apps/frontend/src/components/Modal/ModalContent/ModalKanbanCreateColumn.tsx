@@ -2,16 +2,16 @@
 
 import { useContext, useState } from "react";
 import ModalFooter from "../ModalFooter";
-import { KanbanContext } from "@/context/KanbanContext";
 import Input from "@/components/Input/Input";
 import { ModalContext } from "@/context/ModalContext";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 
 export default function ModalKanbanCreateColumn() {
   const [title, setTitle] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { toggleModal } = useContext(ModalContext);
-  const { createColumn } = useContext(KanbanContext);
+  const { createColumn } = useContext(KanbanColumnContext);
 
   const checkTitle = () => {
     if (title.trim() === "") {

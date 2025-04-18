@@ -2,12 +2,12 @@
 
 import { useContext, useState } from "react";
 import ModalFooter from "../ModalFooter";
-import { KanbanContext } from "@/context/KanbanContext";
 import Input from "@/components/Input/Input";
 import { ModalContext } from "@/context/ModalContext";
 import TextArea from "@/components/TextArea/TextArea";
 import Button from "@/components/Button/Button";
 import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
+import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 
 export default function ModalKanbanCreateTask() {
   const [title, setTitle] = useState<string>("");
@@ -17,7 +17,7 @@ export default function ModalKanbanCreateTask() {
   const [priority, setPriority] = useState<TaskPriorityType>("low");
 
   const { toggleModal } = useContext(ModalContext);
-  const { createTask } = useContext(KanbanContext);
+  const { createTask } = useContext(KanbanTaskContext);
 
   const checkTitle = () => {
     if (title.trim() === "") {

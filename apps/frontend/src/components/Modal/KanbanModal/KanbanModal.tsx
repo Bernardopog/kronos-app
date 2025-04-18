@@ -7,9 +7,10 @@ import DateChanger from "@/components/KanbanPage/KanbanTaskModal/DateChanger";
 import DescriptionChanger from "@/components/KanbanPage/KanbanTaskModal/DescriptionChanger";
 import PriorityChanger from "@/components/KanbanPage/KanbanTaskModal/PriorityChanger";
 import TaskNameChanger from "@/components/KanbanPage/KanbanTaskModal/TaskNameChanger";
-import { KanbanContext } from "@/context/KanbanContext";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
+import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
-import { IKanbanTask, TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
+import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import {
   AiOutlineCheck,
@@ -22,11 +23,12 @@ export default function KanbanModal() {
   const {
     selectedKanbanTask,
     toggleTaskModal,
-    columnList,
-    updateColumnDragAndDrop,
+    moveTaskDragAndDrop,
     updateTask,
     deleteTask,
-  } = useContext(KanbanContext);
+    completeTask,
+  } = useContext(KanbanTaskContext);
+  const { columnList } = useContext(KanbanColumnContext);
 
   const [newTaskName, setNewTaskName] = useState<string>("");
   const [newTaskDescription, setNewTaskDescription] = useState<string>("");
@@ -43,18 +45,27 @@ export default function KanbanModal() {
     useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
+  const [column, setColumn] = useState<IColumn | undefined>();
+
   useEffect(() => {
     setNewTaskName(selectedKanbanTask?.taskName ?? "");
     setNewTaskDescription(selectedKanbanTask?.description ?? "");
     setNewTaskPriority(selectedKanbanTask?.priority ?? "low");
+    setNewCompletionDate(
+      selectedKanbanTask?.completionDate
+        ? new Date(selectedKanbanTask?.completionDate)
+        : null
+    );
     setIsColumnOptionsOpen(false);
     setIsEditingDescription(false);
     setNewColumn(null);
-  }, [selectedKanbanTask]);
 
-  const column = columnList.find((column) =>
-    column.tasksId.includes(selectedKanbanTask?.id ?? "")
-  );
+    setColumn(
+      columnList.find((column) => {
+        return column.tasks?.includes(selectedKanbanTask?.id ?? "");
+      })
+    );
+  }, [selectedKanbanTask, columnList]);
 
   function resetFields() {
     setNewTaskName(selectedKanbanTask!.taskName);
@@ -67,16 +78,17 @@ export default function KanbanModal() {
 
   function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
-    const newTask: IKanbanTask = {
+    const newTask = {
       ...selectedKanbanTask!,
       taskName: newTaskName,
       description: newTaskDescription,
       priority: newTaskPriority,
       completionDate: newCompletionDate ?? undefined,
+      columnId: newColumn?.id ?? column!.id,
     };
     updateTask(selectedKanbanTask!.id, newTask);
     if (column!.id !== newColumn?.id && newColumn) {
-      updateColumnDragAndDrop(newColumn.id, newTask.id, column!.id);
+      moveTaskDragAndDrop(newColumn.id, newTask.id, column!.id);
     }
   }
 
@@ -117,7 +129,9 @@ export default function KanbanModal() {
           />
           <Divider />
           <DateChanger
-            newCompletionDate={newCompletionDate}
+            newCompletionDate={
+              newCompletionDate ? new Date(newCompletionDate) : null
+            }
             setNewCompletionDate={setNewCompletionDate}
           />
           <Divider />
@@ -172,6 +186,18 @@ export default function KanbanModal() {
           />
         )}
 
+        <Button
+          action={() => {
+            completeTask(selectedKanbanTask!.id);
+          }}
+          label="Completar"
+          extraStyles={{
+            button: `px-2 bg-woodsmoke-950 text-woodsmoke-100
+            hover:bg-crud-update-light
+            dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25`,
+          }}
+          icon={<AiOutlineCheck />}
+        />
         <Button
           action={() => {
             toggleTaskModal();

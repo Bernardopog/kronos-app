@@ -1,42 +1,47 @@
 export type RoleType = "admin" | "write" | "read";
 
 export interface IAuthorizedUser {
-  id: string;
+  userId: string;
   role: RoleType;
+  user: { username: string; displayName: string | null };
 }
 
 export interface IKanban {
   id: string;
   title: string;
-  columnsId: string[];
+  columns: string[];
   userId: string;
-  authorizedUserId: IAuthorizedUser[];
+  user: { username: string; displayName: string | null };
+  authorizedUsers: IAuthorizedUser[];
 }
 
 const mockKanbanList: IKanban[] = [
   {
     id: "1234567890abcdef",
     title: "Estudos",
-    columnsId: ["colqk12", "kbl127k", "fa6nlxq"],
+    columns: ["colqk12", "kbl127k", "fa6nlxq"],
     userId: "123",
-    authorizedUserId: [
-      { id: "456", role: "write" },
-      { id: "789", role: "read" },
+    user: { displayName: "", username: "" },
+    authorizedUsers: [
+      { userId: "456", role: "write", user: { displayName: "", username: "" } },
+      { userId: "789", role: "read", user: { displayName: "", username: "" } },
     ],
   },
   {
     id: "1234567890ghijkl",
     title: "Trabalho",
-    columnsId: [],
+    columns: [],
     userId: "456",
-    authorizedUserId: [],
+    user: { displayName: "", username: "" },
+    authorizedUsers: [],
   },
   {
     id: "1234567890mnopqr",
     title: "Kanban 3",
-    columnsId: [],
+    columns: [],
     userId: "456",
-    authorizedUserId: [],
+    user: { displayName: "", username: "" },
+    authorizedUsers: [],
   },
 ];
 

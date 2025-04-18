@@ -1,10 +1,10 @@
-import { KanbanContext } from "@/context/KanbanContext";
 import { icons } from "@/icons/icons";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, useContext } from "react";
 import { AiFillSetting } from "react-icons/ai";
 import Button from "../Button/Button";
 import { RoleType } from "@/mock/kanban/mockKanbans";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 
 interface IKanbanColumnHeaderProps {
   column: IColumn;
@@ -27,7 +27,7 @@ export default function KanbanColumnHeader({
   setIsOptionsOpen,
   role,
 }: IKanbanColumnHeaderProps) {
-  const { updateColumn } = useContext(KanbanContext);
+  const { renameColumn } = useContext(KanbanColumnContext);
 
   const colorHeader = `hsla(${column.color?.[0]}, ${column.color?.[1]}%, ${column.color?.[2]}%, 0.75)`;
 
@@ -56,18 +56,12 @@ export default function KanbanColumnHeader({
                   `}
             onChange={(ev) => setColumnName(ev.target.value)}
             onBlur={() => {
-              updateColumn(column.id, {
-                ...column,
-                columnName: columnName,
-              });
+              renameColumn(column.id, columnName);
               setEditingIsColumnTitle(false);
             }}
             onKeyDown={(ev) => {
               if (ev.key === "Enter") {
-                updateColumn(column.id, {
-                  ...column,
-                  columnName: columnName,
-                });
+                renameColumn(column.id, columnName);
                 setEditingIsColumnTitle(false);
               }
             }}

@@ -3,12 +3,30 @@ import Button from "@/components/Button/Button";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import Link from "next/link";
-import { useContext } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 export default function KanbanPage() {
   const { toggleModal } = useContext(ModalContext);
-  const { kanbanList, authorizedKanbanList } = useContext(KanbanContext);
+  const { kanbanList, authorizedKanbanList, deleteKanban } =
+    useContext(KanbanContext);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const kanbanidToDelete = searchParams.get("delete");
+
+  useEffect(() => {
+    if (!kanbanidToDelete) return;
+
+    const deleteAndClearURL = async () => {
+      router.push("/kanbanlist");
+      deleteKanban(kanbanidToDelete);
+    };
+
+    deleteAndClearURL();
+  }, [kanbanidToDelete, router, deleteKanban]);
 
   return (
     <main

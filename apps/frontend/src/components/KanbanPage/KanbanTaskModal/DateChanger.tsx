@@ -1,5 +1,5 @@
 import Calendar from "@/components/Calendar/Calendar";
-import { KanbanContext } from "@/context/KanbanContext";
+import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 import { Dispatch, SetStateAction, useContext } from "react";
 
 interface IDateChangerProps {
@@ -11,7 +11,7 @@ export default function DateChanger({
   newCompletionDate,
   setNewCompletionDate,
 }: IDateChangerProps) {
-  const { selectedKanbanTask } = useContext(KanbanContext);
+  const { selectedKanbanTask } = useContext(KanbanTaskContext);
 
   return (
     <section
@@ -19,12 +19,12 @@ export default function DateChanger({
     md:flex-row"
     >
       <Calendar
-        date={selectedKanbanTask!.creationDate}
+        date={new Date(selectedKanbanTask!.creationDate)}
         setDate={() => {}}
         type="read"
       />
       <Calendar
-        date={newCompletionDate}
+        date={newCompletionDate ? new Date(newCompletionDate) : null}
         setDate={setNewCompletionDate}
         type="update"
       />

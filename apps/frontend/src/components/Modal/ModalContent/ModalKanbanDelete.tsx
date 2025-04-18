@@ -7,7 +7,7 @@ import { KanbanContext } from "@/context/KanbanContext";
 import { useRouter } from "next/navigation";
 
 export default function ModalKanbanDelete() {
-  const { deleteKanban, selectedKanban } = useContext(KanbanContext);
+  const { selectedKanban } = useContext(KanbanContext);
   const { toggleModal } = useContext(ModalContext);
 
   const router = useRouter();
@@ -33,8 +33,7 @@ export default function ModalKanbanDelete() {
         type={"delete"}
         action={() => {
           toggleModal(null);
-          deleteKanban(selectedKanban!.id);
-          router.push("/kanbanlist");
+          router.push(`/kanbanlist?delete=${selectedKanban!.id}`);
         }}
       />
     </>

@@ -48,8 +48,11 @@ export default function ModalKanbanCreate() {
         action={() => {
           if (checkTitle()) return;
           toggleModal(null);
-          const newKanban = createKanban(title);
-          if (redirectEnabled) router.push(`/kanbanlist/${newKanban.id}`);
+          const redirectKanban = async () => {
+            const newKanban = await createKanban(title);
+            if (redirectEnabled) router.push(`/kanbanlist/${newKanban.id}`);
+          };
+          redirectKanban();
         }}
       />
     </>

@@ -8,43 +8,22 @@ import {
   AiOutlineUserAdd,
 } from "react-icons/ai";
 import Button from "../Button/Button";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { KanbanContext } from "@/context/KanbanContext";
 import { AuthContext } from "@/context/AuthContext";
-import { IAuthorizedUser } from "@/mock/kanban/mockKanbans";
 import KanbanUserOptions from "./KanbanUserOptions";
+import { RoleType } from "@/mock/kanban/mockKanbans";
 
 export default function KanbanOptionsTeam() {
-  const { userList, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { selectedKanban, addUserToKanban } = useContext(KanbanContext);
 
-  const [isAddingNewMember, setIsAddingNewMember] = useState<boolean>(false);
+  const [role, setRole] = useState<RoleType | null>(null);
   const [newMemberId, setNewMemberId] = useState<string>("");
+  const [isAddingNewMember, setIsAddingNewMember] = useState<boolean>(false);
   const [status, setStatus] = useState<number>(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  function userData(authorizedUser: IAuthorizedUser) {
-    const foundUser = userList.find((user) => user.id === authorizedUser.id);
-    return {
-      username: `@${foundUser?.username}`,
-      id: foundUser?.id,
-      displayName: foundUser?.displayName,
-    };
-  }
-
-  function creatorData(userId: string) {
-    const foundCreator = userList.find((user) => user.id === userId);
-    return {
-      username: `@${foundCreator?.username}`,
-      id: foundCreator?.id,
-      displayName: foundCreator?.displayName,
-    };
-  }
-
-  const role = selectedKanban?.authorizedUserId.find(
-    (authUser) => authUser.id === user?.id
-  )?.role;
 
   let statusMessage = "";
 
@@ -62,63 +41,70 @@ export default function KanbanOptionsTeam() {
       statusMessage = "";
   }
 
+  useEffect(() => {
+    if (user && selectedKanban) {
+      const authUser = selectedKanban?.authorizedUsers.find(
+        (authUser) => authUser.userId === user.id
+      );
+      if (authUser) {
+        setRole(authUser.role);
+      }
+    }
+  }, [user, selectedKanban]);
+
   return (
-    <>
-      <ul className="flex flex-col w-full gap-2 scrollbar-none overflow-y-scroll">
-        {selectedKanban && (
-          <li
-            className="flex flex-col relative p-1 border rounded-lg border-woodsmoke-400 bg-woodsmoke-200 ease-in-out duration-300
+    <ul className="flex flex-col w-full gap-2 scrollbar-none overflow-y-scroll">
+      {selectedKanban && user && (
+        <li
+          className="flex flex-col relative p-1 border rounded-lg border-woodsmoke-400 bg-woodsmoke-200 ease-in-out duration-300
         dark:border-woodsmoke-800 dark:bg-woodsmoke-900"
-          >
-            {creatorData(selectedKanban.userId).displayName ? (
-              <span>
-                {creatorData(selectedKanban.userId).displayName} -{" "}
-                <span className="opacity-50 italic text-[12px]">
-                  {`${creatorData(selectedKanban.userId).username}`}
-                </span>
+        >
+          {selectedKanban.user.displayName ? (
+            <span>
+              {selectedKanban.user.displayName} -{" "}
+              <span className="opacity-50 italic text-[12px]">
+                {`${selectedKanban.user.username}`}
               </span>
-            ) : (
-              <span>{creatorData(selectedKanban.userId).username}</span>
-            )}
-            <span className="text-[10px] opacity-50">
-              #{creatorData(selectedKanban.userId).id}
             </span>
-            <span className="text-5xl absolute top-1 right-1 opacity-25">
-              <AiOutlineUser />
-            </span>
-          </li>
-        )}
-        {selectedKanban?.authorizedUserId.map((authUser) => (
-          <li
-            key={authUser.id}
-            className={`group flex flex-col relative p-1 border rounded-lg
-              ${user?.id === authUser.id ? "bg-woodsmoke-300 dark:bg-woodsmoke-900 border-woodsmoke-950 dark:border-woodsmoke-100" : "border-woodsmoke-400 dark:border-woodsmoke-800"}
+          ) : (
+            <span>{selectedKanban.user.username}</span>
+          )}
+          <span className="text-[10px] opacity-50">
+            #{selectedKanban.userId}
+          </span>
+          <span className="text-5xl absolute top-1 right-1 opacity-25">
+            <AiOutlineUser />
+          </span>
+        </li>
+      )}
+      {selectedKanban?.authorizedUsers.map((authUser) => (
+        <li
+          key={authUser.userId}
+          className={`group flex flex-col relative p-1 border rounded-lg
+              ${user?.id === authUser.userId ? "bg-woodsmoke-300 dark:bg-woodsmoke-900 border-woodsmoke-950 dark:border-woodsmoke-100" : "border-woodsmoke-400 dark:border-woodsmoke-800"}
             `}
-          >
-            {userData(authUser).displayName ? (
-              <span>
-                {userData(authUser).displayName} -{" "}
-                <span className="opacity-50 italic text-[12px]">
-                  {userData(authUser).username}
-                </span>
+        >
+          {authUser.user.displayName ? (
+            <span>
+              {authUser.user.displayName} -{" "}
+              <span className="opacity-50 italic text-[12px]">
+                {authUser.user.username}
               </span>
-            ) : (
-              <span>{userData(authUser).username}</span>
-            )}
-            <span className="text-[10px] opacity-50">
-              #{userData(authUser).id}
             </span>
-            <span className="text-5xl absolute top-1 right-1 opacity-25">
-              {authUser.role === "admin" && <AiOutlineSetting />}
-              {authUser.role === "write" && <AiOutlineEdit />}
-              {authUser.role === "read" && <AiOutlineRead />}
-            </span>
-            {(role === "admin" || selectedKanban?.userId === user?.id) && (
-              <KanbanUserOptions id={authUser.id} />
-            )}
-          </li>
-        ))}
-      </ul>
+          ) : (
+            <span>{authUser.user.username}</span>
+          )}
+          <span className="text-[10px] opacity-50">#{authUser.userId}</span>
+          <span className="text-5xl absolute top-1 right-1 opacity-25">
+            {authUser.role === "admin" && <AiOutlineSetting />}
+            {authUser.role === "write" && <AiOutlineEdit />}
+            {authUser.role === "read" && <AiOutlineRead />}
+          </span>
+          {(role === "admin" || selectedKanban?.userId === user?.id) && (
+            <KanbanUserOptions id={authUser.userId} />
+          )}
+        </li>
+      ))}
       {(role === "admin" || selectedKanban?.userId === user?.id) && (
         <>
           <input
@@ -148,7 +134,6 @@ export default function KanbanOptionsTeam() {
               action={() => {
                 setIsAddingNewMember(false);
                 setNewMemberId("");
-                setStatus(0);
               }}
               extraStyles={{
                 button: `text-woodsmoke-950 w-full
@@ -162,10 +147,12 @@ export default function KanbanOptionsTeam() {
             <Button
               action={() => {
                 if (newMemberId) {
-                  const status = addUserToKanban(newMemberId);
-                  setStatus(status);
-                  setNewMemberId("");
-                  setStatus(0);
+                  const getStatus = async () => {
+                    const status = await addUserToKanban(newMemberId);
+                    setNewMemberId("");
+                    setStatus(status ?? 0);
+                  };
+                  getStatus();
                 }
               }}
               extraStyles={{
@@ -194,6 +181,6 @@ export default function KanbanOptionsTeam() {
           />
         </>
       )}
-    </>
+    </ul>
   );
 }

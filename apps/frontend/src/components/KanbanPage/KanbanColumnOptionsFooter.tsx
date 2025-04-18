@@ -1,9 +1,9 @@
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Button from "../Button/Button";
 import { Dispatch, SetStateAction, useContext } from "react";
-import { KanbanContext } from "@/context/KanbanContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { ModalContext } from "@/context/ModalContext";
+import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 
 interface IKanbanColumnOptionsFooterProps {
   column: IColumn;
@@ -18,7 +18,7 @@ export default function KanbanColumnOptionsFooter({
   icon,
   setIsOptionsOpen,
 }: IKanbanColumnOptionsFooterProps) {
-  const { updateColumn } = useContext(KanbanContext);
+  const { updateColumn } = useContext(KanbanColumnContext);
   const { toggleModal } = useContext(ModalContext);
 
   return (
