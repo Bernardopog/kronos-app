@@ -65,6 +65,9 @@ export class KanbanService {
       where: { columnId: { in: columnIds } },
     });
     await this.prismaService.column.deleteMany({ where: { kanbanId: id } });
+    await this.prismaService.authorizedUser.deleteMany({
+      where: { kanbanId: id },
+    });
 
     return await this.prismaService.kanban.delete({ where: { id } });
   }
