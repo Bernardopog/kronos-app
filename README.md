@@ -1,84 +1,84 @@
-# Turborepo starter
+# Kronos
 
-This is an official starter Turborepo.
+## 📖 Sobre o Projeto
 
-## Using this example
+Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, através de ToDo List, Notas e Kanban.
 
-Run the following command:
+## 👨‍💻 Tecnologias
 
-```sh
-npx create-turbo@latest
+### Core
+
+- [![TurboRepo](https://img.shields.io/badge/-TurboRepo-EF4444?logo=turborepo&logoColor=white&style=for-the-badge)](https://turborepo.com/)
+- [![TS](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org/)
+
+### Frontend
+
+- [![Next](https://img.shields.io/badge/-NextJS_15-000000?logo=nextdotjs&logoColor=white&style=for-the-badge)](https://nextjs.org/)
+- [![TailwindCSS](https://img.shields.io/badge/-TailwindCSS_v3.4-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://v3.tailwindcss.com/)
+
+### Backend
+
+- [![Nest](https://img.shields.io/badge/-Nest-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)](https://nestjs.com/)
+- [![Prisma](https://img.shields.io/badge/-Prisma-002740?logo=prisma&logoColor=white&style=for-the-badge)](https://www.prisma.io/)
+- [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white&style=for-the-badge)](https://www.postgresql.org/)
+
+## 📦 Featues
+
+- Sistema de Autenticação e Acesso
+- Middleware (**Next**) e Guards (**Nest**)
+- RESTful API
+- Criação de Notas com markdown
+- Responsibilidade
+
+## 📂 Estrutura de Pastas
+
+```txt
+src/
+├── app/         # Páginas do projeto (Next.js App Router)
+├── classes/     # Classes utilitárias (ex: Fetcher)
+├── components/  # Componentes reutilizáveis
+├── context/     # Contextos globais com React Context API
+├── data/        # Dados estáticos utilizados como ajuda para o usuário
+├── icons/       # Ícones personalizáveis usados pelo usuário
+├── mock/        # Dados falsos para testes e desenvolvimento
+├── mod/         # Módulos de lógica reutilizável (ex: checkFieldSignIn)
+├── shared/      # Estruturas não-visuais reutilizáveis (ex: linkList)
+├── ui/          # Componentes não reutilizáveis
+├── utils/       # Funções auxiliares (ex: idGenerator, já obsoleto)
 ```
 
-## What's inside?
+## 🦮 Instruções para rodar localmente
 
-This Turborepo includes the following packages/apps:
+Primeiro faça a instalação das dependências:
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+npm install
 ```
 
-### Develop
+Após a conclusão da instalação das dependências, será necessário gerar o prisma, para isso utilize os seguinte comando:
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+cd apps/backend
+npm run generate
+cd ../..
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+Após a conclusão dessa etapa você já poderá rodar o projeto, bastando apenas inserir o seguitne código:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+```bash
+npm run dev
 ```
 
-## Useful Links
+Isso irá iniciar o [Frontend](http://localhost:3000) na porta 3000 e o Backend na porta 3030, ambos no modo de desenvolvimento.
 
-Learn more about the power of Turborepo:
+Também poderá ser utilizado o comando:
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```bash
+npm run preview
+```
+
+Isso irá executar o projeto em modo de produção.
+
+## 💻 Autor
+
+Feito por Bernardo Poggioni - [LinkedIn](https://www.linkedin.com/in/bernardo-poggioni-3746a42a5/)
