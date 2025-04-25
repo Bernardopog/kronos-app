@@ -5,12 +5,14 @@ import { ModalContext } from "@/context/ModalContext";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillCopy, AiFillPlusCircle } from "react-icons/ai";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function KanbanPage() {
   const { toggleModal } = useContext(ModalContext);
   const { kanbanList, authorizedKanbanList, deleteKanban } =
     useContext(KanbanContext);
+  const { user } = useContext(AuthContext);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,6 +41,21 @@ export default function KanbanPage() {
         ${authorizedKanbanList.length > 0 && "max-h-[50%]"}
       `}
       >
+        <div className="flex items-center w-full justify-end text-woodsmoke-900 dark:text-woodsmoke-100">
+          Seu ID:{" "}
+          <span className="inline-block ml-2 px-2 rounded-l-lg bg-woodsmoke-900 text-woodsmoke-100">
+            {user?.id}
+          </span>
+          <Button
+            extraStyles={{
+              button: `inline-block p-0 px-2 rounded-none rounded-r-lg bg-woodsmoke-100 text-woodsmoke-900
+                hover:text-woodsmoke-950`,
+            }}
+            ariaLabel="Copiar ID"
+            icon={<AiFillCopy />}
+            action={() => navigator.clipboard.writeText(user?.id ?? "")}
+          />
+        </div>
         <h2 className="w-full text-2xl font-bold">Meus Kanbans</h2>
         <div className="flex flex-wrap gap-2">
           {kanbanList.map((kanban) => (
