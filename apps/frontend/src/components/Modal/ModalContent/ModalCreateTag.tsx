@@ -1,9 +1,9 @@
 "use client";
 import { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
-import Input from "@/components/Input/Input";
-import Checkbox from "@/components/Checkbox/Checkbox";
+import { Input } from "@/ui/Input/";
+import Checkbox from "@/ui/Checkbox";
 import { ModalContext } from "@/context/ModalContext";
 
 export default function ModalCreateTag() {

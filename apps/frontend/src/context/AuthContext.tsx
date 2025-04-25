@@ -2,8 +2,8 @@
 
 import { Fetcher } from "@/classes/Fetcher";
 import { IUser } from "@/mock/mockUsers";
-import { checkFieldsSignIn } from "@/mod/checkFieldSignIn";
-import checkFieldsSignUp from "@/mod/checkFieldSignUp";
+import { checkFieldsSignIn } from "@/modules/checkFieldSignIn";
+import checkFieldsSignUp from "@/modules/checkFieldSignUp";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, ReactNode, useEffect, useState } from "react";
 

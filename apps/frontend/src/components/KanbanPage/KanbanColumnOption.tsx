@@ -3,9 +3,10 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import KanbanColumnOptionsFooter from "./KanbanColumnOptionsFooter";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { icons } from "@/icons/icons";
-import Divider from "../Divider/Divider";
+import Divider from "@/ui/Divider";
 
 interface IKanbanColumnOptionProps {
   column: IColumn;

@@ -7,7 +7,8 @@ import {
   AiOutlineUser,
   AiOutlineUserAdd,
 } from "react-icons/ai";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { KanbanContext } from "@/context/KanbanContext";
 import { AuthContext } from "@/context/AuthContext";

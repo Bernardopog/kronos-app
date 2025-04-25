@@ -2,7 +2,8 @@
 import { ModalContext } from "@/context/ModalContext";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { AiFillDelete, AiOutlineTeam } from "react-icons/ai";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { RoleType } from "@/mock/kanban/mockKanbans";
 
 interface IKanbanOptionsProps {

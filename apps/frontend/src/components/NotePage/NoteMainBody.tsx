@@ -2,7 +2,7 @@
 
 import { NoteContext } from "@/context/NoteContext";
 import { INote } from "@/mock/mockNote";
-import formaterText from "@/mod/noteTextFormatter";
+import formaterText from "@/modules/noteTextFormatter";
 import { useContext, useEffect, useRef, useState } from "react";
 
 interface INoteMainBodyProps {

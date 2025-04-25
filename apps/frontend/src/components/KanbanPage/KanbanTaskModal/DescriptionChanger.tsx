@@ -1,4 +1,4 @@
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 import { Dispatch, SetStateAction, useRef } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 

@@ -3,7 +3,7 @@
 import { ModalContext } from "@/context/ModalContext";
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 
 export default function ModalToDoRemoveSingle() {
   const { toggleModal } = useContext(ModalContext);

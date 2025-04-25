@@ -1,4 +1,4 @@
-import HomeCard from "@/components/Card/HomeCard";
+import { HomeCard } from "@/ui/Card";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import linkList from "@/shared/linkList";
 

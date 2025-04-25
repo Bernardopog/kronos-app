@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 

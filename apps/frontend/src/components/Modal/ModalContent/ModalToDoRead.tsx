@@ -2,9 +2,9 @@
 
 import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 

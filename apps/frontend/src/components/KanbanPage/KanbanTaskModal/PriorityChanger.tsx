@@ -1,4 +1,4 @@
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { Dispatch, SetStateAction } from "react";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";

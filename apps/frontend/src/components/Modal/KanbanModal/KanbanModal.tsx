@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@/components/Button/Button";
-import Divider from "@/components/Divider/Divider";
+import { Button } from "@/ui/Button";
+import Divider from "@/ui/Divider";
 import ColumnChanger from "@/components/KanbanPage/KanbanTaskModal/ColumnChanger";
 import DateChanger from "@/components/KanbanPage/KanbanTaskModal/DateChanger";
 import DescriptionChanger from "@/components/KanbanPage/KanbanTaskModal/DescriptionChanger";

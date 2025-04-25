@@ -2,7 +2,8 @@ import { IKanbanTask } from "@/mock/kanban/mockKanbanTasks";
 import { DragEvent, useContext } from "react";
 
 import { AiOutlineRead } from "react-icons/ai";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { RoleType } from "@/mock/kanban/mockKanbans";
 import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 

@@ -2,7 +2,8 @@ import { icons } from "@/icons/icons";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, useContext } from "react";
 import { AiFillSetting } from "react-icons/ai";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { RoleType } from "@/mock/kanban/mockKanbans";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 

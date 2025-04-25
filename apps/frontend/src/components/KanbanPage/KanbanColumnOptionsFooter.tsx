@@ -1,5 +1,6 @@
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { Dispatch, SetStateAction, useContext } from "react";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { ModalContext } from "@/context/ModalContext";

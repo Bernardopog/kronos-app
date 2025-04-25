@@ -3,7 +3,7 @@
 import { ModalContext } from "@/context/ModalContext";
 import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 
 export default function ModalNoteDelete() {
   const { deleteNote, selectedNote } = useContext(NoteContext);

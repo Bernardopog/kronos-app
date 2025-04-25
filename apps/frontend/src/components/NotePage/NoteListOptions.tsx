@@ -1,10 +1,9 @@
 "use client";
 
 import { AiFillFilter, AiOutlineClose } from "react-icons/ai";
-import CreateNoteButton from "../Button/CreateNoteButton";
+import { Button, CreateNoteButton } from "@/ui/Button/";
 import { useContext } from "react";
 import { NoteContext } from "@/context/NoteContext";
-import Button from "../Button/Button";
 
 interface INoteListOptionsProps {
   isFilterShow: boolean;

@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/components/Button/Button";
-import Divider from "@/components/Divider/Divider";
-import AuthInput from "@/components/Input/AuthInput";
-import PasswordHint from "@/components/PasswordHint";
+import { Button } from "@/ui/Button";
+import Divider from "@/ui/Divider";
+import { AuthInput } from "@/ui/Input/";
+import PasswordHint from "@/ui/PasswordHint";
 import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
 import { redirect } from "next/navigation";

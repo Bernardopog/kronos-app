@@ -2,13 +2,14 @@
 
 import { AiFillTag, AiOutlineClockCircle, AiOutlineTag } from "react-icons/ai";
 import { INote } from "@/mock/mockNote";
-import Divider from "@/components/Divider/Divider";
+import Divider from "@/ui/Divider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { NoteContext } from "@/context/NoteContext";
 import { icons } from "@/icons/icons";
 import { FaQuestion } from "react-icons/fa";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import HyperTextModal from "../Modal/HyperTextModal/HyperTextModal";
 
 interface INoteMainHeaderProps {

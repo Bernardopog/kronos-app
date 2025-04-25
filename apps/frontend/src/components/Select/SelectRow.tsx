@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { AiFillQuestionCircle } from "react-icons/ai";
-import PriorityButton from "../Button/PriorityButton";
+import { PriorityButton } from "@/ui/Button";
 import { PriorityType } from "@/mock/mockToDoList";
 
 interface ISelectRowProps {

@@ -2,7 +2,7 @@
 
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { KanbanContext } from "@/context/KanbanContext";
 import { useRouter } from "next/navigation";
 

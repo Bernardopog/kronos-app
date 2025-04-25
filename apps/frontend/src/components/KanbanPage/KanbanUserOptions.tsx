@@ -1,9 +1,11 @@
 "use client";
 
 import { useContext, useState } from "react";
-import Inert from "../Inert/Inert";
+import Inert from "@/ui/Inert";
+
 import { AuthContext } from "@/context/AuthContext";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import {
   AiFillCheckCircle,
   AiFillCloseCircle,

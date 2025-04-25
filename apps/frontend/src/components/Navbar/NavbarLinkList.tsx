@@ -3,7 +3,7 @@ import { NavbarContext } from "@/context/NavbarContext";
 import { redirect, usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
 import NavbarLinkListItem from "./NavbarLinkListItem";
-import Divider from "../Divider/Divider";
+import Divider from "../../ui/Divider";
 import { BsFileText, BsKanban, BsListCheck } from "react-icons/bs";
 import { AiOutlineForm, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { AuthContext } from "@/context/AuthContext";

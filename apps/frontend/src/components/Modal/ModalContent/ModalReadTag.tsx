@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
 import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { ModalContext } from "@/context/ModalContext";
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 
 export default function ModalReadTag() {
   const { tagList, selectedNote, addTag, removeTag } = useContext(NoteContext);

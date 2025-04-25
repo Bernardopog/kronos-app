@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import Header from "@/ui/Header/Header";
-import Navbar from "@/ui/Navbar/Navbar";
-import Modal from "@/ui/Modal/Modal";
+import { Header, Navbar } from "@/layout/MainLayout/";
+import Modal from "@/components/Modal/Modal";
 import { NavbarProvider } from "@/context/NavbarContext";
 import { ToDoProvider } from "@/context/ToDoContext";
 import { ToDoCategoryProvider } from "@/context/ToDoCategoryContext";

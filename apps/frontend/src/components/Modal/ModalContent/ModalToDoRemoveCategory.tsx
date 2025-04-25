@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ModalContext } from "@/context/ModalContext";
 

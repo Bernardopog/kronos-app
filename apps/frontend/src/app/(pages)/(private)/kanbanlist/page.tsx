@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import Link from "next/link";

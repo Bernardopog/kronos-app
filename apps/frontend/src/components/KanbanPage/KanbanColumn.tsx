@@ -1,6 +1,7 @@
 "use client";
 
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
+
 import { AiFillPlusCircle } from "react-icons/ai";
 import { DragEvent, useContext, useState } from "react";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
@@ -8,7 +9,8 @@ import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
 import KanbanColumnOption from "./KanbanColumnOption";
 import KanbanColumnHeader from "./KanbanColumnHeader";
-import Inert from "../Inert/Inert";
+import Inert from "@/ui/Inert";
+
 import { RoleType } from "@/mock/kanban/mockKanbans";
 import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 

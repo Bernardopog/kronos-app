@@ -1,6 +1,6 @@
 "use client";
-import Button from "@/components/Button/Button";
-import Inert from "@/components/Inert/Inert";
+import { Button } from "@/ui/Button";
+import Inert from "@/ui/Inert";
 import KanbanColumn from "@/components/KanbanPage/KanbanColumn";
 import KanbanOptions from "@/components/KanbanPage/KanbanOptions";
 import KanbanOptionsTeam from "@/components/KanbanPage/KanbanOptionsTeam";

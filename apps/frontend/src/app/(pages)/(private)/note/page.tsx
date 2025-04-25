@@ -1,8 +1,10 @@
-import NoteList from "@/ui/NotePage/NoteList";
-import NoteListButton from "@/ui/NotePage/NoteListButton";
-import NoteMain from "@/ui/NotePage/NoteMain";
-import NoteOptions from "@/ui/NotePage/NoteOptions";
-import NoteOptionsButton from "@/ui/NotePage/NoteOptionsButton";
+import {
+  NoteList,
+  NoteListButton,
+  NoteMain,
+  NoteOptions,
+  NoteOptionsButton,
+} from "@/layout/PageLayout/NotePage";
 
 export default function NotePage() {
   return (

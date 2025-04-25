@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
 
 interface IThemeTogglerProps {
   menuStatus?: boolean;

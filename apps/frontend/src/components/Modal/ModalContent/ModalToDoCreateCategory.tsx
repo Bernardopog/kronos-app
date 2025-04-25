@@ -1,8 +1,8 @@
 "use client";
 
-import Input from "@/components/Input/Input";
+import { Input } from "@/ui/Input/";
 import React, { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 

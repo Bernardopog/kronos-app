@@ -3,7 +3,7 @@ import {
   IoMdArrowDropleftCircle,
   IoMdArrowDroprightCircle,
 } from "react-icons/io";
-import Button from "../Button/Button";
+import { Button } from "@/ui/Button/";
 
 interface ICalendarProps {
   date: Date | null;

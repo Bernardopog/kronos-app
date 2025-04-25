@@ -1,11 +1,11 @@
 "use client";
 
 import { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
-import Input from "@/components/Input/Input";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
+import { Input } from "@/ui/Input/";
 import { ModalContext } from "@/context/ModalContext";
-import TextArea from "@/components/TextArea/TextArea";
-import Button from "@/components/Button/Button";
+import TextArea from "@/ui/TextArea";
+import { Button } from "@/ui/Button";
 import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 

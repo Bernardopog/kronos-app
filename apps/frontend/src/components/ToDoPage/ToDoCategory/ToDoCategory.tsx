@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext, useState } from "react";

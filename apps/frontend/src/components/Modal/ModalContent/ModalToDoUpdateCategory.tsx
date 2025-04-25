@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
-import Input from "@/components/Input/Input";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
+import { Input } from "@/ui/Input/";
 import { ModalContext } from "@/context/ModalContext";
 import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 

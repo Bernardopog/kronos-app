@@ -8,7 +8,7 @@ import {
   IoMdArrowDropleftCircle,
   IoMdArrowDroprightCircle,
 } from "react-icons/io";
-import Button from "@/components/Button/Button";
+import { Button } from "@/ui/Button";
 
 export default function HyperTextModal() {
   const [helpPage, setHelpPage] = useState<number>(1);

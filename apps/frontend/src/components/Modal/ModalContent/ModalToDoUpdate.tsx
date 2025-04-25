@@ -4,10 +4,10 @@ import SelectRow from "@/components/Select/SelectRow";
 import { ToDoContext } from "@/context/ToDoContext";
 import { PriorityType } from "@/mock/mockToDoList";
 import { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
-import Input from "@/components/Input/Input";
-import TextArea from "@/components/TextArea/TextArea";
+import { Input } from "@/ui/Input/";
+import TextArea from "@/ui/TextArea";
 import SelectCategory from "@/components/Select/SelectCategory";
 
 export default function ModalToDoUpdate() {

@@ -1,12 +1,12 @@
 "use client";
 
 import { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { KanbanContext } from "@/context/KanbanContext";
-import Input from "@/components/Input/Input";
+import { Input } from "@/ui/Input/";
 import { ModalContext } from "@/context/ModalContext";
 import { useRouter } from "next/navigation";
-import Checkbox from "@/components/Checkbox/Checkbox";
+import Checkbox from "@/ui/Checkbox";
 
 export default function ModalKanbanCreate() {
   const [title, setTitle] = useState<string>("");

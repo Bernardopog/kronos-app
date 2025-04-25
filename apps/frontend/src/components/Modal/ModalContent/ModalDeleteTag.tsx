@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useState } from "react";
-import ModalFooter from "../ModalFooter";
+import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { NoteContext } from "@/context/NoteContext";
 import { ModalContext } from "@/context/ModalContext";
 

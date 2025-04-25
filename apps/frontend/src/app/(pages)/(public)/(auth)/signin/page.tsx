@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/components/Button/Button";
-import Divider from "@/components/Divider/Divider";
-import AuthInput from "@/components/Input/AuthInput";
+import { Button } from "@/ui/Button";
+import Divider from "@/ui/Divider";
+import { AuthInput } from "@/ui/Input/";
 import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
 import { FormEvent, useContext, useState } from "react";

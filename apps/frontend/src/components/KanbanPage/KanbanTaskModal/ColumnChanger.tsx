@@ -1,5 +1,5 @@
-import Button from "@/components/Button/Button";
-import Inert from "@/components/Inert/Inert";
+import { Button } from "@/ui/Button";
+import Inert from "@/ui/Inert";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 import { icons } from "@/icons/icons";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
