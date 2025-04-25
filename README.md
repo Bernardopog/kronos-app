@@ -34,17 +34,22 @@ Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, atrav�
 
 ```txt
 src/
-├── app/         # Páginas do projeto (Next.js App Router)
-├── classes/     # Classes utilitárias (ex: Fetcher)
-├── components/  # Componentes reutilizáveis
-├── context/     # Contextos globais com React Context API
-├── data/        # Dados estáticos utilizados como ajuda para o usuário
-├── icons/       # Ícones personalizáveis usados pelo usuário
-├── mock/        # Dados falsos para testes e desenvolvimento
-├── mod/         # Módulos de lógica reutilizável (ex: checkFieldSignIn)
-├── shared/      # Estruturas não-visuais reutilizáveis (ex: linkList)
-├── ui/          # Componentes não reutilizáveis
-├── utils/       # Funções auxiliares (ex: idGenerator, já obsoleto)
+├── app/                  # Páginas do projeto (Next.js App Router)
+│   └── (pages)/          # Agrupador de Rotas
+│       ├──(private)/     # Rotas privadas que requerem autenticação
+│       └──(public)/      # Rotas públicas acessíveis sem autenticação
+├── classes/              # Classes utilitárias (ex: Fetcher)
+├── components/           # Componentes reutilizáveis e compostos
+├── ui/                   # Componentes com baixa complexidade e/ou atômicos
+├── layout/               # Estruturas de layout específicas
+│   ├── MainLayout/       # Layout base (Navbar, Header, etc)
+│   └── PageLayout/       # Layouts estruturais de cada página
+├── context/              # Contextos globais com React Context API
+├── data/                 # Dados estáticos usados como conteúdo auxiliar
+├── modules/              # Lógica modular e reutilizável (ex: checkFieldSignIn)
+├── shared/               # Estruturas não-visuais reutilizáveis (ex: linkList)
+├── mock/                 # Dados falsos para testes e desenvolvimento
+├── icons/                # Ícones customizados usados no projeto
 ```
 
 ## 🦮 Instruções para rodar localmente
