@@ -1,27 +1,15 @@
 import { Fetcher } from "@/classes/Fetcher";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { AuthContext } from "./AuthContext";
-import { KanbanContext } from "./KanbanContext";
+import { createContext, ReactNode, useContext } from "react";
+import { IColumnFullKanban, KanbanContext } from "./KanbanContext";
 
 interface IKanbanColumnContext {
   // States
-  columnList: IColumn[];
-
-  // Dispatch
-  setColumnList: Dispatch<SetStateAction<IColumn[]>>;
+  columnList: IColumnFullKanban[];
 
   // Functions (CRUD)
   createColumn: (columnName: string) => void;
-  updateColumn: (columnId: string, data: IColumn) => void;
+  updateColumn: (columnId: string, data: Partial<IColumn>) => void;
   renameColumn: (columnId: string, columnName: string) => void;
   deleteColumn: (columnId: string) => void;
 }
@@ -29,127 +17,70 @@ interface IKanbanColumnContext {
 const KanbanColumnContext = createContext({} as IKanbanColumnContext);
 
 const KanbanColumnProvider = ({ children }: { children: ReactNode }) => {
-  const [columnList, setColumnList] = useState<IColumn[]>([]);
-
-  const { selectedKanban, setSelectedKanban, selectKanban } =
-    useContext(KanbanContext);
-  const { user } = useContext(AuthContext);
+  const { selectedKanban, setSelectedKanban } = useContext(KanbanContext);
 
   const kanbanColumnFetcher = new Fetcher("column");
 
-  // Util
-  function getIndex(columnId: string): number {
-    const index = columnList.findIndex((column) => column.id === columnId);
-    return index;
-  }
-
-  useEffect(() => {
-    if (user && selectedKanban) {
-      const getColumnData = async () => {
-        const data = (await new Fetcher("column").get({
-          id: selectedKanban?.id,
-        })) as IColumn[];
-        setColumnList(data);
-      };
-      getColumnData();
-    }
-  }, [user, selectedKanban]);
+  const columnList = selectedKanban?.columns || [];
 
   const createColumn = async (columnName: string) => {
-    const createdColumn = (await kanbanColumnFetcher.post({
+    const newColumn = (await kanbanColumnFetcher.post({
       columnName,
       kanbanId: selectedKanban!.id,
-    })) as IColumn;
+    })) as IColumnFullKanban;
 
-    if (createdColumn) {
-      setColumnList([...columnList, createdColumn]);
+    if (!newColumn) return;
 
-      const selectedKanbanColumns = selectedKanban?.columns;
-
-      setSelectedKanban((prev) =>
-        prev
-          ? {
-              ...prev,
-              columns: [...(selectedKanbanColumns || []), createdColumn.id],
-            }
-          : null
-      );
-    }
+    setSelectedKanban((prev) => ({
+      ...prev!,
+      columns: [...prev!.columns, newColumn],
+    }));
   };
 
-  const updateColumn = async (columnId: string, data: IColumn) => {
-    const updatedColumn = (await kanbanColumnFetcher.put(
-      { color: data.color, icon: data.icon },
-      {
-        id: columnId,
-      }
-    )) as IColumn;
+  const updateColumn = async (columnId: string, data: Partial<IColumn>) => {
+    const updated = (await kanbanColumnFetcher.put(data, {
+      id: columnId,
+    })) as IColumnFullKanban;
 
-    if (updatedColumn.id !== undefined) {
-      const columnIndex = getIndex(columnId);
+    if (!updated) return;
 
-      if (columnIndex < 0) return;
-      columnList[columnIndex] = data;
-
-      setColumnList([...columnList]);
-      const column = columnList.find((column) => column.id === columnId);
-
-      if (!column) return;
-
-      column.columnName = data.columnName;
-      setColumnList([...columnList]);
-
-      selectKanban(selectedKanban!.id);
-    }
+    setSelectedKanban((prev) => ({
+      ...prev!,
+      columns: prev!.columns.map((col) =>
+        col.id === columnId ? { ...col, ...data, tasks: col.tasks } : col
+      ) as IColumnFullKanban[],
+    }));
   };
 
   const renameColumn = async (columnId: string, columnName: string) => {
-    const renamedColumn = await kanbanColumnFetcher.patch(
+    const renamed = await kanbanColumnFetcher.patch(
       { columnName },
       { id: columnId }
     );
+    if (!renamed) return;
 
-    if (renamedColumn) {
-      const columnIndex = getIndex(columnId);
-      if (columnIndex < 0) return;
-
-      columnList[columnIndex].columnName = columnName;
-
-      setColumnList([...columnList]);
-      const column = columnList.find((column) => column.id === columnId);
-
-      if (!column) return;
-
-      column.columnName = columnName;
-      setColumnList([...columnList]);
-    }
+    setSelectedKanban((prev) => ({
+      ...prev!,
+      columns: prev!.columns.map((col) =>
+        col.id === columnId ? { ...col, columnName } : col
+      ) as IColumnFullKanban[],
+    }));
   };
 
   const deleteColumn = async (columnId: string) => {
-    const deletedColumn = await kanbanColumnFetcher.delete({ id: columnId });
+    const deleted = await kanbanColumnFetcher.delete({ id: columnId });
+    if (!deleted) return;
 
-    if (deletedColumn) {
-      const columnIndex = getIndex(columnId);
-      if (!columnIndex) return;
-
-      columnList.splice(columnIndex, 1);
-      setColumnList([...columnList]);
-
-      const selectedKanbanColumns = selectedKanban?.columns.filter(
-        (column) => column !== columnId
-      );
-
-      setSelectedKanban((prev) =>
-        prev ? { ...prev, columns: selectedKanbanColumns || [] } : null
-      );
-    }
+    setSelectedKanban((prev) => ({
+      ...prev!,
+      columns: prev!.columns.filter((col) => col.id !== columnId),
+    }));
   };
 
   return (
     <KanbanColumnContext.Provider
       value={{
         columnList,
-        setColumnList,
         createColumn,
         updateColumn,
         renameColumn,

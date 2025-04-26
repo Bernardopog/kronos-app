@@ -144,25 +144,19 @@ export default function Kanban() {
             </Inert>
           )}
           <div className="flex h-full gap-2">
-            {columnList
-              .filter((column) => {
-                return selectedKanban?.columns.some(
-                  (columnId) => columnId === column.id
-                );
-              })
-              .map((column, index) => {
-                return (
-                  <KanbanColumn
-                    key={column.id}
-                    column={column}
-                    index={index}
-                    dragStart={handleDragStart}
-                    dragDrop={handleDragDrop}
-                    role={role}
-                  />
-                );
-              })}
-            {(selectedKanban?.columns.length ?? 0) < 8 && role !== "read" && (
+            {columnList.map((column, index) => {
+              return (
+                <KanbanColumn
+                  key={column.id}
+                  column={column}
+                  index={index}
+                  dragStart={handleDragStart}
+                  dragDrop={handleDragDrop}
+                  role={role}
+                />
+              );
+            })}
+            {(columnList.length ?? 0) < 8 && role !== "read" && (
               <Button
                 extraStyles={{
                   button: `min-w-80 max-w-80 min-h-[460px] h-[100dvh] max-h-[calc(100%-6rem)] border-dashed rounded-lg text-woodsmoke-900

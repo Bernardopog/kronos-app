@@ -2,14 +2,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import KanbanColumnOptionsFooter from "./KanbanColumnOptionsFooter";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Button } from "@/ui/Button/";
 
 import { icons } from "@/icons/icons";
 import Divider from "@/ui/Divider";
+import { IColumnFullKanban } from "@/context/KanbanContext";
 
 interface IKanbanColumnOptionProps {
-  column: IColumn;
+  column: IColumnFullKanban;
   setIsOptionsOpen: Dispatch<SetStateAction<boolean>>;
 }
 

@@ -1,14 +1,14 @@
 import { icons } from "@/icons/icons";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, useContext } from "react";
 import { AiFillSetting } from "react-icons/ai";
 import { Button } from "@/ui/Button/";
 
 import { RoleType } from "@/mock/kanban/mockKanbans";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
+import { IColumnFullKanban } from "@/context/KanbanContext";
 
 interface IKanbanColumnHeaderProps {
-  column: IColumn;
+  column: IColumnFullKanban;
   columnName: string;
   setColumnName: Dispatch<React.SetStateAction<string>>;
   isOptionsOpen: boolean;
@@ -92,11 +92,11 @@ export default function KanbanColumnHeader({
           icon={<AiFillSetting />}
           extraStyles={{
             button: `
-            border rounded-full bg-woodsmoke-100 text-woodsmoke-900
-            hover:text-woodsmoke-925
-            dark:text-woodsmoke-200 dark:bg-woodsmoke-925
-            dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
-        `,
+              border rounded-full bg-woodsmoke-100 text-woodsmoke-900
+              hover:text-woodsmoke-925
+              dark:text-woodsmoke-200 dark:bg-woodsmoke-925
+              dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
+            `,
           }}
         />
       )}

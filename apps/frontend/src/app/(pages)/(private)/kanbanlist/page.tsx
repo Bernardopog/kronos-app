@@ -4,7 +4,7 @@ import { KanbanContext } from "@/context/KanbanContext";
 import { ModalContext } from "@/context/ModalContext";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { AiFillCopy, AiFillPlusCircle } from "react-icons/ai";
 import { AuthContext } from "@/context/AuthContext";
 
@@ -19,16 +19,30 @@ export default function KanbanPage() {
 
   const kanbanidToDelete = searchParams.get("delete");
 
-  useEffect(() => {
-    if (!kanbanidToDelete) return;
+  const hasDeletedRef = useRef(false);
 
-    const deleteAndClearURL = async () => {
-      router.push("/kanbanlist");
-      deleteKanban(kanbanidToDelete);
+  useEffect(() => {
+    if (!kanbanidToDelete || hasDeletedRef.current) return;
+
+    hasDeletedRef.current = true;
+
+    const deleteAndNavigate = async () => {
+      await deleteKanban(kanbanidToDelete);
+
+      // Limpa a URL antes de redirecionar (evita re-trigger)
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete("delete");
+      const urlWithoutParam = `/kanbanlist?${newParams.toString()}`.replace(
+        /\?$/,
+        ""
+      );
+
+      router.replace(urlWithoutParam);
     };
 
-    deleteAndClearURL();
-  }, [kanbanidToDelete, router, deleteKanban]);
+    deleteAndNavigate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kanbanidToDelete, deleteKanban, router]);
 
   return (
     <main

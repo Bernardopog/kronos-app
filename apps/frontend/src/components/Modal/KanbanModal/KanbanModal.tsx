@@ -9,7 +9,6 @@ import PriorityChanger from "@/components/KanbanPage/KanbanTaskModal/PriorityCha
 import TaskNameChanger from "@/components/KanbanPage/KanbanTaskModal/TaskNameChanger";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 import { KanbanTaskContext } from "@/context/KanbanTaskContext";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import {
@@ -18,6 +17,7 @@ import {
   AiOutlineDelete,
   AiOutlineSave,
 } from "react-icons/ai";
+import { IColumnFullKanban } from "@/context/KanbanContext";
 
 export default function KanbanModal() {
   const {
@@ -34,7 +34,7 @@ export default function KanbanModal() {
   const [newTaskDescription, setNewTaskDescription] = useState<string>("");
   const [newTaskPriority, setNewTaskPriority] =
     useState<TaskPriorityType>("low");
-  const [newColumn, setNewColumn] = useState<IColumn | null>(null);
+  const [newColumn, setNewColumn] = useState<IColumnFullKanban | null>(null);
   const [newCompletionDate, setNewCompletionDate] = useState<Date | null>(
     selectedKanbanTask?.completionDate ?? null
   );
@@ -45,7 +45,7 @@ export default function KanbanModal() {
     useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
-  const [column, setColumn] = useState<IColumn | undefined>();
+  const [column, setColumn] = useState<IColumnFullKanban | undefined>();
 
   useEffect(() => {
     setNewTaskName(selectedKanbanTask?.taskName ?? "");
@@ -62,7 +62,9 @@ export default function KanbanModal() {
 
     setColumn(
       columnList.find((column) => {
-        return column.tasks?.includes(selectedKanbanTask?.id ?? "");
+        return column.tasks
+          ?.map((task) => task.id)
+          .includes(selectedKanbanTask?.id ?? "");
       })
     );
   }, [selectedKanbanTask, columnList]);
@@ -84,7 +86,6 @@ export default function KanbanModal() {
       description: newTaskDescription,
       priority: newTaskPriority,
       completionDate: newCompletionDate ?? undefined,
-      columnId: newColumn?.id ?? column!.id,
     };
     updateTask(selectedKanbanTask!.id, newTask);
     if (column!.id !== newColumn?.id && newColumn) {

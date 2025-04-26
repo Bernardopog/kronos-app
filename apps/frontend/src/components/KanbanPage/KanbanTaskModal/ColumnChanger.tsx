@@ -2,16 +2,16 @@ import { Button } from "@/ui/Button";
 import Inert from "@/ui/Inert";
 import { KanbanColumnContext } from "@/context/KanbanColumnContext";
 import { icons } from "@/icons/icons";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
+import { IColumnFullKanban } from "@/context/KanbanContext";
 
 interface IColumnChangerProps {
   isColumnOptionsOpen: boolean;
   setIsColumnOptionsOpen: Dispatch<SetStateAction<boolean>>;
-  column: IColumn;
-  newColumn: IColumn | null;
-  setNewColumn: Dispatch<SetStateAction<IColumn | null>>;
+  column: IColumnFullKanban;
+  newColumn: IColumnFullKanban | null;
+  setNewColumn: Dispatch<SetStateAction<IColumnFullKanban | null>>;
 }
 
 export default function ColumnChanger({
@@ -67,29 +67,27 @@ export default function ColumnChanger({
   `}
       >
         <ul className="grid grid-cols-2 gap-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-8">
-          {columnList
-            .filter((allColumns) => allColumns.id !== column.id)
-            .map((column) => (
-              <li key={column.id} className="relative">
-                <div
-                  style={{
-                    backgroundColor: `hsl(${column.color[0]}, ${column.color[1]}%, ${column.color[2]}%)`,
-                  }}
-                  className="absolute z-50 w-2 h-full rounded-l-lg"
-                />
-                <Button
-                  extraStyles={{
-                    button: `bg-woodsmoke-950 w-full text-woodsmoke-100
+          {columnList.map((column) => (
+            <li key={column.id} className="relative">
+              <div
+                style={{
+                  backgroundColor: `hsl(${column.color[0]}, ${column.color[1]}%, ${column.color[2]}%)`,
+                }}
+                className="absolute z-50 w-2 h-full rounded-l-lg"
+              />
+              <Button
+                extraStyles={{
+                  button: `bg-woodsmoke-950 w-full text-woodsmoke-100
                 dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25
               `,
-                    label: "truncate",
-                  }}
-                  icon={icons[column.icon as keyof typeof icons]}
-                  label={column.columnName}
-                  action={() => setNewColumn(column)}
-                />
-              </li>
-            ))}
+                  label: "truncate",
+                }}
+                icon={icons[column.icon as keyof typeof icons]}
+                label={column.columnName}
+                action={() => setNewColumn(column)}
+              />
+            </li>
+          ))}
         </ul>
       </Inert>
     </>

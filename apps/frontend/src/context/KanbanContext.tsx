@@ -14,6 +14,26 @@ import { AuthContext } from "./AuthContext";
 import { KanbanTaskProvider } from "./KanbanTaskContext";
 import { Fetcher } from "@/classes/Fetcher";
 import { KanbanColumnProvider } from "./KanbanColumnContext";
+import { IColumn } from "@/mock/kanban/mockKanbanColumns";
+import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
+
+export interface ITaskFullKanban {
+  id: string;
+  taskName: string;
+  priority: TaskPriorityType;
+  creationDate: Date;
+  isCompleted: boolean;
+  columnId: string;
+  team?: string[];
+  description?: string;
+  completionDate?: Date;
+}
+export interface IColumnFullKanban extends Omit<IColumn, "tasks"> {
+  tasks: ITaskFullKanban[];
+}
+export interface IFullKanban extends Omit<IKanban, "columns"> {
+  columns: IColumnFullKanban[];
+}
 
 interface IResponse {
   statusCode: number;
@@ -24,10 +44,10 @@ interface IKanbanContext {
   // States
   kanbanList: IKanban[];
   authorizedKanbanList: IAuthorizedKanban[];
-  selectedKanban: IKanban | null;
+  selectedKanban: IFullKanban | null;
 
   // Dispatch
-  setSelectedKanban: Dispatch<SetStateAction<IKanban | null>>;
+  setSelectedKanban: Dispatch<SetStateAction<IFullKanban | null>>;
 
   // Crud
   selectKanban: (id: string) => Promise<number | undefined>;
@@ -54,7 +74,9 @@ const KanbanProvider = (children: { children: ReactNode }) => {
     IAuthorizedKanban[]
   >([]);
 
-  const [selectedKanban, setSelectedKanban] = useState<IKanban | null>(null);
+  const [selectedKanban, setSelectedKanban] = useState<IFullKanban | null>(
+    null
+  );
 
   const { user } = useContext(AuthContext);
 
@@ -75,7 +97,9 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   }, [user]);
 
   const selectKanban = async (id: string) => {
-    const response = (await kanbanFetcher.get({ id })) as IKanban | IResponse;
+    const response = (await kanbanFetcher.get({ id })) as
+      | IFullKanban
+      | IResponse;
 
     if ("statusCode" in response) return response.statusCode;
     if (selectedKanban?.id === response.id) return 0;

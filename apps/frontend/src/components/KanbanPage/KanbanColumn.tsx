@@ -4,7 +4,6 @@ import { Button } from "@/ui/Button/";
 
 import { AiFillPlusCircle } from "react-icons/ai";
 import { DragEvent, useContext, useState } from "react";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import KanbanTask from "./KanbanTask";
 import { ModalContext } from "@/context/ModalContext";
 import KanbanColumnOption from "./KanbanColumnOption";
@@ -12,10 +11,10 @@ import KanbanColumnHeader from "./KanbanColumnHeader";
 import Inert from "@/ui/Inert";
 
 import { RoleType } from "@/mock/kanban/mockKanbans";
-import { KanbanTaskContext } from "@/context/KanbanTaskContext";
+import { IColumnFullKanban } from "@/context/KanbanContext";
 
 interface IKanbanColumnProps {
-  column: IColumn;
+  column: IColumnFullKanban;
   index: number;
   dragStart: (
     ev: DragEvent<HTMLLIElement>,
@@ -34,7 +33,6 @@ export default function KanbanColumn({
   role,
 }: IKanbanColumnProps) {
   const { toggleModal } = useContext(ModalContext);
-  const { taskList } = useContext(KanbanTaskContext);
 
   const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -120,17 +118,15 @@ export default function KanbanColumn({
           lg:gap-2
         "
         >
-          {taskList
-            .filter((task) => column.tasks?.includes(task.id))
-            .map((task) => (
-              <KanbanTask
-                key={task.id}
-                task={task}
-                dragStart={dragStart}
-                columnId={column.id}
-                role={role}
-              />
-            ))}
+          {column.tasks?.map((task) => (
+            <KanbanTask
+              key={task.id}
+              task={task}
+              dragStart={dragStart}
+              columnId={column.id}
+              role={role}
+            />
+          ))}
         </ul>
       </section>
     </article>
