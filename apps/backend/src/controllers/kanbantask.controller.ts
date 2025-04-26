@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Put,
-  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -25,12 +24,6 @@ import { KanbanTaskService } from '../services/kanbantask.service';
 export class KanbantaskController {
   constructor(private readonly kanbanTaskService: KanbanTaskService) {}
 
-  @Get()
-  async getKanbanTasks(@Req() req: Request) {
-    const userId = req['user'].id as string;
-    return await this.kanbanTaskService.getKanbanTasks(userId);
-  }
-
   @Get(':id')
   async getSpecificKanbanTask(@Param('id') id: string) {
     return await this.kanbanTaskService.getSpecificKanbanTask(id);
@@ -38,12 +31,8 @@ export class KanbantaskController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  async createKanbanTask(
-    @Req() req: Request,
-    @Body() body: CreateKanbanTaskDTO,
-  ) {
-    const userId = req['user'].id as string;
-    return await this.kanbanTaskService.createKanbanTask(userId, body);
+  async createKanbanTask(@Body() body: CreateKanbanTaskDTO) {
+    return await this.kanbanTaskService.createKanbanTask(body);
   }
 
   @Put(':id')

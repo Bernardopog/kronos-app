@@ -10,24 +10,15 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class KanbanTaskService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getKanbanTasks(userId: string) {
-    return await this.prismaService.kanbanTask.findMany({
-      where: { userId },
-      orderBy: { creationDate: 'asc' },
-      omit: { userId: true, description: true, creationDate: true },
-    });
-  }
-
   async getSpecificKanbanTask(id: string) {
     return await this.prismaService.kanbanTask.findFirst({
       where: { id },
-      omit: { userId: true },
     });
   }
 
-  async createKanbanTask(userId: string, data: CreateKanbanTaskDTO) {
+  async createKanbanTask(data: CreateKanbanTaskDTO) {
     return await this.prismaService.kanbanTask.create({
-      data: { ...data, userId },
+      data: { ...data },
     });
   }
 
@@ -58,7 +49,6 @@ export class KanbanTaskService {
     return await this.prismaService.kanbanTask.delete({
       where: { id },
       omit: {
-        userId: true,
         description: true,
         completionDate: true,
         creationDate: true,

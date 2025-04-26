@@ -15,11 +15,23 @@ export class KanbanService {
   async getKanbans(userId: string) {
     return await this.prismaService.kanban.findMany({ where: { userId } });
   }
-  async getSpecificKanban(id: string, userId: string) {
-    const kanban = await this.prismaService.kanban.findFirst({
+
+  async getKanbanFull(id: string, userId: string) {
+    const kanban = await this.prismaService.kanban.findUnique({
       where: { id },
       include: {
-        columns: { orderBy: { createAt: 'asc' } },
+        columns: {
+          orderBy: { createAt: 'asc' },
+          include: {
+            tasks: {
+              omit: {
+                completionDate: true,
+                description: true,
+              },
+            },
+          },
+          omit: { createAt: true, userId: true },
+        },
         user: { select: { username: true, displayName: true } },
         authorizedUsers: {
           select: {
@@ -34,17 +46,15 @@ export class KanbanService {
     if (
       !kanban?.authorizedUsers.some((user) => user.userId === userId) &&
       kanban?.userId !== userId
-    ) {
+    )
       throw new HttpException(
         'Usuário não autorizado',
         HttpStatus.UNAUTHORIZED,
       );
-    }
-    return {
-      ...kanban,
-      columns: kanban?.columns.map((column) => column.id),
-    };
+
+    return kanban;
   }
+
   async createKanban(userId: string, data: CreateKanbanDTO) {
     return await this.prismaService.kanban.create({
       data: { ...data, userId },

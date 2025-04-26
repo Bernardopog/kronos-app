@@ -26,7 +26,6 @@ model User {
   tags Tag[]
   kanbans Kanban[]
   columns Column[]
-  kanbanTasks KanbanTask[]
   authorizedKanbans AuthorizedUser[]
 }
 
@@ -159,9 +158,6 @@ model KanbanTask {
   isCompleted Boolean @default(false)
 
   priority TaskPriorityType @default(low)
-
-  userId String @db.Uuid
-  user User @relation(fields: [userId], references: [id])
 
   columnId String @db.Uuid
   column Column @relation(fields: [columnId], references: [id])

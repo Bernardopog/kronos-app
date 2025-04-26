@@ -1,6 +1,5 @@
 import {
   Controller,
-  Get,
   Post,
   Put,
   Patch,
@@ -24,11 +23,6 @@ import { ColumnService } from 'src/services/column.service';
 @UseGuards(AuthGuard)
 export class ColumnController {
   constructor(private readonly columnService: ColumnService) {}
-
-  @Get(':kanbanId')
-  async getColumns(@Param('kanbanId') kanbanId: string) {
-    return await this.columnService.getColumns(kanbanId);
-  }
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))

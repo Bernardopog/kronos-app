@@ -10,18 +10,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ColumnService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getColumns(kanbanId: string) {
-    const columns = await this.prismaService.column.findMany({
-      where: { kanbanId },
-      omit: { userId: true, createAt: true, kanbanId: true },
-      include: { tasks: { select: { id: true, columnId: true } } },
-      orderBy: { createAt: 'asc' },
-    });
-    return columns.map((column) => ({
-      ...column,
-      tasks: column.tasks.map((task) => task.id),
-    }));
-  }
   async createColumn(userId: string, data: CreateColumnDTO) {
     return this.prismaService.column.create({
       data: { ...data, userId },

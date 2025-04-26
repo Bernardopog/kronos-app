@@ -33,9 +33,9 @@ export class KanbanController {
   }
 
   @Get(':id')
-  async getSpecificKanban(@Param('id') id: string, @Req() req: Request) {
+  async getSpecificKanbanFull(@Param('id') id: string, @Req() req: Request) {
     const userId = req['user'].id as string;
-    return await this.kanbanService.getSpecificKanban(id, userId);
+    return await this.kanbanService.getKanbanFull(id, userId);
   }
 
   @Post()
