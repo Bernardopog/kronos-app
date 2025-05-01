@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { TodoController } from '../controllers/todo.controller';
 import { TodoService } from '../services/todo.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { TodoGateway } from '../gateway/todo.gateway';
 
 @Module({
   controllers: [TodoController],
-  providers: [TodoService, PrismaService],
+  providers: [TodoService, TodoGateway, PrismaService],
 })
 export class TodoModule {}

@@ -27,6 +27,14 @@ export class TodoService {
     return await this.prismaService.todo.update({
       where: { id: task.id },
       data: { isCompleted: !task.isCompleted },
+      omit: {
+        categoryId: true,
+        creationDate: true,
+        description: true,
+        priority: true,
+        title: true,
+        userId: true,
+      },
     });
   }
 
@@ -57,7 +65,7 @@ export class TodoService {
       });
   }
 
-  async deleteSepecific(id: string) {
+  async deleteSpecific(id: string) {
     await this.findTask(id);
     return await this.prismaService.todo.delete({ where: { id } });
   }

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   Put,
   Query,
@@ -35,11 +34,6 @@ export class TodoController {
     return this.todoService.createTask(body, userId);
   }
 
-  @Patch(':id')
-  async togglerTask(@Param('id') id: string) {
-    return this.todoService.toggleTask(id);
-  }
-
   @Put(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async updateTask(@Param('id') id: string, @Body() body: UpdateTodoTaskDTO) {
@@ -57,6 +51,6 @@ export class TodoController {
 
   @Delete(':id')
   async deleteSpecific(@Param('id') id: string) {
-    return this.todoService.deleteSepecific(id);
+    return this.todoService.deleteSpecific(id);
   }
 }
