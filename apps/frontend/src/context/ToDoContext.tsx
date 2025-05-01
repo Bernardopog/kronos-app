@@ -4,6 +4,7 @@ import { IToDoTask } from "@/mock/mockToDoList";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { Fetcher } from "@/classes/Fetcher";
+import { SocketContext } from "./SocketContext";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
@@ -65,9 +66,11 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [recentList, setRecentList] = useState<IToDoRecentList[]>([]);
 
   const { user } = useContext(AuthContext);
+  const { socketToDo } = useContext(SocketContext);
 
   const fetcher = new Fetcher("todo");
 
+  // HTTP
   useEffect(() => {
     if (user) {
       const getData = async () => {
@@ -81,6 +84,28 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       getData();
     }
   }, [user]);
+
+  // WebSocket
+  useEffect(() => {
+    if (!socketToDo) return;
+
+    socketToDo.on(
+      "taskToggled",
+      (updatedTask: { id: string; isCompleted: boolean }) => {
+        setToDoTaskList((prev) =>
+          prev.map((task) =>
+            task.id === updatedTask.id
+              ? { ...task, isCompleted: updatedTask.isCompleted }
+              : task
+          )
+        );
+      }
+    );
+
+    return () => {
+      socketToDo.off("taskToggled");
+    };
+  }, [socketToDo]);
 
   const changeFilterStatus = (status: FilterStatusType) => {
     setFilterStatus(status);
@@ -114,18 +139,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleTaskCompletion = async (taskToToggle: IToDoTask) => {
-    const toggledTask = await fetcher.patch<IToDoTask, IToDoTask>({
-      id: taskToToggle.id,
-    });
-
-    if (toggledTask) {
-      const updatedTasks = toDoTaskList.map((task) =>
-        task.id === taskToToggle.id
-          ? { ...task, isCompleted: !task.isCompleted }
-          : task
-      );
-      setToDoTaskList(updatedTasks);
-    }
+    socketToDo?.emit("toggleTask", taskToToggle.id);
   };
 
   const selectTask = (task: IToDoTask) => {
