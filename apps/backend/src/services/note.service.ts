@@ -15,6 +15,7 @@ export class NoteService {
   async getNotes(userId: string) {
     const note = await this.prismaService.note.findMany({
       where: { userId },
+      orderBy: { creationDate: 'asc' },
       include: {
         tags: true,
       },
@@ -56,6 +57,14 @@ export class NoteService {
       include: {
         tags: true,
       },
+      omit: {
+        creationDate: true,
+        updateDate: true,
+        userId: true,
+        description: true,
+        icon: true,
+        title: true,
+      },
     });
     return {
       ...formattedNote,
@@ -70,6 +79,14 @@ export class NoteService {
       include: {
         tags: true,
       },
+      omit: {
+        creationDate: true,
+        updateDate: true,
+        userId: true,
+        description: true,
+        isFavorite: true,
+        title: true,
+      },
     });
     return {
       ...note,
@@ -83,6 +100,14 @@ export class NoteService {
       data: { title, updateDate: new Date() },
       include: {
         tags: true,
+      },
+      omit: {
+        creationDate: true,
+        updateDate: true,
+        userId: true,
+        description: true,
+        isFavorite: true,
+        icon: true,
       },
     });
     return {

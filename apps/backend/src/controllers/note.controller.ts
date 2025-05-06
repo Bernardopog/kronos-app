@@ -34,21 +34,6 @@ export class NoteController {
     return await this.noteService.createNote(userId);
   }
 
-  @Patch('favorite/:id')
-  async toggleFavorite(@Param('id') id: string) {
-    return await this.noteService.toggleFavorite(id);
-  }
-
-  @Patch('icon/:id')
-  async changeIcon(@Param('id') id: string, @Body() body: { icon: string }) {
-    return await this.noteService.changeIcon(id, body.icon);
-  }
-
-  @Patch('rename/:id')
-  async renameNote(@Param('id') id: string, @Body() body: { title: string }) {
-    return await this.noteService.renameNote(id, body.title);
-  }
-
   @Patch('content/:id')
   async changeNoteContent(
     @Param('id') id: string,
