@@ -1,7 +1,7 @@
-import { Fetcher } from "@/classes/Fetcher";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { createContext, ReactNode, useContext } from "react";
 import { IColumnFullKanban, KanbanContext } from "./KanbanContext";
+import { SocketContext } from "./SocketContext";
 
 interface IKanbanColumnContext {
   // States
@@ -17,64 +17,41 @@ interface IKanbanColumnContext {
 const KanbanColumnContext = createContext({} as IKanbanColumnContext);
 
 const KanbanColumnProvider = ({ children }: { children: ReactNode }) => {
-  const { selectedKanban, setSelectedKanban } = useContext(KanbanContext);
-
-  const kanbanColumnFetcher = new Fetcher("column");
+  const { selectedKanban } = useContext(KanbanContext);
+  const { socketKanban } = useContext(SocketContext);
 
   const columnList = selectedKanban?.columns || [];
 
   const createColumn = async (columnName: string) => {
-    const newColumn = (await kanbanColumnFetcher.post({
+    if (!socketKanban) return;
+
+    socketKanban.emit("createColumn", {
       columnName,
       kanbanId: selectedKanban!.id,
-    })) as IColumnFullKanban;
-
-    if (!newColumn) return;
-
-    setSelectedKanban((prev) => ({
-      ...prev!,
-      columns: [...prev!.columns, newColumn],
-    }));
+    });
   };
 
   const updateColumn = async (columnId: string, data: Partial<IColumn>) => {
-    const updated = (await kanbanColumnFetcher.put(data, {
-      id: columnId,
-    })) as IColumnFullKanban;
-
-    if (!updated) return;
-
-    setSelectedKanban((prev) => ({
-      ...prev!,
-      columns: prev!.columns.map((col) =>
-        col.id === columnId ? { ...col, ...data, tasks: col.tasks } : col
-      ) as IColumnFullKanban[],
-    }));
+    if (!socketKanban) return;
+    socketKanban.emit("updateColumn", { columnId, data });
   };
 
   const renameColumn = async (columnId: string, columnName: string) => {
-    const renamed = await kanbanColumnFetcher.patch(
-      { columnName },
-      { id: columnId }
-    );
-    if (!renamed) return;
-
-    setSelectedKanban((prev) => ({
-      ...prev!,
-      columns: prev!.columns.map((col) =>
-        col.id === columnId ? { ...col, columnName } : col
-      ) as IColumnFullKanban[],
-    }));
+    if (!socketKanban) return;
+    socketKanban.emit("renameColumn", { columnId, columnName });
   };
 
   const deleteColumn = async (columnId: string) => {
-    const deleted = await kanbanColumnFetcher.delete({ id: columnId });
-    if (!deleted) return;
+    if (!socketKanban) return;
+    socketKanban.emit("deleteColumn", columnId);
 
-    setSelectedKanban((prev) => ({
-      ...prev!,
-      columns: prev!.columns.filter((col) => col.id !== columnId),
-    }));
+    // const deleted = await kanbanColumnFetcher.delete({ id: columnId });
+    // if (!deleted) return;
+
+    // setSelectedKanban((prev) => ({
+    //   ...prev!,
+    //   columns: prev!.columns.filter((col) => col.id !== columnId),
+    // }));
   };
 
   return (

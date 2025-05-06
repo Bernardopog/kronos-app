@@ -11,7 +11,7 @@ import { KanbanContext } from "@/context/KanbanContext";
 import { KanbanTaskContext } from "@/context/KanbanTaskContext";
 import { ModalContext } from "@/context/ModalContext";
 import { RoleType } from "@/mock/kanban/mockKanbans";
-import { redirect, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { DragEvent, useContext, useEffect, useRef, useState } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 
@@ -54,23 +54,28 @@ export default function Kanban() {
 
   useEffect(() => {
     if (user) {
-      const checkIfIsAuthorized = async () => {
-        const result = await selectKanban(kanbanId);
-        if (result === 401) redirect("/kanbanlist");
+      selectKanban(kanbanId);
 
-        if (selectedKanban?.userId === user.id) setRole("admin");
-        else {
-          selectedKanban?.authorizedUsers.find((authUser) => {
-            if (authUser.userId === user.id) {
-              setRole(authUser.role);
-            }
-          });
-        }
-        setKanbanTitle(selectedKanban?.title ?? "Sem título");
-      };
-      checkIfIsAuthorized();
+      if (
+        user.id !== selectedKanban?.userId &&
+        !selectedKanban?.authorizedUsers.map((authUser) =>
+          authUser.userId.includes(user.id!)
+        )
+      ) {
+        return;
+      }
+
+      if (selectedKanban?.userId === user.id) setRole("admin");
+      else {
+        selectedKanban?.authorizedUsers.find((authUser) => {
+          if (authUser.userId === user.id) {
+            setRole(authUser.role);
+          }
+        });
+      }
+      setKanbanTitle(selectedKanban?.title ?? "Sem título");
     }
-  }, [kanbanId, selectedKanban, selectKanban, user]);
+  }, [user, selectedKanban, kanbanId, selectKanban]);
 
   return (
     <>

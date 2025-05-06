@@ -16,6 +16,8 @@ import { Fetcher } from "@/classes/Fetcher";
 import { KanbanColumnProvider } from "./KanbanColumnContext";
 import { IColumn } from "@/mock/kanban/mockKanbanColumns";
 import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
+import { SocketContext } from "./SocketContext";
+import { redirect, usePathname } from "next/navigation";
 
 export interface ITaskFullKanban {
   id: string;
@@ -35,11 +37,6 @@ export interface IFullKanban extends Omit<IKanban, "columns"> {
   columns: IColumnFullKanban[];
 }
 
-interface IResponse {
-  statusCode: number;
-  message: string;
-}
-
 interface IKanbanContext {
   // States
   kanbanList: IKanban[];
@@ -55,7 +52,7 @@ interface IKanbanContext {
   renameKanban: (title: string) => void;
   deleteKanban: (id: string) => void;
 
-  addUserToKanban: (userId: string) => Promise<number | undefined>;
+  addUserToKanban: (userId: string) => void;
   removeUserFromKanban: (userId: string) => void;
   changeUserRole: (userId: string, role: RoleType) => void;
 }
@@ -79,35 +76,143 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   );
 
   const { user } = useContext(AuthContext);
+  const { socketKanban } = useContext(SocketContext);
+
+  const pathname = usePathname();
 
   const kanbanFetcher = new Fetcher("kanban");
 
+  // WebSocket
   useEffect(() => {
-    if (user) {
-      const getKanbanListData = async () => {
-        const kanbanData = (await new Fetcher("kanban").get()) as IKanban[];
-        setKanbanList(kanbanData);
-        const authorizedKanbanData = (await new Fetcher(
-          "kanban/authorized"
-        ).get()) as IAuthorizedKanban[];
-        setAuthorizedKanbanList(authorizedKanbanData);
-      };
-      getKanbanListData();
-    }
-  }, [user]);
+    if (!socketKanban) return;
+    const updateKanbanList = () => {
+      socketKanban.emit("getKanbans");
+      socketKanban.emit("getAuthorizedKanbans");
+    };
+    const updateSelectedKanban = () => {
+      socketKanban.emit("getSpecificKanbanFull", selectedKanban?.id);
+    };
+
+    socketKanban.emit("getKanbans");
+    socketKanban.emit("getAuthorizedKanbans");
+
+    socketKanban.on("kanbanListFetched", (data: IKanban[]) => {
+      setKanbanList(data);
+    });
+
+    socketKanban.on(
+      "authorizedKanbanListFetched",
+      (data: IAuthorizedKanban[]) => {
+        setAuthorizedKanbanList(data);
+      }
+    );
+
+    socketKanban.on("selectedKanban", (kanban: IFullKanban) => {
+      if (!kanban) redirect("/");
+      if (user) {
+        if (kanban.userId === user?.id) {
+          setSelectedKanban(kanban);
+          socketKanban.emit("joinKanban", kanban.id);
+        } else if (
+          kanban.authorizedUsers.some((authUser) =>
+            authUser.userId.includes(user.id!)
+          )
+        ) {
+          setSelectedKanban(kanban);
+          socketKanban.emit("joinKanban", kanban.id);
+        } else {
+          setSelectedKanban(null);
+          redirect("/");
+        }
+      }
+    });
+
+    socketKanban.on("updatedKanban", (updatedKanban: IFullKanban) => {
+      setSelectedKanban(updatedKanban);
+      updateKanbanList();
+    });
+
+    socketKanban.on("deletedKanban", () => {
+      updateKanbanList();
+      setSelectedKanban(null);
+      redirect("/");
+    });
+
+    socketKanban.on("columnCreated", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("columnUpdated", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("columnRenamed", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("columnDeleted", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("kanbanTaskCreated", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("kanbanTaskUpdated", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("kanbanTaskDeleted", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("kanbanTaskMoved", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("kanbanTaskCompleted", () => {
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("userAdded", () => {
+      socketKanban.emit("getAuthorizedKanbans");
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("userRemoved", () => {
+      socketKanban.emit("getAuthorizedKanbans");
+      updateSelectedKanban();
+    });
+
+    socketKanban.on("userRoleChanged", () => {
+      updateSelectedKanban();
+    });
+
+    return () => {
+      socketKanban.off("kanbanListFetched");
+      socketKanban.off("authorizedKanbanListFetched");
+      socketKanban.off("updatedKanban");
+      socketKanban.off("selectedKanban");
+      socketKanban.off("deletedKanban");
+      socketKanban.off("columnCreated");
+      socketKanban.off("columnUpdated");
+      socketKanban.off("columnRenamed");
+      socketKanban.off("columnDeleted");
+      socketKanban.off("kanbanTaskCreated");
+      socketKanban.off("kanbanTaskUpdated");
+      socketKanban.off("kanbanTaskDeleted");
+      socketKanban.off("kanbanTaskMoved");
+      socketKanban.off("kanbanTaskCompleted");
+      socketKanban.off("userAdded");
+      socketKanban.off("userRemoved");
+      socketKanban.off("userRoleChanged");
+    };
+  }, [socketKanban, user, pathname, selectedKanban]);
 
   const selectKanban = async (id: string) => {
-    const response = (await kanbanFetcher.get({ id })) as
-      | IFullKanban
-      | IResponse;
-
-    if ("statusCode" in response) return response.statusCode;
-    if (selectedKanban?.id === response.id) return 0;
-
-    if (response) {
-      setSelectedKanban(response);
-      return 200;
-    }
+    if (!socketKanban) return;
+    if (selectedKanban?.id === id) return 0;
+    socketKanban.emit("getSpecificKanbanFull", id);
   };
   const createKanban = async (title: string): Promise<IKanban> => {
     const createdKanban = (await kanbanFetcher.post<{ title: string }, IKanban>(
@@ -120,122 +225,42 @@ const KanbanProvider = (children: { children: ReactNode }) => {
   };
 
   const renameKanban = async (title: string) => {
-    const renamedKanban = (await kanbanFetcher.patch(
-      { title },
-      { id: selectedKanban!.id }
-    )) as IKanban;
-
-    if (renamedKanban) {
-      const kanban = kanbanList.find(
-        (kanban) => kanban.id === selectedKanban?.id
-      );
-      if (!kanban) return;
-      kanban.title = title;
-      setKanbanList([...kanbanList]);
-      setSelectedKanban((prev) => (prev ? { ...prev, title } : null));
-    }
+    if (!selectedKanban) return;
+    if (!socketKanban) return;
+    socketKanban.emit("renameKanban", { id: selectedKanban.id, title });
   };
 
   const deleteKanban = async (id: string) => {
-    const deletedKanban = (await kanbanFetcher.delete({ id })) as IKanban;
-
-    if (deletedKanban)
-      setKanbanList(kanbanList.filter((kanban) => kanban.id !== id));
+    if (!socketKanban) return;
+    socketKanban.emit("deleteKanban", id);
   };
 
-  const addUserToKanban = async (
-    userId: string
-  ): Promise<number | undefined> => {
-    interface IAddedUser {
-      userId: string;
-      kanbanId: string;
-      id: string;
-      role: RoleType;
-      user: {
-        displayName: string;
-        username: string;
-      };
-    }
-
-    const response = (await kanbanFetcher.post(
-      {
-        userId,
-        kanbanId: selectedKanban!.id,
-      },
-      { endpoint: "add" }
-    )) as IAddedUser;
-
-    if (!response) return 400;
-
-    if (response) {
-      setSelectedKanban((prev) =>
-        prev
-          ? {
-              ...prev,
-              authorizedUsers: [
-                ...prev.authorizedUsers,
-                {
-                  userId: response.userId,
-                  role: response.role,
-                  user: response.user,
-                },
-              ],
-            }
-          : null
-      );
-      return 200;
-    }
+  const addUserToKanban = async (userId: string) => {
+    if (!socketKanban) return;
+    if (!selectedKanban) return;
+    socketKanban.emit("addUserToKanban", {
+      userId,
+      kanbanId: selectedKanban.id,
+    });
   };
 
   const removeUserFromKanban = async (userId: string) => {
-    const removedUser = await kanbanFetcher.delete(
-      { userId, kanbanId: selectedKanban!.id },
-      { endpoint: "remove" }
-    );
-
-    if (removedUser) {
-      setSelectedKanban((prev) =>
-        prev
-          ? {
-              ...prev,
-              authorizedUsers: prev.authorizedUsers.filter(
-                (user) => user.userId !== userId
-              ),
-            }
-          : null
-      );
-    }
+    if (!socketKanban) return;
+    if (!selectedKanban) return;
+    socketKanban.emit("removeUserFromKanban", {
+      userId,
+      kanbanId: selectedKanban.id,
+    });
   };
 
   const changeUserRole = async (userId: string, role: RoleType) => {
-    interface IChangeRole {
-      userId: string;
-      kanbanId: string;
-      role: RoleType;
-    }
-
-    interface IChangedRole {
-      id: string;
-      userId: string;
-      kanbanId: string;
-      role: RoleType;
-    }
-
-    const changedRole = await kanbanFetcher.patch<IChangeRole, IChangedRole>(
-      { userId, role, kanbanId: selectedKanban!.id },
-      { endpoint: "role" }
-    );
-
-    if (changedRole) {
-      const user = selectedKanban?.authorizedUsers.find((user) => {
-        return user.userId === userId;
-      });
-
-      if (!user) return;
-
-      user.role = changedRole.role;
-      setSelectedKanban((prev) => (prev ? { ...prev } : null));
-    }
+    if (!socketKanban) return;
+    if (!selectedKanban) return;
+    socketKanban.emit("changeUserRole", {
+      userId,
+      kanbanId: selectedKanban.id,
+      role,
+    });
   };
 
   return (
