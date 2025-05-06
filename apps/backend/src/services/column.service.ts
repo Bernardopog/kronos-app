@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateColumnDTO,
-  RenameColumnDTO,
-  UpdateColumnDTO,
-} from 'src/dto/column.dto';
+import { CreateColumnDTO, UpdateColumnDTO } from 'src/dto/column.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -23,10 +19,10 @@ export class ColumnService {
       omit: { createAt: true },
     });
   }
-  async renameColumn(id: string, data: RenameColumnDTO) {
+  async renameColumn(id: string, columnName: string) {
     return this.prismaService.column.update({
       where: { id },
-      data,
+      data: { columnName },
       omit: { createAt: true },
     });
   }

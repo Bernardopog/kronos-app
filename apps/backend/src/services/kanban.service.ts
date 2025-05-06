@@ -4,7 +4,6 @@ import {
   CreateKanbanDTO,
   RemoveUserFromKanbanDTO,
   SetUserRoleDTO,
-  UpdateKanbanDTO,
 } from 'src/dto/kanban.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -28,6 +27,7 @@ export class KanbanService {
                 completionDate: true,
                 description: true,
               },
+              orderBy: { creationDate: 'asc' },
             },
           },
           omit: { createAt: true, userId: true },
@@ -47,10 +47,7 @@ export class KanbanService {
       !kanban?.authorizedUsers.some((user) => user.userId === userId) &&
       kanban?.userId !== userId
     )
-      throw new HttpException(
-        'Usuário não autorizado',
-        HttpStatus.UNAUTHORIZED,
-      );
+      return null;
 
     return kanban;
   }
@@ -60,10 +57,10 @@ export class KanbanService {
       data: { ...data, userId },
     });
   }
-  async renameKanban(id: string, data: UpdateKanbanDTO) {
+  async renameKanban(id: string, title: string) {
     return await this.prismaService.kanban.update({
       where: { id },
-      data,
+      data: { title: title },
     });
   }
   async deleteKanban(id: string) {

@@ -15,8 +15,3 @@ export class UpdateColumnDTO {
   @IsString()
   icon: string;
 }
-
-export class RenameColumnDTO {
-  @IsString()
-  columnName: string;
-}

@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
   CreateKanbanTaskDTO,
-  MoveKanbanTaskDTO,
   UpdateKanbanTaskDTO,
 } from 'src/dto/kanbantask.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -26,8 +25,11 @@ export class KanbanTaskService {
     return await this.prismaService.kanbanTask.update({ where: { id }, data });
   }
 
-  async moveKanbanTaskToColumn(id: string, data: MoveKanbanTaskDTO) {
-    return await this.prismaService.kanbanTask.update({ where: { id }, data });
+  async moveKanbanTaskToColumn(id: string, columnId: string) {
+    return await this.prismaService.kanbanTask.update({
+      where: { id },
+      data: { columnId },
+    });
   }
 
   async completeKanbanTask(id: string) {

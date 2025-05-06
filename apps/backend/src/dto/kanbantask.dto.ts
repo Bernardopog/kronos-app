@@ -47,8 +47,3 @@ export class UpdateKanbanTaskDTO {
   @IsOptional()
   team: string[];
 }
-
-export class MoveKanbanTaskDTO {
-  @IsUUID()
-  columnId: string;
-}
