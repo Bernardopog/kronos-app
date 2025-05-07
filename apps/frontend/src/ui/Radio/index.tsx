@@ -19,7 +19,7 @@ export default function Radio({
   return (
     <label
       htmlFor={htmlFor}
-      className="flex items-center rounded-lg gap-x-2 bg-gradient-to-r from-woodsmoke-100 to-woodsmoke-200 cursor-pointer ease-in-out duration-300
+      className="flex items-center rounded-lg gap-x-2 bg-linear-to-r from-woodsmoke-100 to-woodsmoke-200 cursor-pointer ease-in-out duration-300
       dark:from-woodsmoke-950 dark:to-woodsmoke-925
       "
       onClick={action}

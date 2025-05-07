@@ -30,7 +30,7 @@ export default function Modal() {
     <>
       {isModalOpen && (
         <div
-          className="flex justify-center items-center fixed top-0 z-[100] size-full bg-woodsmoke-950/50 backdrop-blur-sm"
+          className="flex justify-center items-center fixed top-0 z-100 size-full bg-woodsmoke-950/50 backdrop-blur-xs"
           onClick={() => {
             toggleModal(null);
           }}

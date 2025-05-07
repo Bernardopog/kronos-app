@@ -24,7 +24,7 @@ export default function TaskNameChanger({
           type="text"
           value={newTaskName}
           onChange={(ev) => setNewTaskName(ev.target.value)}
-          className="w-full p-2 rounded-md border border-woodsmoke-400 bg-woodsmoke-100 dark:border-woodsmoke-800 dark:bg-woodsmoke-950 outline-none"
+          className="w-full p-2 rounded-md border border-woodsmoke-400 bg-woodsmoke-100 dark:border-woodsmoke-800 dark:bg-woodsmoke-950 outline-hidden"
           onKeyDown={(ev) => ev.key === "Enter" && stopEditingTaskName()}
           onBlur={() => stopEditingTaskName()}
           ref={inputRef}

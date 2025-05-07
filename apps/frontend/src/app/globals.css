@@ -1,57 +1,63 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@config '../../tailwind.config.ts';
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@utility page {
+  @apply bg-woodsmoke-50 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;
+}
+
+@utility to-do-btn {
+  @apply flex items-center justify-center size-6 border border-woodsmoke-950 rounded-full text-2xl text-woodsmoke-950 dark:border-woodsmoke-100 dark:text-woodsmoke-100;
+}
+
+@utility tab-title {
+  @apply text-lg font-medium text-woodsmoke-800 dark:text-woodsmoke-300 ease-in-out duration-300;
+}
+
+@utility priority-btn {
+  @apply size-8 rounded-lg opacity-0 font-bold animate-move-left-to-right text-woodsmoke-950;
+}
+
+@utility btn-base {
+  @apply flex justify-center items-center p-1 rounded-lg gap-x-2 bg-transparent border border-woodsmoke-300 duration-300 ease-in-out cursor-pointer
+      dark:border-woodsmoke-800
+      hover:border-transparent hover:text-woodsmoke-50;
+}
+
+@utility tab-button {
+  @apply flex justify-center items-center fixed top-2/4 w-8 h-16 border text-xl border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-900 translate-y-[-50%] duration-300 ease-in-out hover:border-woodsmoke-400 hover:bg-woodsmoke-300 hover:text-woodsmoke-950 dark:border-woodsmoke-800 dark:bg-woodsmoke-950 dark:text-woodsmoke-200 dark:hover:border-woodsmoke-700 dark:hover:bg-woodsmoke-900 dark:hover:text-woodsmoke-300 lg:hidden;
+}
+
+@utility modal-btn {
+  /** Modal */
+  @apply flex-1 duration-300 ease-in-out;
+}
+
+@utility link-list {
+  /** Navbar */
+  @apply flex w-full
+      lg:flex-col lg:items-end lg:gap-y-2;
+}
 
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
-}
-
-@layer components {
-  /* Page Base */
-  .page {
-    @apply bg-woodsmoke-100 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;
-  }
-
-  /* Page - Kanban */
-
-  /* Page - To Do */
-  .to-do-btn {
-    @apply flex items-center justify-center size-6 border border-woodsmoke-950 rounded-full text-2xl text-woodsmoke-950 dark:border-woodsmoke-100 dark:text-woodsmoke-100;
-  }
-
-  /* Page - Notes */
-
-  /* Components */
-  .tab-title {
-    @apply text-lg font-medium text-woodsmoke-800 dark:text-woodsmoke-300 ease-in-out duration-300;
-  }
-  .priority-btn {
-    @apply size-8 rounded-lg opacity-0 font-bold animate-move-left-to-right text-woodsmoke-950;
-  }
-
-  /** Button */
-  .btn-base {
-    @apply flex justify-center items-center p-1 rounded-lg gap-x-2 bg-transparent border border-woodsmoke-300 duration-300 ease-in-out
-      dark:border-woodsmoke-800
-      hover:border-transparent hover:text-woodsmoke-50;
-  }
-  .tab-button {
-    @apply flex justify-center items-center fixed top-2/4 w-8 h-16 border text-xl border-woodsmoke-300 bg-woodsmoke-200 text-woodsmoke-900 translate-y-[-50%] duration-300 ease-in-out hover:border-woodsmoke-400 hover:bg-woodsmoke-300 hover:text-woodsmoke-950 dark:border-woodsmoke-800 dark:bg-woodsmoke-950 dark:text-woodsmoke-200 dark:hover:border-woodsmoke-700 dark:hover:bg-woodsmoke-900 dark:hover:text-woodsmoke-300 lg:hidden;
-  }
-
-  /** Modal */
-  .modal-btn {
-    @apply flex-1 duration-300 ease-in-out;
-  }
-
-  /** Navbar */
-  .link-list {
-    @apply flex w-full
-      lg:flex-col lg:items-end lg:gap-y-2;
   }
 }
 

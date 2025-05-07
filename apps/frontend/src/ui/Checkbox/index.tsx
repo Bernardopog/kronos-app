@@ -19,7 +19,7 @@ export default function Checkbox({ label, htmlFor, action }: ICheckboxProps) {
       <div
         className="
           flex justify-center items-center bg-woodsmoke-200 size-5 rounded-sm duration-300 ease-in-out
-          after:hidden after:bg-woodsmoke-700 after:size-3 after:rounded-sm
+          after:hidden after:bg-woodsmoke-700 after:size-3 after:rounded-xs
           peer-checked:after:block
           dark:bg-woodsmoke-900
           dark:after:bg-woodsmoke-200

@@ -29,7 +29,7 @@ export default function Navbar() {
       />
       <nav
         className={`
-          flex flex-col justify-between fixed bottom-0 z-40 w-full bg-woodsmoke-200/50 duration-300 ease-in-out backdrop-blur-sm
+          flex flex-col justify-between fixed bottom-0 z-40 w-full bg-woodsmoke-200/50 duration-300 ease-in-out backdrop-blur-xs
           dark:bg-woodsmoke-950/50
           lg:relative lg:size-full lg:pb-12 lg:bg-woodsmoke-200
           lg:dark:bg-woodsmoke-950

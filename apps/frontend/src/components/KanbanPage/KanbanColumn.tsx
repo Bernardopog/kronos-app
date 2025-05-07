@@ -78,7 +78,7 @@ export default function KanbanColumn({
           value={isOptionsOpen}
           style={`relative bg-woodsmoke-200 duration-300 ease-in-out overflow-clip
           dark:bg-woodsmoke-925
-          ${isOptionsOpen ? "h-full p-2 lg:blur-0" : "h-0 lg:blur-sm"}
+          ${isOptionsOpen ? "h-full p-2 lg:blur-0" : "h-0 lg:blur-xs"}
         `}
         >
           <KanbanColumnOption

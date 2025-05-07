@@ -29,7 +29,7 @@ export default function HyperTextModal() {
         absolute top-16 -right-2 bg-woodsmoke-200 w-72 p-2 rounded-t-lg text-woodsmoke-950
         dark:bg-woodsmoke-900 dark:text-woodsmoke-100 whitespace-pre-wrap
         after:block after:absolute after:bottom-full after:right-4 after:border-[16px] after:border-transparent after:border-b-woodsmoke-200
-        after:dark:border-b-woodsmoke-900
+        dark:after:border-b-woodsmoke-900
     "
     >
       <>

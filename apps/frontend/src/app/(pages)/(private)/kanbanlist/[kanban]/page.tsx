@@ -129,7 +129,7 @@ export default function Kanban() {
             )}
           </header>
           <Inert
-            style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
+            style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-xs overflow-clip
         dark:bg-woodsmoke-950/90 dark:text-woodsmoke-100
         ${isTaskModalOpen ? "h-full px-2 py-8 lg:pl-8 lg:pr-0" : "h-0 p-0"}
       `}
@@ -139,7 +139,7 @@ export default function Kanban() {
           </Inert>
           {role !== "read" && (
             <Inert
-              style={`flex flex-col items-center fixed top-28 right-4 z-50 w-64 rounded-lg border-woodsmoke-400 bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-sm overflow-clip
+              style={`flex flex-col items-center fixed top-28 right-4 z-50 w-64 rounded-lg border-woodsmoke-400 bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-xs overflow-clip
           dark:bg-woodsmoke-950/90 dark:border-woodsmoke-800 dark:text-woodsmoke-100
         ${isKanbanTeamOptionsOpen ? "min-h-40 h-[80vh] max-h-[80vh] p-4 border" : "h-0 p-0 border-none"}
       `}

@@ -96,7 +96,7 @@ const formaterText = (text: string) => {
     .replace(regexpListItem, "<li>$1</li>")
     .replace(
       regexpQuote,
-      '<blockquote class="w-full my-2 p-1 pl-4 rounded-sm border-l-4 border-woodsmoke-950 bg-woodsmoke-900/25 dark:border-woodsmoke-400" cite="$1">$2</blockquote>'
+      '<blockquote class="w-full my-2 p-1 pl-4 rounded-xs border-l-4 border-woodsmoke-950 bg-woodsmoke-900/25 dark:border-woodsmoke-400" cite="$1">$2</blockquote>'
     )
     .replace(regexpInlineQuote, "<q><em>$1</em></q>")
     .replace(regexpCodeJS, (match, code) => {
