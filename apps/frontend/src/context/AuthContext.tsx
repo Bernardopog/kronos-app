@@ -24,6 +24,7 @@ interface IAuthContext {
     newUser: Partial<IUser>,
     confirmPassword: string
   ) => Promise<boolean>;
+  updateUserDisplayName: (displayName: string) => void;
   setError: (error: IFieldError) => void;
 }
 
@@ -41,6 +42,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const route = useRouter();
 
   const fetcher = new Fetcher("auth");
+  const userFetcher = new Fetcher("user");
 
   useEffect(() => {
     setErrorStatus({
@@ -121,6 +123,19 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return true;
   };
 
+  const updateUserDisplayName = async (displayName: string) => {
+    const res = await userFetcher.patch({ displayName }, { id: user?.id });
+    if (res) {
+      const userInfo: Partial<IUser> = {
+        id: user?.id,
+        username: user?.username,
+        email: user?.email,
+        displayName: displayName,
+      };
+      setUser((prev) => ({ ...prev, ...userInfo }));
+    }
+  };
+
   const setError = (err: {
     error: boolean;
     fields: FieldsType[];
@@ -135,7 +150,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, errorStatus, login, logout, signUp, setError }}
+      value={{
+        user,
+        errorStatus,
+        login,
+        logout,
+        signUp,
+        updateUserDisplayName,
+        setError,
+      }}
     >
       {children}
     </AuthContext.Provider>
