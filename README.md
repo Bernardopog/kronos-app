@@ -14,7 +14,7 @@ Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, atrav�
 ### Frontend
 
 - [![Next](https://img.shields.io/badge/-NextJS_15-000000?logo=nextdotjs&logoColor=white&style=for-the-badge)](https://nextjs.org/)
-- [![TailwindCSS](https://img.shields.io/badge/-TailwindCSS_v3.4-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://v3.tailwindcss.com/)
+- [![TailwindCSS](https://img.shields.io/badge/-TailwindCSS_v4-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://v3.tailwindcss.com/)
 
 ### Backend
 
@@ -22,15 +22,18 @@ Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, atrav�
 - [![Prisma](https://img.shields.io/badge/-Prisma-002740?logo=prisma&logoColor=white&style=for-the-badge)](https://www.prisma.io/)
 - [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white&style=for-the-badge)](https://www.postgresql.org/)
 
-## 📦 Featues
+## 📦 Features (Funcionalidades)
 
 - Sistema de Autenticação e Acesso
 - Middleware (**Next**) e Guards (**Nest**)
 - RESTful API
+- Atualização em tempo real com WebSocket
 - Criação de Notas com markdown
-- Responsibilidade
+- Layout Responsivo
 
 ## 📂 Estrutura de Pastas
+
+### Frontend - Estrutura
 
 ```txt
 src/
@@ -49,7 +52,24 @@ src/
 ├── modules/              # Lógica modular e reutilizável (ex: checkFieldSignIn)
 ├── shared/               # Estruturas não-visuais reutilizáveis (ex: linkList)
 ├── mock/                 # Dados falsos para testes e desenvolvimento
-├── icons/                # Ícones customizados usados no projeto
+└── icons/                # Ícones customizados usados no projeto
+```
+
+### Backend - Estrutura
+
+```txt
+prisma/                   # Schema do Banco de Dados e Configurações do Prisma
+src/
+├── auth/                 # Módulo de autenticação
+├── constants/            # Constantes globais reutilizáveis (ex: JWTConstant)
+├── controllers/          # Controllers HTTP (Rotas)
+├── dto/                  # Data Transfer Objects para validação e tipagem
+├── gateway/              # WebSocket Gateway com eventos de conexão e mensagens
+├── guards/               # Proteções de rotas baseadas em JWT.
+├── middleware/           # Middlewares do NestJS
+├── modules/              # Módulos de cada Funcionalidade
+├── prisma/               # Configuração do Prisma Client
+└── services/             # Lógica de Negócio
 ```
 
 ## 🦮 Instruções para rodar localmente
@@ -60,15 +80,16 @@ Primeiro faça a instalação das dependências:
 npm install
 ```
 
-Após a conclusão da instalação das dependências, será necessário gerar o prisma, para isso utilize os seguinte comando:
+Após a conclusão da instalação das dependências, será necessário gerar o prisma, para isso utilize os seguintes comandos:
 
 ```bash
+# Gere os arquivos do Prisma
 cd apps/backend
 npm run generate
 cd ../..
 ```
 
-Após a conclusão dessa etapa você já poderá rodar o projeto, bastando apenas inserir o seguitne código:
+Após a conclusão dessa etapa você já poderá rodar o projeto, bastando apenas inserir o seguinte código:
 
 ```bash
 npm run dev
