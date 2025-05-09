@@ -1,8 +1,16 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { createContext, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { io, Socket } from "socket.io-client";
+import { AuthContext } from "./AuthContext";
 
 interface ISocketContext {
   socketToDo: Socket | null;
@@ -18,6 +26,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   const socketKanbanRef = useRef<Socket | null>(null);
   const socketNoteRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+
+  const { user } = useContext(AuthContext);
 
   const pathname = usePathname();
 
@@ -57,7 +67,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       socketKanban.disconnect();
       socketNote.disconnect();
     };
-  }, []);
+  }, [user]);
 
   return (
     <SocketContext.Provider
