@@ -15,3 +15,4 @@ export { default as ModalToDoRemoveCategory } from "./ModalToDoRemoveCategory";
 export { default as ModalToDoRemoveSingle } from "./ModalToDoRemoveSingle";
 export { default as ModalToDoUpdate } from "./ModalToDoUpdate";
 export { default as ModalToDoUpdateCategory } from "./ModalToDoUpdateCategory";
+export { default as ModalKanbanLeave } from "./ModalKanbanLeave";

@@ -22,25 +22,8 @@ export default function KanbanOptionsTeam() {
   const [role, setRole] = useState<RoleType | null>(null);
   const [newMemberId, setNewMemberId] = useState<string>("");
   const [isAddingNewMember, setIsAddingNewMember] = useState<boolean>(false);
-  const [status, setStatus] = useState<number>(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  let statusMessage = "";
-
-  switch (status) {
-    case 200:
-      statusMessage = "Usuário adicionado com sucesso!";
-      break;
-    case 400:
-      statusMessage = "Usuário já adicionado!";
-      break;
-    case 404:
-      statusMessage = "Usuário não encontrado!";
-      break;
-    default:
-      statusMessage = "";
-  }
 
   useEffect(() => {
     if (user && selectedKanban) {
@@ -119,13 +102,6 @@ export default function KanbanOptionsTeam() {
             value={newMemberId}
             onChange={(ev) => setNewMemberId(ev.target.value)}
           />
-          {status !== 0 && (
-            <p
-              className={`text-sm ${status === 200 ? "text-apple-600" : "text-poppy-600"}`}
-            >
-              {statusMessage}
-            </p>
-          )}
           <div
             className={`flex w-full mt-2 gap-x-2 
               ${isAddingNewMember ? "block" : "hidden"}
@@ -148,12 +124,8 @@ export default function KanbanOptionsTeam() {
             <Button
               action={() => {
                 if (newMemberId) {
-                  const getStatus = async () => {
-                    const status = await addUserToKanban(newMemberId);
-                    setNewMemberId("");
-                    setStatus(status ?? 0);
-                  };
-                  getStatus();
+                  addUserToKanban(newMemberId);
+                  setNewMemberId("");
                 }
               }}
               extraStyles={{

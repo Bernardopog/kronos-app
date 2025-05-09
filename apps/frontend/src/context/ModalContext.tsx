@@ -2,7 +2,13 @@
 
 import { createContext, ReactNode, RefObject, useRef, useState } from "react";
 
-export type TypeModal = "create" | "read" | "update" | "delete" | "none";
+export type TypeModal =
+  | "create"
+  | "read"
+  | "update"
+  | "delete"
+  | "custom"
+  | "none";
 type ModalContent =
   | "toDoRead"
   | "toDoCreate"
@@ -21,6 +27,7 @@ type ModalContent =
   | "kanbanCreateTask"
   | "kanbanDelete"
   | "kanbanColumnDelete"
+  | "kanbanLeave"
   | "none";
 
 interface IModalData {

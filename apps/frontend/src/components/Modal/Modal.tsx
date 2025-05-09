@@ -7,6 +7,7 @@ import {
   ModalKanbanCreateColumn,
   ModalKanbanCreateTask,
   ModalKanbanDelete,
+  ModalKanbanLeave,
   ModalNoteDelete,
   ModalReadTag,
   ModalToDoCreate,
@@ -90,6 +91,7 @@ export default function Modal() {
               {modalData?.content === "kanbanColumnDelete" && (
                 <ModalKanbanColumnDelete />
               )}
+              {modalData?.content === "kanbanLeave" && <ModalKanbanLeave />}
             </section>
           </section>
         </div>

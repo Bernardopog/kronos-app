@@ -120,13 +120,12 @@ export default function Kanban() {
                 {selectedKanban?.title}
               </h2>
             )}
-            {role !== "read" && (
-              <KanbanOptions
-                isKanbanTeamOptionsOpen={isKanbanTeamOptionsOpen}
-                setIsKanbanTeamOptionsOpen={setIsKanbanTeamOptionsOpen}
-                role={role}
-              />
-            )}
+
+            <KanbanOptions
+              isKanbanTeamOptionsOpen={isKanbanTeamOptionsOpen}
+              setIsKanbanTeamOptionsOpen={setIsKanbanTeamOptionsOpen}
+              role={role}
+            />
           </header>
           <Inert
             style={`fixed top-0 left-0 z-50 w-full bg-woodsmoke-100/90 text-woodsmoke-950 duration-300 ease-in-out backdrop-blur-xs overflow-clip

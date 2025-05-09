@@ -5,9 +5,14 @@ import React, { useContext } from "react";
 interface IModalFooterProps {
   type: TypeModal;
   action: () => void;
+  customMessage?: string;
 }
 
-export default function ModalFooter({ type, action }: IModalFooterProps) {
+export default function ModalFooter({
+  type,
+  action,
+  customMessage,
+}: IModalFooterProps) {
   const { toggleModal } = useContext(ModalContext);
 
   return (
@@ -31,6 +36,7 @@ export default function ModalFooter({ type, action }: IModalFooterProps) {
             {type === "create" && "Criar"}
             {type === "update" && "Atualizar"}
             {type === "delete" && "Excluir"}
+            {type === "custom" && customMessage}
           </button>
         </>
       )}
