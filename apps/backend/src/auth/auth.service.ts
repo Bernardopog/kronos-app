@@ -90,8 +90,15 @@ export class AuthService {
 
   async me(req: FastifyRequest, reply: FastifyReply) {
     const token = req.cookies.accessToken;
-    const user = this.jwtService.verify(token, {
+    const decoded = this.jwtService.verify(token, {
       secret: jwtConstants.secret,
+    });
+
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+      omit: { password: true },
     });
     return reply.send({ user });
   }
