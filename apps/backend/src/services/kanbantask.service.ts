@@ -56,7 +56,6 @@ export class KanbanTaskService {
         creationDate: true,
         isCompleted: true,
         priority: true,
-        team: true,
       },
     });
   }

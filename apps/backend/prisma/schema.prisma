@@ -161,6 +161,4 @@ model KanbanTask {
 
   columnId String @db.Uuid
   column Column @relation(fields: [columnId], references: [id])
-  
-  team String[]
 }
