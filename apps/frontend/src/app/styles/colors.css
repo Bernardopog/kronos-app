@@ -1,0 +1,47 @@
+@theme {
+  --color-woodsmoke-50: #f6f6f6;
+  --color-woodsmoke-100: #e7e7e7;
+  --color-woodsmoke-200: #d1d1d1;
+  --color-woodsmoke-300: #b0b0b0;
+  --color-woodsmoke-400: #888888;
+  --color-woodsmoke-500: #6d6d6d;
+  --color-woodsmoke-600: #5d5d5d;
+  --color-woodsmoke-700: #4f4f4f;
+  --color-woodsmoke-800: #454545;
+  --color-woodsmoke-900: #3d3d3d;
+  --color-woodsmoke-925: #202020;
+  --color-woodsmoke-950: #1a1a1a;
+
+  --color-poppy-300: #f7aaaa;
+  --color-poppy-400: #f07979;
+  --color-poppy-500: #e54e4e;
+  --color-poppy-600: #d23030;
+  --color-poppy-700: #b12525;
+  --color-poppy-800: #922222;
+  --color-poppy-900: #792323;
+
+  --color-apple-300: #9be571;
+  --color-apple-400: #79d546;
+  --color-apple-500: #54b125;
+  --color-apple-600: #42951b;
+  --color-apple-700: #347219;
+  --color-apple-800: #2d5a1a;
+  --color-apple-900: #284d1a;
+
+  --color-crud-create-light: #2b8e32;
+  --color-crud-read-light: #9640bf;
+  --color-crud-update-light: #4784c9;
+  --color-crud-delete-light: #bf4040;
+  
+  --color-crud-create-dark: #1d4a22;
+  --color-crud-read-dark: #572768;
+  --color-crud-update-dark: #314e77;
+  --color-crud-delete-dark: #73282f;
+
+  --color-priority-none: #42f051;
+  --color-priority-lowest: #7cf042;
+  --color-priority-lower: #c4f042;
+  --color-priority-medium: #f0d342;
+  --color-priority-higher: #f08b42;
+  --color-priority-highest: #f04242;
+}

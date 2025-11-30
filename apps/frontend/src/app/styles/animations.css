@@ -1,0 +1,26 @@
+@theme {
+  --animate-move-in: move-in 0.5s linear forwards;
+  @keyframes move-in {
+    from {
+      transform: translateY(-10rem);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+
+  --animate-move-left-to-right:  move-left-to-right 0.5s linear forwards;
+  @keyframes move-left-to-right {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}

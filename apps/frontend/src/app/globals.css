@@ -1,8 +1,19 @@
 @import "tailwindcss";
+@config '../../tailwind.config.ts';
 
 @import "./styles/components.css";
 
-@config '../../tailwind.config.ts';
+@import "./styles/colors.css";
+@import "./styles/breakpoints.css";
+@import "./styles/animations.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "tailwind-scrollbar" {
+  nocompatible: true;
+  preferredstrategy: "pseudoelements";
+}
+
 
 @layer base {
   *,
