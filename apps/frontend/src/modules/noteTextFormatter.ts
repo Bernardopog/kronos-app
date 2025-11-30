@@ -1,3 +1,5 @@
+import DOMPurify from "dompurify";
+
 const formaterText = (text: string) => {
   const regexpScript: RegExp =
     /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
@@ -193,7 +195,7 @@ const formaterText = (text: string) => {
       </address>`;
     });
   textFormated.replace(regexpNewLine, "<br>");
-  return textFormated;
+  return DOMPurify.sanitize(textFormated);
 };
 
 export default formaterText;
