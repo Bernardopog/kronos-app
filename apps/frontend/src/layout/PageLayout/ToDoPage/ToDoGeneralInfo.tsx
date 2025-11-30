@@ -27,7 +27,7 @@ export default function ToDoGeneralInfo() {
           flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
           dark:bg-woodsmoke-950 dark:text-woodsmoke-200
           lg:static lg:translate-y-[16px] lg:rounded-t-lg
-          ${generalShowControl ? "-right-0" : "-right-full"}
+          ${generalShowControl ? "right-0" : "-right-full"}
         `}
         id="td-general"
       >

@@ -163,7 +163,7 @@ export default function Kanban() {
             {(columnList.length ?? 0) < 8 && role !== "read" && (
               <Button
                 extraStyles={{
-                  button: `min-w-80 max-w-80 min-h-[460px] h-[100dvh] max-h-[calc(100%-6rem)] border-dashed rounded-lg text-woodsmoke-900
+                  button: `min-w-80 max-w-80 min-h-[460px] h-dvh max-h-[calc(100%-6rem)] border-dashed rounded-lg text-woodsmoke-900
               dark:text-woodsmoke-200
               hover:bg-apple-600
               dark:hover:shadow-btn dark:hover:shadow-apple-600/25

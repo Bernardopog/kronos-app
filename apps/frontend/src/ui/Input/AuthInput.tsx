@@ -37,7 +37,7 @@ export default function AuthInput({
         {label}
       </span>
       <div
-        className={`flex items-center justify-center absolute top-0 -right-[1px] w-8 h-[calc(100%)] rounded-r-lg text-2xl text-woodsmoke-100
+        className={`flex items-center justify-center absolute top-0 -right-px w-8 h-[calc(100%)] rounded-r-lg text-2xl text-woodsmoke-100
         dark:text-woodsmoke-950
           ${error ? "bg-poppy-600" : "bg-woodsmoke-950 dark:bg-woodsmoke-100"}
       `}

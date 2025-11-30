@@ -36,7 +36,7 @@ export default function KanbanUserOptions({ id }: IKanbanUserOptionsProps) {
     <>
       <Button
         extraStyles={{
-          button: `absolute z-40 -top-0 -right-0 h-full border-none rounded-l-none rounded-r-lg bg-woodsmoke-950 text-woodsmoke-100 opacity-0
+          button: `absolute z-40 top-0 right-0 h-full border-none rounded-l-none rounded-r-lg bg-woodsmoke-950 text-woodsmoke-100 opacity-0
           group-hover:opacity-100
           $`,
         }}

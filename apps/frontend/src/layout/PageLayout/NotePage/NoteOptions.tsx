@@ -61,7 +61,7 @@ export default function NoteOptions() {
           dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
           lg:static lg:translate-x-0 lg:bg-woodsmoke-50
           ${!selectedNote && "hidden"}
-          ${optionsShowControl ? "-right-0" : "-right-full"}
+          ${optionsShowControl ? "right-0" : "-right-full"}
           ${isMenuOpen ? "px-2 pt-4" : "closed px-0 pt-14"}
         `}
           id="nt-options"

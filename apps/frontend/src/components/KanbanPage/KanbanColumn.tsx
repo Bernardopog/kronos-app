@@ -56,7 +56,7 @@ export default function KanbanColumn({
         setIsDragOver(false);
         dragDrop(ev, column.id);
       }}
-      className={`min-w-80 max-w-80 min-h-[460px] h-[100dvh] max-h-[calc(100%-6rem)] rounded-lg border border-woodsmoke-200 overflow-clip duration-300 ease-in-out
+      className={`min-w-80 max-w-80 min-h-[460px] h-dvh max-h-[calc(100%-6rem)] rounded-lg border border-woodsmoke-200 overflow-clip duration-300 ease-in-out
       dark:border-woodsmoke-800
       hover:shadow-btn hover:shadow-woodsmoke-800/25
       lg:min-h-[85vh] lg:max-h-[85vh]
