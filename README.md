@@ -1,8 +1,9 @@
 # Kronos
+> Aplicação Fullstack para gestão de tempo e projetos (ToDo, Kanban, Notes). Construída em Monorepo (TurboRepo).
 
 ## 📖 Sobre o Projeto
 
-Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, através de ToDo List, Notas e Kanban.
+Kronos é um projeto Web Fullstack Monorepo que serve para gerenciamento de tempo, através de ToDo List, Notas e Kanban.
 
 ## 👨‍💻 Tecnologias
 
@@ -21,15 +22,18 @@ Kronos é um projeto Web Fullstack que serve para gerenciamento de tempo, atrav�
 - [![Nest](https://img.shields.io/badge/-Nest-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)](https://nestjs.com/)
 - [![Prisma](https://img.shields.io/badge/-Prisma-002740?logo=prisma&logoColor=white&style=for-the-badge)](https://www.prisma.io/)
 - [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white&style=for-the-badge)](https://www.postgresql.org/)
+- [![Supabase](https://img.shields.io/badge/-Supabase-34b27b?logo=supabase&logoColor=white&style=for-the-badge)](https://supabase.com/)
 
 ## 📦 Features (Funcionalidades)
 
-- Sistema de Autenticação e Acesso
-- Middleware (**Next**) e Guards (**Nest**)
-- RESTful API
-- Atualização em tempo real com WebSocket
-- Criação de Notas com markdown
-- Layout Responsivo
+* **Sistema de Autenticação e Acesso** Proteção de rotas privadas.
+* **Middleware (NextJS) e Guards (NestJS)** Proteção de requisições, respectivamente Front end e Back end.
+* **RESTful API** Comunicação entre cliente e servidor para buscas, validação e gerenciamento de dados.
+* **Realtime com Websocket** Para criação de requisições em tempo real para a funcionalidade de Kanban.
+* **Parser Markdown** Pega texto bruto e transforma em HTML, evitando XSS.
+* **Kanban Colaborativo** Com comunicação em tempo real, sistema de Drag and Drop, e sistema de Roles (permissões).
+* **To Do List** Com sistema de filtragem e gestão de tarefas simples.
+* **Notes** Com parser markdown para criação de notas dinâmicas e customizáveis.
 
 ## 📂 Estrutura de Pastas
 
@@ -107,4 +111,4 @@ Isso irá executar o projeto em modo de produção.
 
 ## 💻 Autor
 
-Feito por Bernardo Poggioni - [LinkedIn](https://www.linkedin.com/in/bernardo-poggioni-3746a42a5/)
+Feito por Bernardo Poggioni - [LinkedIn](https://www.linkedin.com/in/bernardo-poggioni-3746a42a5/) | [Github](https://github.com/Bernardopog)
