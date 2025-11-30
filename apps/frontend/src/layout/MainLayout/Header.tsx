@@ -4,7 +4,7 @@ import { DeviceScreenContext } from "@/context/DeviceScreenContext";
 import Link from "next/link";
 import { useContext } from "react";
 
-export default function Header() {
+export default function Header({themeIsDark}: {themeIsDark:boolean}) {
   const { device } = useContext(DeviceScreenContext);
 
   return (
@@ -21,7 +21,7 @@ export default function Header() {
         </h1>
       </Link>
       <div className="absolute right-2">
-        {device !== "desktop" && <ThemeToggler />}
+        {device !== "desktop" && <ThemeToggler themeIsDark={themeIsDark} />}
       </div>
     </header>
   );

@@ -6,31 +6,32 @@ import { Button } from "@/ui/Button/";
 
 interface IThemeTogglerProps {
   menuStatus?: boolean;
+  themeIsDark: boolean
 }
 
-export default function ThemeToggler({ menuStatus }: IThemeTogglerProps) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+export default function ThemeToggler({ menuStatus,themeIsDark }: IThemeTogglerProps) {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(themeIsDark);
 
-  const handleTheme = () => {
-    const html = document.documentElement;
-    if (html.classList.contains("dark")) {
-      html.classList.remove("dark");
-      setTheme("light");
-      localStorage.setItem("theme", "light");
+  const handleTheme = async () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(!isDarkMode);
+
+    if ('cookieStore' in window) {
+      await window.cookieStore?.set({
+        name: 'theme',
+        value: newTheme ? 'dark' : 'light',
+        path: '/',
+      });
     } else {
-      html.classList.add("dark");
-      setTheme("dark");
-      localStorage.setItem("theme", "dark");
+      // biome-ignore lint/suspicious/noDocumentCookie: <For browsers that not support cookieStore>
+      document.cookie = `theme=${newTheme ? 'dark' : 'light'}; path=/`;
     }
+    document.documentElement.classList.toggle('dark');
   };
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      setTheme("dark");
-    }
-  }, []);
+    setIsDarkMode(themeIsDark);
+  }, [themeIsDark]);
 
   return (
     <div className="self-center">
@@ -41,12 +42,12 @@ export default function ThemeToggler({ menuStatus }: IThemeTogglerProps) {
           dark:text-woodsmoke-50
         "
         >
-          {theme === "dark" ? "Escuro" : "Claro"}
+          {isDarkMode ? "Escuro" : "Claro"}
         </span>
       )}
       <Button
         ariaLabel={
-          theme === "dark"
+          isDarkMode
             ? "Alterar para Modo Claro"
             : "Alterar para Modo Escuro"
         }
@@ -64,7 +65,7 @@ export default function ThemeToggler({ menuStatus }: IThemeTogglerProps) {
             ${menuStatus && "translate-x-6 dark:-translate-x-6"}
           `}
         >
-          {theme === "dark" ? <BsMoon /> : <BsSun />}
+          {isDarkMode ? <BsMoon /> : <BsSun />}
         </div>
       </Button>
     </div>

@@ -9,7 +9,7 @@ import { useContext } from "react";
 
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 
-export default function Navbar() {
+export default function Navbar({themeIsDark}:{themeIsDark: boolean}) {
   const { isNavbarOpen, toggleNavbar } = useContext(NavbarContext);
   const { device } = useContext(DeviceScreenContext);
 
@@ -38,7 +38,7 @@ export default function Navbar() {
         id="nav"
       >
         <NavbarLinkList />
-        {device === "desktop" && <ThemeToggler menuStatus={isNavbarOpen} />}
+        {device === "desktop" && <ThemeToggler menuStatus={isNavbarOpen} themeIsDark={themeIsDark} />}
       </nav>
     </>
   );
