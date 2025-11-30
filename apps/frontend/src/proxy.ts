@@ -1,4 +1,4 @@
-import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
+import { ProxyConfig, NextRequest, NextResponse } from "next/server";
 
 const publicRoutes = [
   { path: "/signin", authenticated: "redirect" },
@@ -8,7 +8,7 @@ const publicRoutes = [
 
 const redirectWhenNotAuthenticated = "/signin";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const publicRoute = publicRoutes.find((route) => route.path === path);
 
@@ -43,6 +43,6 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config: MiddlewareConfig = {
+export const config: ProxyConfig = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sw.js).*)"],
 };
