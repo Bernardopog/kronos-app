@@ -1,10 +1,10 @@
 "use client";
 
+import _ from "lodash";
 import { IToDoTask } from "@/mock/mockToDoList";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { Fetcher } from "@/classes/Fetcher";
-import { SocketContext } from "./SocketContext";
 
 type FilterStatusType = "all" | "completed" | "uncompleted";
 type FilterPriorityType = "all" | "high" | "low";
@@ -66,7 +66,6 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   const [recentList, setRecentList] = useState<IToDoRecentList[]>([]);
 
   const { user } = useContext(AuthContext);
-  const { socketToDo } = useContext(SocketContext);
 
   const fetcher = new Fetcher("todo");
 
@@ -84,28 +83,6 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
       getData();
     }
   }, [user]);
-
-  // WebSocket
-  useEffect(() => {
-    if (!socketToDo) return;
-
-    socketToDo.on(
-      "taskToggled",
-      (updatedTask: { id: string; isCompleted: boolean }) => {
-        setToDoTaskList((prev) =>
-          prev.map((task) =>
-            task.id === updatedTask.id
-              ? { ...task, isCompleted: updatedTask.isCompleted }
-              : task
-          )
-        );
-      }
-    );
-
-    return () => {
-      socketToDo.off("taskToggled");
-    };
-  }, [socketToDo]);
 
   const changeFilterStatus = (status: FilterStatusType) => {
     setFilterStatus(status);
@@ -139,7 +116,14 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleTaskCompletion = async (taskToToggle: IToDoTask) => {
-    socketToDo?.emit("toggleTask", taskToToggle.id);
+    await fetcher.patch({id: taskToToggle.id});
+
+    const updatedTaskList = toDoTaskList.map((task) => {
+      if (task.id === taskToToggle.id) task.isCompleted = !task.isCompleted;
+      return task;
+    });
+
+    setToDoTaskList(updatedTaskList);
   };
 
   const selectTask = (task: IToDoTask) => {
@@ -235,7 +219,7 @@ const ToDoProvider = ({ children }: { children: React.ReactNode }) => {
         changeFilterCategory,
         toggleFilter,
         toggleGeneral,
-        toggleTaskCompletion,
+        toggleTaskCompletion: _.debounce(toggleTaskCompletion,500),
         selectTask,
         createTask,
         deleteManyTasks,

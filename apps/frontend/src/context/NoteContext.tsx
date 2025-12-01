@@ -12,7 +12,7 @@ import {
 } from "react";
 import { AuthContext } from "./AuthContext";
 import { Fetcher } from "@/classes/Fetcher";
-import { SocketContext } from "./SocketContext";
+import _ from "lodash";
 
 type FilterFavoriteType = "all" | "favorites" | "notFavorites";
 type FilterTagType = "all" | string;
@@ -61,7 +61,6 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   const [filterTag, setFilterTag] = useState<FilterTagType>("all");
 
   const { user } = useContext(AuthContext);
-  const { socketNote } = useContext(SocketContext);
 
   const noteFetcher = new Fetcher("note");
   const tagFetcher = new Fetcher("tag");
@@ -79,46 +78,6 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
       getData();
     }
   }, [user]);
-
-  // WebSocket
-  useEffect(() => {
-    if (!socketNote) return;
-
-    socketNote.on("noteFavorited", (newNote: Partial<INote>) => {
-      setNoteList(
-        noteList.map((note) => {
-          return note.id === newNote.id ? { ...note, ...newNote } : note;
-        })
-      );
-      if (selectedNote?.id === newNote.id)
-        setSelectedNote((prev) => ({ ...prev, ...newNote }) as INote);
-    });
-
-    socketNote.on("noteRenamed", (newNote: Partial<INote>) => {
-      setNoteList(
-        noteList.map((note) => {
-          return note.id === newNote.id ? { ...note, ...newNote } : note;
-        })
-      );
-      if (selectedNote?.id === newNote.id)
-        setSelectedNote((prev) => ({ ...prev, ...newNote }) as INote);
-    });
-    socketNote.on("noteIconChanged", (newNote: Partial<INote>) => {
-      setNoteList(
-        noteList.map((note) => {
-          return note.id === newNote.id ? { ...note, ...newNote } : note;
-        })
-      );
-      if (selectedNote?.id === newNote.id)
-        setSelectedNote((prev) => ({ ...prev, ...newNote }) as INote);
-    });
-
-    return () => {
-      socketNote.off("noteFavorited");
-      socketNote.off("noteRenamed");
-      socketNote.off("noteIconChanged");
-    };
-  }, [socketNote, noteList, selectedNote]);
 
   const toggleList = (type: "close" | "open") => {
     if (type === "open") {
@@ -173,18 +132,39 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const toggleFavorite = async (id: string) => {
-    if (!socketNote) return;
-    socketNote.emit("favoriteNote", id);
+    await noteFetcher.patch({ endpoint: "favorite", id });
+
+    const updatedNoteList = noteList.map((note) => {
+      if (note.id === id) note.isFavorite = !note.isFavorite;
+      return note;
+    });
+
+    setNoteList(updatedNoteList);
+    setSelectedNote({...selectedNote!, isFavorite: !selectedNote!.isFavorite});
   };
 
   const chooseIcon = async (icon: IconsTypes) => {
-    if (!socketNote) return;
-    socketNote.emit("changeIcon", { noteId: selectedNote!.id, icon });
+    await noteFetcher.patch({ icon }, { endpoint: "icon", id: selectedNote!.id });
+
+    const updatedNoteList = noteList.map((note) => {
+      if (note.id === selectedNote?.id) note.icon = icon;
+      return note;
+    });
+
+    setNoteList(updatedNoteList);
+    setSelectedNote({...selectedNote!, icon});
   };
 
   const renameNote = async (title: string) => {
-    if (!socketNote) return;
-    socketNote.emit("renameNote", { noteId: selectedNote!.id, title });
+    await noteFetcher.patch({ title }, { endpoint: "rename", id: selectedNote!.id });
+
+    const updatedNoteList = noteList.map((note) => {
+      if (note.id === selectedNote?.id) note.title = title;
+      return note;
+    });
+
+    setNoteList(updatedNoteList);
+    setSelectedNote({...selectedNote!, title});
   };
 
   const changeContent = async (content: string) => {
@@ -358,7 +338,7 @@ const NoteProvider = ({ children }: { children: ReactNode }) => {
         deleteTag,
         toggleFavorite,
         chooseIcon,
-        renameNote,
+        renameNote: _.debounce(renameNote, 500),
         changeContent,
         changeFilterFavorite,
         changeFilterTag,

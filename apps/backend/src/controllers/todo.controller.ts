@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -32,6 +33,11 @@ export class TodoController {
   async createTask(@Body() body: CreateTodoTaskDTO, @Req() req) {
     const userId = req['user'].id as string;
     return this.todoService.createTask(body, userId);
+  }
+
+  @Patch(':id')
+  async togglerTask(@Param('id') id: string) {
+    return this.todoService.toggleTask(id);
   }
 
   @Put(':id')
