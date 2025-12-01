@@ -25,7 +25,7 @@ import { KanbanTaskService } from 'src/services/kanbantask.service';
 
 @WebSocketGateway({
   namespace: '/kanbansocket',
-  cors: { origin: 'http://localhost:3000', credentials: true },
+  cors: { origin: process.env.ORIGIN ?? 'http://localhost:3000', credentials: true },
 })
 export class KanbanGateway implements OnGatewayInit {
   constructor(

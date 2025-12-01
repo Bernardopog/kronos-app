@@ -5,11 +5,11 @@ interface IOptions {
 }
 
 export class Fetcher {
-  private baseUrl: string = "http://localhost:3030";
+  private baseUrl: string = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3030";
   private optionKeys = ["id", "endpoint", "query"];
 
   constructor(endpoint?: string) {
-    if (endpoint) this.baseUrl = `http://localhost:3030/${endpoint}`;
+    if (endpoint) this.baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`;
   }
 
   private error(err: unknown) {

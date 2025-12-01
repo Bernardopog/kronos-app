@@ -34,7 +34,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   }, [pathname]);
 
   useEffect(() => {
-    const socketKanban = io("http://localhost:3030/kanbansocket", {
+    const socketKanban = io(`${process.env.NEXT_PUBLIC_API_URL}/kanbansocket`, {
       transports: ["websocket"],
       withCredentials: true,
     });
