@@ -52,7 +52,7 @@ export class AuthController {
     reply.setCookie('accessToken', accessToken.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production' ? true : false,
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
     });
 
