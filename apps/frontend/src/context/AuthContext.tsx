@@ -88,7 +88,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       displayName: user.displayName ?? undefined,
     };
     setUser(userInfo);
-    route.refresh();
+    route.push('/');
   };
 
   const logout = async () => {
