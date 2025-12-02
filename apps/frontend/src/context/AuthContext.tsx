@@ -68,14 +68,29 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
 
-    const res = await fetcher.post<Partial<IUser>, IFieldError>(
-      { email, password },
-      { endpoint: "signin" }
-    );
-
-    if (res?.error) {
-      setErrorStatus(res);
-      return false;
+    try {
+      const res = await fetch('/api/auth/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await res.json();
+      if (data.error) {
+        setErrorStatus(data);
+        return false;
+      }
+    } catch (err) {
+        if (err instanceof Error) {
+          console.log("Error =>",err);
+          setErrorStatus({
+            error: true,
+            fields: ["all"],
+            message: err.message,
+          });
+          return false;
+      }
     }
 
     const userData = (await fetcher.get({ endpoint: "me" })) as { user: IUser };
@@ -88,7 +103,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       displayName: user.displayName ?? undefined,
     };
     setUser(userInfo);
-    route.push('/');
+    route.refresh();
   };
 
   const logout = async () => {
