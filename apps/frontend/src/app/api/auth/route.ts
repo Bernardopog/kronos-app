@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+// SignIn
 export async function POST(req: Request) {
 
   const body = await req.json();
@@ -15,13 +16,16 @@ export async function POST(req: Request) {
     credentials: "include",
   })
 
-  const data = await res.json();
+  const data: {fields: {accessToken: string}[]} = await res.json();
 
-  const response = NextResponse.json(data, { status: res.status });
-  const setCookie = res.headers.get('set-cookie');
-  if (setCookie) {
-    response.headers.set('set-cookie', setCookie);
-  }
+  const response = NextResponse.json({ accessToken: data.fields[0].accessToken }, { status: res.status });
+  
+  response.cookies.set('accessToken', data.fields[0].accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+  });
 
   return response
 }

@@ -47,16 +47,9 @@ export class AuthController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() body: SignInDTO, @Res() reply: FastifyReply) {
-    const accessToken = await this.authService.signIn(body);
+    const jwt = await this.authService.signIn(body);
 
-    reply.setCookie('accessToken', accessToken.accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production' ? true : false,
-      sameSite: 'none',
-      path: '/',
-    });
-
-    return reply.send({ error: false, fields: [], message: 'Autenticado' });
+    return reply.send({ error: false, fields: [jwt], message: 'Autenticado' });
   }
 
   @Get('signout')
