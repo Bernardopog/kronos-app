@@ -53,7 +53,7 @@ export default function NoteList() {
           lg:mt-4 lg:flex lg:flex-col lg:pb-2 lg:pt-4
       "
         >
-          {noteList
+          {noteList.length > 0 && noteList
             .filter((note) => {
               if (filterFavorite === "all") return true;
               else if (filterFavorite === "favorites")
