@@ -51,10 +51,27 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       message: "",
     });
     const getMe = async () => {
-      const userData = (await new Fetcher("auth").get({ endpoint: "me" })) as {
-        user: IUser;
-      };
-      setUser(userData.user);
+      try {
+        const userData = await fetch('/api/auth/me', {
+          method: "GET",
+        });
+        const data = await userData.json();
+        if (data.error) {
+          setErrorStatus(data);
+          return false;
+        }
+        setUser(data.user);
+      } catch (err) {
+          if (err instanceof Error) {
+            console.log("Error =>",err);
+            setErrorStatus({
+              error: true,
+              fields: ["all"],
+              message: err.message,
+            });
+            return false;
+        }
+      }     
     };
     const publicRoutes = ["/signin", "/signup", "/signout"];
     if (!user && !publicRoutes.some((route) => route === pathname)) getMe();
