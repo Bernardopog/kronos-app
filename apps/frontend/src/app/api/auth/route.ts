@@ -1,4 +1,20 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+// SignOut
+export async function GET(req: Request) {
+
+  const response = NextResponse.json({ message: "Deslogado com sucesso" }, { status: 200 });
+
+  response.cookies.set('accessToken', '', { 
+    httpOnly: true, 
+    secure: true, 
+    sameSite: 'none', 
+    path: '/', 
+    expires: new Date(0) 
+  });
+
+  return response;
+}
 
 // SignIn
 export async function POST(req: Request) {

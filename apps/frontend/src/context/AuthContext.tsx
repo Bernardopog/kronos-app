@@ -107,7 +107,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await fetcher.get({ endpoint: "signout" });
+    try {
+      const res = await fetch('/api/auth/', {
+        method: "GET"
+      })
+      const data = await res.json();
+      if (data.error) {
+        setErrorStatus(data);
+        return false;
+      }
+    } catch (err) {
+        if (err instanceof Error) {
+          console.log("Error =>",err);
+          setErrorStatus({
+            error: true,
+            fields: ["all"],
+            message: err.message,
+          });
+          return false;
+      }
+    }
     setUser(null);
   };
 

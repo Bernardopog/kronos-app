@@ -51,10 +51,4 @@ export class AuthController {
 
     return reply.send({ error: false, fields: [jwt], message: 'Autenticado' });
   }
-
-  @Get('signout')
-  async signOut(@Res() reply: FastifyReply) {
-    reply.clearCookie('accessToken', { path: '/' });
-    return reply.send({ error: false, fields: [], message: 'Deslogado' });
-  }
 }
