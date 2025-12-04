@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req: FastifyRequest = context.switchToHttp().getRequest();
 
-    const authToken = this.getTokenFromCookie(req);
+    const authToken = this.getTokenFromHeader(req);
 
     if (!authToken) {
       throw new HttpException(
@@ -40,8 +40,13 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private getTokenFromCookie(req: FastifyRequest): string | undefined {
-    const authToken = req.cookies?.accessToken;
-    return authToken;
+  private getTokenFromHeader(req: FastifyRequest): string | undefined {
+    const authToken = req.headers.authorization;
+    const [type, token] = authToken?.split(' ') ?? [];
+
+    if (type !== 'Bearer' || !token) {
+      return undefined;
+    }
+    return token;
   }
 }

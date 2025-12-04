@@ -1,11 +1,11 @@
 "use client";
 
-import { IKanban, RoleType } from "@/mock/kanban/mockKanbans";
+import type { IKanban, RoleType } from "@/mock/kanban/mockKanbans";
 import {
   createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -14,8 +14,8 @@ import { AuthContext } from "./AuthContext";
 import { KanbanTaskProvider } from "./KanbanTaskContext";
 import { Fetcher } from "@/classes/Fetcher";
 import { KanbanColumnProvider } from "./KanbanColumnContext";
-import { IColumn } from "@/mock/kanban/mockKanbanColumns";
-import { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
+import type { IColumn } from "@/mock/kanban/mockKanbanColumns";
+import type { TaskPriorityType } from "@/mock/kanban/mockKanbanTasks";
 import { SocketContext } from "./SocketContext";
 import { redirect, usePathname } from "next/navigation";
 

@@ -19,9 +19,13 @@ export class Fetcher {
   public async get<T>(options?: IOptions) {
     const url = `${this.baseUrl}${options?.endpoint ? `/${options.endpoint}` : ""}${options?.id ? `/${options.id}` : ""}${options?.query ? `?${options.query.key}=${options.query.value}` : ""}`;
     try {
+      const token = sessionStorage.getItem("accessToken");
       const res = await fetch(url, {
         method: "GET",
-        credentials: "include",
+        
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       const data = (await res.json()) as T;
       return data;
@@ -33,20 +37,23 @@ export class Fetcher {
   public async post<T, U>(body?: T, options?: IOptions) {
     const url = `${this.baseUrl}${options?.endpoint ? `/${options.endpoint}` : ""}${options?.id ? `/${options.id}` : ""}${options?.query ? `?${options.query.key}=${options.query.value}` : ""}`;
     try {
-      let res;
+      const token = sessionStorage.getItem("accessToken");
+      let res: Response;
       if (body) {
         res = await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(body),
-          credentials: "include",
         });
       } else {
         res = await fetch(url, {
           method: "POST",
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         });
       }
       if (!res.ok) return null;
@@ -71,11 +78,14 @@ export class Fetcher {
     const url = `${this.baseUrl}${options?.endpoint ? `/${options.endpoint}` : ""}${options?.id ? `/${options.id}` : ""}${options?.query ? `?${options.query.key}=${options.query.value}` : ""}`;
 
     try {
-      let res;
+      const token = sessionStorage.getItem("accessToken");
+      let res: Response;
       if (fieldIsOptions) {
         res = await fetch(url, {
           method: "PATCH",
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         });
         if (!res.ok) return null;
         const dataUpdated = (await res.json()) as U;
@@ -85,9 +95,9 @@ export class Fetcher {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(fieldOrOption),
-          credentials: "include",
         });
         if (!res.ok) return null;
         const dataUpdated = (await res.json()) as U;
@@ -101,13 +111,14 @@ export class Fetcher {
   public async put<T, U>(body: T, options?: IOptions) {
     const url = `${this.baseUrl}${options?.endpoint ? `/${options.endpoint}` : ""}${options?.id ? `/${options.id}` : ""}${options?.query ? `?${options.query.key}=${options.query.value}` : ""}`;
     try {
+      const token = sessionStorage.getItem("accessToken");
       const res = await fetch(url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
-        credentials: "include",
       });
       if (!res.ok) return null;
       const dataUpdated = (await res.json()) as U;
@@ -128,20 +139,23 @@ export class Fetcher {
     const url = `${this.baseUrl}${options?.endpoint ? `/${options.endpoint}` : ""}${options?.id ? `/${options.id}` : ""}${options?.query ? `?${options.query.key}=${options.query.value}` : ""}`;
 
     try {
-      let res;
+      const token = sessionStorage.getItem("accessToken");
+      let res: Response;
       if (bodyOrOptions) {
         res = await fetch(url, {
           method: "DELETE",
-          credentials: "include",
           body: JSON.stringify(bodyOrOptions),
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
       } else {
         res = await fetch(url, {
           method: "DELETE",
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         });
       }
 

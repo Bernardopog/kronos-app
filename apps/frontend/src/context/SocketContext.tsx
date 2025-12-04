@@ -10,7 +10,6 @@ import {
   useState,
 } from "react";
 import { io, Socket } from "socket.io-client";
-import { AuthContext } from "./AuthContext";
 
 interface ISocketContext {
   socketKanban: Socket | null;
@@ -23,8 +22,6 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   const socketKanbanRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const { user } = useContext(AuthContext);
-
   const pathname = usePathname();
 
   useEffect(() => {
@@ -34,17 +31,37 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   }, [pathname]);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+
+    if (!token) {
+      console.warn("Token not found");
+      return;
+    }
+
     const socketKanban = io(`${process.env.NEXT_PUBLIC_API_URL}/kanbansocket`, {
       transports: ["websocket"],
-      withCredentials: true,
+      auth: { token: `Bearer ${token}` },
     });
 
     socketKanbanRef.current = socketKanban;
 
+    socketKanban.on("connect", () => {
+      setIsConnected(true);
+      console.log("Connected");
+    });
+    socketKanban.on("disconnect", () => {
+      setIsConnected(false);
+      console.log("Disconnected");
+    });
+    socketKanban.on("connect_error", (error) => {
+      setIsConnected(false);
+      console.log("Error connecting", error.message);
+    });
+
     return () => {
       socketKanban.disconnect();
     };
-  }, [user]);
+  }, []);
 
   return (
     <SocketContext.Provider

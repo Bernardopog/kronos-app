@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 // SignOut
-export async function GET(req: Request) {
+export async function GET() {
 
-  const response = NextResponse.json({ message: "Deslogado com sucesso" }, { status: 200 });
+  const response = NextResponse.json({ message: "Successfully Logout" }, { status: 200 });
 
   response.cookies.set('accessToken', '', { 
     httpOnly: true, 
@@ -33,6 +32,8 @@ export async function POST(req: Request) {
   })
 
   const data: {fields: {accessToken: string}[]} = await res.json();
+
+  if (!data.fields[0].accessToken) return NextResponse.json({ message: "User or Password are invalid" }, { status: 401 });
 
   const response = NextResponse.json({ accessToken: data.fields[0].accessToken }, { status: res.status });
   

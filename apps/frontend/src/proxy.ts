@@ -1,4 +1,4 @@
-import { ProxyConfig, NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 
 const publicRoutes = [
   { path: "/signin", authenticated: "redirect" },
@@ -20,13 +20,13 @@ export function proxy(req: NextRequest) {
   if (!accessToken && !publicRoute) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = redirectWhenNotAuthenticated;
-
+    
     return NextResponse.redirect(redirectUrl);
   }
   if (accessToken && publicRoute && publicRoute.authenticated === "redirect") {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/";
-
+    
     return NextResponse.redirect(redirectUrl);
   }
   if (accessToken && !publicRoute) {

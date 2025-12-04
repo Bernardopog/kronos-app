@@ -25,7 +25,7 @@ import { KanbanTaskService } from 'src/services/kanbantask.service';
 
 @WebSocketGateway({
   namespace: '/kanbansocket',
-  cors: { origin: process.env.ORIGIN ?? 'http://localhost:3000', credentials: true },
+  cors: { origin: process.env.ORIGIN ?? 'http://localhost:3000', credentials: false },
 })
 export class KanbanGateway implements OnGatewayInit {
   constructor(
@@ -37,7 +37,11 @@ export class KanbanGateway implements OnGatewayInit {
   @WebSocketServer() server: Server;
 
   afterInit(server: Server) {
-    server.use(socketAuthMiddleware(jwtConstants.secret!));
+    if (!jwtConstants.secret) {
+      console.error("JWT secret not found");
+      return;
+    };
+    server.use(socketAuthMiddleware(jwtConstants.secret));
   }
 
   @SubscribeMessage('joinKanban')

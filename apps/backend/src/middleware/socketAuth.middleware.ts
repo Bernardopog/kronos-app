@@ -1,34 +1,21 @@
-import { Socket } from 'socket.io';
 import { verify } from 'jsonwebtoken';
-import { parse } from 'cookie';
+import type { Socket } from 'socket.io';
 
 export function socketAuthMiddleware(jwtSecret: string) {
   return (socket: Socket, next: (err?: Error) => void) => {
-    const cookieHeader = socket.handshake.headers.cookie;
+    const token = socket.handshake.auth?.token;
 
-    if (!cookieHeader) {
-      return next(new Error('Cookies não enviados'));
-    }
-
-    let cookies: Record<string, string>;
-    try {
-      // eslint-disable-next-line
-      cookies = parse(cookieHeader) as Record<string, string>;
-    } catch {
-      return next(new Error('Falha no parse do cookie'));
-    }
-
-    const token = cookies['accessToken'];
-
-    if (typeof token !== 'string') {
-      return next(new Error('Token de acesso não encontrado'));
+    if (!token || typeof token !== 'string') {
+      console.warn("Token not found or Invalid");
+      return next(new Error('Auth not found'));
     }
 
     try {
-      const decoded = verify(token, jwtSecret);
+      const decoded = verify(token.replace("Bearer ", ""), jwtSecret);
       socket.data.user = decoded;
       next();
-    } catch {
+    } catch (err) {
+      console.error("Invalid or expired token", err.message);
       return next(new Error('Invalid or expired token'));
     }
   };

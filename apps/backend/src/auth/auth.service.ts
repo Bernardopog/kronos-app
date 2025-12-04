@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { SignInDTO, SignUpDTO } from '../dto/auth.dto';
+import type { SignInDTO, SignUpDTO } from '../dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { jwtConstants } from '../constants/jwt.constant';
 
 type fieldTypes = 'email' | 'password' | 'username';
@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   async signIn(data: SignInDTO) {
-    const invalidMessage = 'Credenciais Inválidas';
+    const invalidMessage = 'Invalid Credentials';
 
     const foundEmail = await this.prismaService.user.findUnique({
       where: {
@@ -89,8 +89,13 @@ export class AuthService {
   }
 
   async me(req: FastifyRequest, reply: FastifyReply) {
-    const token = req.cookies.accessToken;
-    const decoded = this.jwtService.verify(token, {
+    const token = req.headers.authorization;
+    const [type, tokenValue] = token?.split(' ') ?? [];
+
+    if (type !== 'Bearer' || !tokenValue) throw new HttpException('Token not found', 401);  
+    if (!tokenValue) throw new HttpException('Token not found', 401);
+
+    const decoded = this.jwtService.verify(tokenValue, {
       secret: jwtConstants.secret,
     });
 
