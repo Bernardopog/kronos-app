@@ -77,8 +77,8 @@ export default function KanbanPage() {
               key={kanban.id}
               href={`/kanbanlist/${kanban.id}`}
               className="flex items-center justify-center min-w-64 w-[90%] max-w-72 h-20 border border-woodsmoke-200 rounded-lg font-bold overflow-clip duration-300 ease-in-out
-                hover:shadow-btn hover:shadow-woodsmoke-800/25 
-                dark:border-woodsmoke-800 dark:hover:shadow-btn 
+                hover:shadow-[0_0_5px_3px] hover:shadow-woodsmoke-800/25 
+                dark:border-woodsmoke-800 dark:hover:shadow-[0_0_5px_3px] 
                 dark:hover:shadow-woodsmoke-800/25"
             >
               <span className="inline-block mx-2 truncate">{kanban.title}</span>
@@ -98,7 +98,7 @@ export default function KanbanPage() {
               button: `
               min-w-64 w-[90%] max-w-[18rem] h-20 border-dashed
               hover:bg-apple-600
-              dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25
             `,
             }}
           />
@@ -117,8 +117,8 @@ export default function KanbanPage() {
                 key={kanban.id}
                 href={`/kanbanlist/${kanban.id}`}
                 className="flex items-center justify-center min-w-64 w-[90%] max-w-72 h-20 border border-woodsmoke-200 rounded-lg font-bold overflow-clip duration-300 ease-in-out
-                hover:shadow-btn hover:shadow-woodsmoke-800/25 
-                dark:border-woodsmoke-800 dark:hover:shadow-btn 
+                hover:shadow-[0_0_5px_3px] hover:shadow-woodsmoke-800/25 
+                dark:border-woodsmoke-800 dark:hover:shadow-[0_0_5px_3px] 
                 dark:hover:shadow-woodsmoke-800/25"
               >
                 <span className="inline-block mx-2 truncate">

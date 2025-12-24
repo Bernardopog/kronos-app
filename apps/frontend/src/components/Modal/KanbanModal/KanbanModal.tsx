@@ -154,7 +154,7 @@ export default function KanbanModal() {
               extraStyles={{
                 button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
             hover:bg-crud-create-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-create-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-create-light/25`,
               }}
               icon={<AiOutlineClose />}
             />
@@ -169,7 +169,7 @@ export default function KanbanModal() {
               extraStyles={{
                 button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
           hover:bg-crud-delete-light
-          dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25`,
+          dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-light/25`,
               }}
               icon={<AiOutlineCheck />}
             />
@@ -181,7 +181,7 @@ export default function KanbanModal() {
             extraStyles={{
               button: `mr-auto px-2 bg-woodsmoke-950 text-woodsmoke-100
             hover:bg-crud-delete-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-light/25`,
             }}
             icon={<AiOutlineDelete />}
           />
@@ -195,7 +195,7 @@ export default function KanbanModal() {
           extraStyles={{
             button: `px-2 bg-woodsmoke-950 text-woodsmoke-100
             hover:bg-crud-update-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25`,
           }}
           icon={<AiOutlineCheck />}
         />
@@ -208,7 +208,7 @@ export default function KanbanModal() {
           extraStyles={{
             button: `px-2 bg-woodsmoke-950 text-woodsmoke-100
             hover:bg-crud-delete-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-light/25`,
           }}
           icon={<AiOutlineClose />}
         />
@@ -218,7 +218,7 @@ export default function KanbanModal() {
           extraStyles={{
             button: `px-2 bg-woodsmoke-950 text-woodsmoke-100
             hover:bg-crud-create-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-create-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-create-light/25`,
           }}
           icon={<AiOutlineSave />}
           type="submit"

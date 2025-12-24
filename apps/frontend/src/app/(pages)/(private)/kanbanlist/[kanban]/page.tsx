@@ -166,7 +166,7 @@ export default function Kanban() {
                   button: `min-w-80 max-w-80 min-h-[460px] h-dvh max-h-[calc(100%-6rem)] border-dashed rounded-lg text-woodsmoke-900
               dark:text-woodsmoke-200
               hover:bg-apple-600
-              dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25
               lg:max-h-[85vh]
             `,
                 }}

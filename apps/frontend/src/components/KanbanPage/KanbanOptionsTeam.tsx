@@ -116,7 +116,7 @@ export default function KanbanOptionsTeam() {
                 button: `text-woodsmoke-950 w-full
                 hover:bg-poppy-600
                 dark:text-woodsmoke-100
-                dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
               }}
               ariaLabel="Cancelar"
               icon={<AiFillCloseCircle />}
@@ -132,7 +132,7 @@ export default function KanbanOptionsTeam() {
                 button: `text-woodsmoke-950 w-full
                 hover:bg-apple-600
                 dark:text-woodsmoke-100
-                dark:hover:shadow-btn dark:hover:shadow-apple-600/25`,
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25`,
               }}
               ariaLabel="Adicionar"
               icon={<AiFillCheckCircle />}
@@ -147,7 +147,7 @@ export default function KanbanOptionsTeam() {
               button: `text-woodsmoke-950 w-full mt-2 border-dashed
             hover:bg-apple-600
             dark:text-woodsmoke-100
-            dark:hover:shadow-btn dark:hover:shadow-apple-600/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25`,
             }}
             label="Adicionar Membro"
             icon={<AiOutlineUserAdd />}

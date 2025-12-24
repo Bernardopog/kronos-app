@@ -95,7 +95,7 @@ export default function KanbanColumnHeader({
               border rounded-full bg-woodsmoke-100 text-woodsmoke-900
               hover:text-woodsmoke-925
               dark:text-woodsmoke-200 dark:bg-woodsmoke-925
-              dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-woodsmoke-100/25 dark:hover:text-woodsmoke-100
             `,
           }}
         />

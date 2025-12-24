@@ -30,7 +30,7 @@ export default function NoteList() {
   return (
     <Inert
       style={`fixed top-0 z-10 size-full pt-4 scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300 
-        dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10 
+        dark:bg-woodsmoke-925 dark:shadow-[0_0_24px] dark:shadow-woodsmoke-100/10 
         lg:static lg:static lg:p-0 lg:translate-x-0 lg:bg-woodsmoke-50 
         ${listShowControl ? "left-0" : "-left-full"}`}
       value={isListShow || device === "desktop"}

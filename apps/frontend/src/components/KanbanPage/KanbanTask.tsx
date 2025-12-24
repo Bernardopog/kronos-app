@@ -76,7 +76,7 @@ export default function KanbanTask({
             button: `absolute right-2
           hover:text-woodsmoke-950
           dark:text-woodsmoke-200
-          dark:hover:text-woodsmoke-100 dark:hover:shadow-btn dark:hover:shadow-woodsmoke-300/25
+          dark:hover:text-woodsmoke-100 dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-woodsmoke-300/25
           ${task.isCompleted ? "text-woodsmoke-100" : "text-woodsmoke-800"}
           `,
           }}

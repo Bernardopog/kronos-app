@@ -58,7 +58,7 @@ export default function NoteOptions() {
         <aside
           className={`
           flex flex-col fixed top-0 size-full gap-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
-          dark:bg-woodsmoke-925 dark:shadow-side dark:shadow-woodsmoke-100/10
+          dark:bg-woodsmoke-925 dark:shadow-[0_0_24px] dark:shadow-woodsmoke-100/10
           lg:static lg:translate-x-0 lg:bg-woodsmoke-50
           ${!selectedNote && "hidden"}
           ${optionsShowControl ? "right-0" : "-right-full"}
@@ -78,7 +78,7 @@ export default function NoteOptions() {
               extraStyles={{
                 button: `relative text-woodsmoke-800
                 dark:text-woodsmoke-200
-                dark:hover:shadow-btn
+                dark:hover:shadow-[0_0_5px_3px]
                 ${isMenuOpen ? "px-2" : "px-1"}
                 ${selectedNote?.isFavorite ? "hover:bg-poppy-600 dark:hover:shadow-poppy-600/25" : "hover:bg-apple-600 dark:hover:shadow-apple-600/25"}`,
                 label: `text-nowrap 
@@ -99,7 +99,7 @@ export default function NoteOptions() {
                 button: `w-full px-2 text-woodsmoke-800
                 dark:text-woodsmoke-200
                 hover:bg-poppy-600
-                dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
                 ${isMenuOpen ? "px-2" : "px-1"}`,
                 label: `text-nowrap
                 ${isMenuOpen ? "inline" : "hidden"}
@@ -137,7 +137,7 @@ export default function NoteOptions() {
                 btn-base px-2 text-woodsmoke-800
                 dark:text-woodsmoke-200
                 hover:bg-apple-600
-                dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25
               "
             href={url ?? "#"}
             download={`note-${selectedNote.title}.txt`}

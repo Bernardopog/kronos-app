@@ -57,7 +57,7 @@ export default function KanbanUserOptions({ id }: IKanbanUserOptionsProps) {
                 button: `text-woodsmoke-950
                   hover:bg-apple-600
                   dark:text-woodsmoke-100
-                  dark:hover:shadow-btn dark:hover:shadow-apple-600/25`,
+                  dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25`,
               }}
               ariaLabel="Cancelar Ação"
               icon={<AiFillCloseCircle />}
@@ -68,7 +68,7 @@ export default function KanbanUserOptions({ id }: IKanbanUserOptionsProps) {
                 button: `text-woodsmoke-950
                   hover:bg-poppy-600
                   dark:text-woodsmoke-100
-                  dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+                  dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
               }}
               ariaLabel="Confirmar Ação"
               icon={<AiFillCheckCircle />}
@@ -86,7 +86,7 @@ export default function KanbanUserOptions({ id }: IKanbanUserOptionsProps) {
               button: `text-woodsmoke-950
               hover:bg-poppy-600
               dark:text-woodsmoke-100
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
             }}
             ariaLabel={
               user?.id === id ? "Sair deste Kanban" : "Remover deste Kanban"
@@ -133,7 +133,7 @@ export default function KanbanUserOptions({ id }: IKanbanUserOptionsProps) {
               button: `text-woodsmoke-950
               hover:bg-crud-update-light
               dark:text-woodsmoke-100
-              dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25`,
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25`,
             }}
             ariaLabel="Editar Usuário"
             icon={<AiFillRead />}

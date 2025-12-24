@@ -68,7 +68,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
                   <Button
                     extraStyles={{
                       button: `text-woodsmoke-600 ease-in-out duration-300
-                        hover:text-woodsmoke-950 hover:shadow-btn hover:shadow-woodsmoke-500/25
+                        hover:text-woodsmoke-950 hover:shadow-[0_0_5px_3px] hover:shadow-woodsmoke-500/25
                         dark:text-woodsmoke-300                         dark:hover:text-woodsmoke-100
                       `,
                     }}

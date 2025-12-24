@@ -56,7 +56,7 @@ export default function PriorityChanger({
           icon={<AiOutlineArrowDown />}
           extraStyles={{
             button: `hover:bg-priority-lowest hover:text-woodsmoke-950
-            dark:hover:shadow-btn dark:hover:shadow-priority-lowest`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-priority-lowest`,
           }}
         />
         <span>{formattedPriority}</span>
@@ -68,7 +68,7 @@ export default function PriorityChanger({
           icon={<AiOutlineArrowUp />}
           extraStyles={{
             button: `hover:bg-priority-highest hover:text-woodsmoke-950
-            dark:hover:shadow-btn dark:hover:shadow-priority-highest`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-priority-highest`,
           }}
         />
       </div>

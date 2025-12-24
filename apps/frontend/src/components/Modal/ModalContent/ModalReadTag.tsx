@@ -48,7 +48,7 @@ export default function ModalReadTag() {
                   button: `size-full p-0 px-2 text-woodsmoke-800
                     dark:text-woodsmoke-200
                     hover:bg-apple-600
-                    dark:hover:shadow-btn dark:hover:shadow-apple-600/25`,
+                    dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25`,
                   icon: "text-xl",
                 }}
                 action={() => {
@@ -68,7 +68,7 @@ export default function ModalReadTag() {
                   button: `text-nowrap size-full p-0 px-2 text-woodsmoke-800
                     dark:text-woodsmoke-200
                     hover:bg-poppy-600
-                    dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+                    dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
                   icon: "text-xl",
                 }}
                 action={() => {

@@ -34,7 +34,7 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
               button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
                 dark:border-woodsmoke-500 dark:text-woodsmoke-200
                 hover:bg-crud-update-dark
-                dark:hover:shadow-btn dark:hover:shadow-crud-update-dark/25`,
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}
@@ -56,7 +56,7 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
               button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
                 dark:border-woodsmoke-500 dark:text-woodsmoke-200
                 hover:bg-crud-delete-dark
-                dark:hover:shadow-btn dark:hover:shadow-crud-delete-dark/25`,
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}

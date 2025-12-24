@@ -30,7 +30,7 @@ export default function DescriptionChanger({
           button: `absolute top-1 right-1 opacity-0 bg-woodsmoke-100
             hover:bg-crud-update-light
             dark:bg-woodsmoke-950
-            dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25
             group-hover:opacity-100
           `,
         }}

@@ -58,9 +58,9 @@ export default function KanbanColumn({
       }}
       className={`min-w-80 max-w-80 min-h-[460px] h-dvh max-h-[calc(100%-6rem)] rounded-lg border border-woodsmoke-200 overflow-clip duration-300 ease-in-out
       dark:border-woodsmoke-800
-      hover:shadow-btn hover:shadow-woodsmoke-800/25
+      hover:shadow-[0_0_5px_3px] hover:shadow-woodsmoke-800/25
       lg:min-h-[85vh] lg:max-h-[85vh]
-      ${isDragOver && "shadow-btn shadow-woodsmoke-800/50"}
+      ${isDragOver && "shadow-[0_0_5px_3px] shadow-woodsmoke-800/50"}
     `}
     >
       <KanbanColumnHeader
@@ -99,7 +99,7 @@ export default function KanbanColumn({
               button: `min-h-16 w-[calc(100%-1rem)] mx-2 border-dashed rounded-lg text-woodsmoke-900
                   dark:text-woodsmoke-200
                   hover:bg-apple-600
-                  dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+                  dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25
                 `,
             }}
             action={() =>

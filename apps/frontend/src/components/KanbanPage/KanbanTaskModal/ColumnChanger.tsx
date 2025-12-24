@@ -78,7 +78,7 @@ export default function ColumnChanger({
               <Button
                 extraStyles={{
                   button: `bg-woodsmoke-950 w-full text-woodsmoke-100
-                dark:hover:shadow-btn dark:hover:shadow-woodsmoke-100/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-woodsmoke-100/25
               `,
                   label: "truncate",
                 }}

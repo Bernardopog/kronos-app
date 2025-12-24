@@ -32,8 +32,8 @@ export default function HomeCard({
     >
       <article
         className={`
-        flex flex-col items-center p-8 border rounded-2xl shadow-base bg-woodsmoke-50 text-woodsmoke-950 border-woodsmoke-200 shadow-black/25 duration-300 ease-in-out
-        hover:shadow-base-floating hover:shadow-black/15 hover:-translate-y-5 hover:bg-woodsmoke-100 hover:border-woodsmoke-300
+        flex flex-col items-center p-8 border rounded-2xl shadow-[0_8px_4px] bg-woodsmoke-50 text-woodsmoke-950 border-woodsmoke-200 shadow-black/25 duration-300 ease-in-out
+        hover:shadow-[0_24px_4px] hover:shadow-black/15 hover:-translate-y-5 hover:bg-woodsmoke-100 hover:border-woodsmoke-300
         dark:bg-woodsmoke-950 dark:text-woodsmoke-50 dark:border-woodsmoke-200 
         dark:hover:bg-woodsmoke-950 dark:hover:border-woodsmoke-900
       `}

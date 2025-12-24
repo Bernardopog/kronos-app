@@ -37,7 +37,7 @@ export default function ModalDeleteTag() {
               className="btn-base text-woodsmoke-950 cursor-pointer
               dark:text-woodsmoke-100
               hover:bg-poppy-600
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
                 "
               onClick={() => {
                 setTagToDelete(tag.id);

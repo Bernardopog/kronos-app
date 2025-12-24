@@ -54,7 +54,7 @@ export default function ModalKanbanCreateTask() {
                 button: `px-2
                 dark:text-woodsmoke-200 
                 hover:bg-apple-600 hover:border-transparent 
-                dark:hover:shadow-btn dark:hover:shadow-apple-600/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-600/25
                 ${priority === "low" ? "bg-apple-600 text-woodsmoke-50 border-transparent" : "text-woodsmoke-900"}`,
               }}
             />
@@ -65,7 +65,7 @@ export default function ModalKanbanCreateTask() {
                 button: `px-2
                 dark:text-woodsmoke-200 
                 hover:bg-[#b19a25] hover:border-transparent 
-                dark:hover:shadow-btn dark:hover:shadow-[#b19a25]/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-[#b19a25]/25
                 ${priority === "medium" ? "bg-[#b19a25] text-woodsmoke-50 border-transparent" : "text-woodsmoke-900"}`,
               }}
             />
@@ -76,7 +76,7 @@ export default function ModalKanbanCreateTask() {
                 button: `px-2
                 dark:text-woodsmoke-200 
                 hover:bg-poppy-600 hover:border-transparent 
-                dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
                 ${priority === "high" ? "bg-poppy-600 text-woodsmoke-50 border-transparent" : "text-woodsmoke-900"}`,
               }}
             />

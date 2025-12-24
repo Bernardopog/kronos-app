@@ -41,7 +41,7 @@ export default function KanbanOptions({
             button: `text-woodsmoke-800
           dark:text-woodsmoke-200 
           hover:bg-poppy-600 
-          dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+          dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
           }}
         />
       )}
@@ -60,7 +60,7 @@ export default function KanbanOptions({
             button: `text-woodsmoke-800
             dark:text-woodsmoke-200 
             hover:bg-poppy-600 
-            dark:hover:shadow-btn dark:hover:shadow-poppy-600/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25`,
           }}
         />
       )}
@@ -75,7 +75,7 @@ export default function KanbanOptions({
             button: `text-woodsmoke-800
             dark:text-woodsmoke-200 
             hover:bg-crud-update-light
-            dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25`,
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25`,
           }}
         />
       )}

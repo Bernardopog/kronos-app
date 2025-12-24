@@ -26,7 +26,7 @@ export default function ModalToDoRemove() {
             extraStyles={{
               button: `flex-1
               hover:bg-poppy-600
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
               ${removalType === "completed" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
               `,
               label:
@@ -41,7 +41,7 @@ export default function ModalToDoRemove() {
             extraStyles={{
               button: `flex-1
               hover:bg-poppy-600
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
               ${removalType === "uncompleted" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
               `,
               label:
@@ -56,7 +56,7 @@ export default function ModalToDoRemove() {
             extraStyles={{
               button: `flex-1
               hover:bg-poppy-600
-              dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+              dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
               ${removalType === "all" && "font-bold bg-woodsmoke-200 dark:bg-woodsmoke-800"}
               `,
               label:

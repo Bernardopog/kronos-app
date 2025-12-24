@@ -33,7 +33,7 @@ export default function KanbanColumnOptionsFooter({
           button: `w-full rounded-none rounded-bl-lg text-woodsmoke-950
             hover:bg-poppy-600
             dark:text-woodsmoke-100
-            dark:hover:shadow-btn dark:hover:shadow-poppy-600/25
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-600/25
           `,
         }}
         icon={<AiFillDelete />}
@@ -54,7 +54,7 @@ export default function KanbanColumnOptionsFooter({
           button: `w-full rounded-none rounded-br-lg text-woodsmoke-950
             hover:bg-crud-update-light
             dark:text-woodsmoke-100 
-            dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25
           `,
         }}
         icon={<AiFillEdit />}

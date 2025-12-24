@@ -20,7 +20,7 @@ export default function ToDoHeader() {
           button: `px-2 text-woodsmoke-900 dark:text-woodsmoke-200
             hover:bg-apple-600 
             hover:border-transparent 
-            dark:hover:shadow-btn dark:hover:shadow-apple-500/25
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-apple-500/25
             `,
           label: "hidden sm:inline",
         }}
@@ -39,7 +39,7 @@ export default function ToDoHeader() {
           button: `px-2 text-woodsmoke-900 dark:text-woodsmoke-200
             hover:bg-poppy-600 
             hover:border-transparent 
-            dark:hover:shadow-btn dark:hover:shadow-poppy-500/25
+            dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-poppy-500/25
             `,
           label: "hidden sm:inline",
         }}

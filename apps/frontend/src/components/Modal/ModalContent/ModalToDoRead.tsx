@@ -115,7 +115,7 @@ export default function ModalToDoRead() {
               extraStyles={{
                 button: `px-2 font-bold
                   hover:bg-crud-update-dark
-                  dark:hover:shadow-btn dark:hover:shadow-crud-update-light/25
+                  dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-light/25
                 `,
                 label: "hidden lg:inline",
               }}
@@ -134,7 +134,7 @@ export default function ModalToDoRead() {
               extraStyles={{
                 button: `px-2 font-bold
                   hover:bg-crud-delete-dark
-                  dark:hover:shadow-btn dark:hover:shadow-crud-delete-light/25
+                  dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-light/25
                 `,
                 label: "hidden lg:inline",
               }}
