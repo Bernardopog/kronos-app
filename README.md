@@ -24,6 +24,10 @@ Kronos é um projeto Web Fullstack Monorepo que serve para gerenciamento de temp
 - [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white&style=for-the-badge)](https://www.postgresql.org/)
 - [![Supabase](https://img.shields.io/badge/-Supabase-34b27b?logo=supabase&logoColor=white&style=for-the-badge)](https://supabase.com/)
 
+## 💣 Challenges (Desafios)
+* **Realtime com WebSockets:** Implementar o Kanban colaborativo exigiu um entendimento profundo de como manter o estado sincronizado para múltiplos usuários e como evitar de sobrecarregar o servidor através de salas.
+* **Segurança e Autenticação:** Lidei com a complexidade de configurar Cookies `HttpOnly` em domínios diferentes (Vercel e Render), enfrentando problemas de CORS e `SameSite`. Isso me forçou a entender como o protocolo HTTP funciona por baixo dos panos.
+
 ## 📦 Features (Funcionalidades)
 
 * **Sistema de Autenticação e Acesso** Proteção de rotas privadas.
