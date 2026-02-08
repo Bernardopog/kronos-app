@@ -1,7 +1,9 @@
 import { BsFileText, BsKanban, BsListCheck } from "react-icons/bs";
 
+export type NameTypes = "kanban" | "todo" | "note";
+
 interface ILinkList {
-  name: string;
+  name: NameTypes;
   path: string;
   label: string;
   icon: React.ReactNode;

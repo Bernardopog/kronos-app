@@ -5,29 +5,22 @@ import linkList from "@/shared/linkList";
 export default function Home() {
   return (
     <main
-      className="
-        bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100 duration-300 ease-in-out
-        dark:bg-woodsmoke-925
-        "
+      className="flex flex-col bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100 duration-300 ease-in-out dark:bg-woodsmoke-925"
       id="main"
     >
-      <header className="px-8 py-4">
+      <header className="px-8 py-2">
         <WelcomeMessage />
       </header>
-      <section
-        className="
-        flex flex-col items-center justify-start h-[calc(100%-6rem)] mt-6 gap-8
-        lg:flex-row lg:justify-center lg:h-[calc(100%-7rem)]
-      "
-      >
-        {linkList.map((link, idx) => (
+
+      <section className="flex-1 grid grid-cols-1 grid-rows-3 m-2 gap-2 p-2 pb-16 rounded-lg md:grid-cols-3 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3">
+        {linkList.map((linkData, index) => (
           <HomeCard
-            key={link.path}
-            name={link.name}
-            path={link.path}
-            label={link.label}
-            icon={link.icon}
-            animationTime={250 * (idx + 1)}
+            name={linkData.name}
+            position={(index + 1).toString()}
+            key={linkData.path}
+            href={linkData.path}
+            label={linkData.label}
+            icon={linkData.icon}
           />
         ))}
       </section>

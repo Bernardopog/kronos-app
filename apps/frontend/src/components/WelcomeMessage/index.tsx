@@ -1,19 +1,17 @@
 "use client";
 
 import { AuthContext } from "@/context/AuthContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 export default function WelcomeMessage() {
   const { user, updateUserDisplayName } = useContext(AuthContext);
 
   const [isEditingName, setIsEditingName] = useState(false);
-  const [newDisplayName, setNewDisplayName] = useState("");
+  const [newDisplayName, setNewDisplayName] = useState(
+    user?.displayName ?? user?.username ?? "",
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setNewDisplayName(user?.displayName ?? user?.username ?? "");
-  }, [user?.displayName, user?.username]);
 
   function handleUpdateDisplayName() {
     if (newDisplayName === user?.displayName) return setIsEditingName(false);
@@ -24,7 +22,7 @@ export default function WelcomeMessage() {
   }
 
   return (
-    <h2 className="text-center text-[2rem] text-woodsmoke-950 dark:text-woodsmoke-50">
+    <h2 className="text-center text-xl text-woodsmoke-950 dark:text-woodsmoke-50 lg:text-3xl">
       Olá,
       {isEditingName ? (
         <input

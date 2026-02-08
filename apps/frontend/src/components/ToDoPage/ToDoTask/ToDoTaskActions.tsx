@@ -4,7 +4,13 @@ import { IToDoTask } from "@/mock/mockToDoList";
 import { useContext } from "react";
 import { AiFillCheckCircle, AiFillInfoCircle } from "react-icons/ai";
 
-export default function ToDoTaskActions({ taskData }: { taskData: IToDoTask }) {
+export default function ToDoTaskActions({
+  taskData,
+  readonly,
+}: {
+  taskData: IToDoTask;
+  readonly: boolean;
+}) {
   const { toggleTaskCompletion, selectTask } = useContext(ToDoContext);
   const { toggleModal } = useContext(ModalContext);
 
@@ -24,11 +30,13 @@ export default function ToDoTaskActions({ taskData }: { taskData: IToDoTask }) {
           <AiFillInfoCircle />
         </div>
       </button>
-      <button onClick={() => toggleTaskCompletion(taskData)}>
-        <div className="to-do-btn">
-          {taskData.isCompleted && <AiFillCheckCircle />}
-        </div>
-      </button>
+      {!readonly && (
+        <button onClick={() => toggleTaskCompletion(taskData)}>
+          <div className="to-do-btn">
+            {taskData.isCompleted && <AiFillCheckCircle />}
+          </div>
+        </button>
+      )}
     </div>
   );
 }

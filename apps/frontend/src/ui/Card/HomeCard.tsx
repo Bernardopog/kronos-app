@@ -1,46 +1,55 @@
-"use client";
-import { NavbarContext } from "@/context/NavbarContext";
+import {
+  ToDoSection,
+  KanbanSection,
+  NoteSection,
+} from "@/layout/PageLayout/HomePage";
+import { NameTypes } from "@/shared/linkList";
 import Link from "next/link";
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 
 interface IHomeCardProps {
-  name: string;
-  path: string;
+  name: NameTypes;
+  href: string;
   label: string;
   icon: ReactNode;
-  animationTime: number;
+  position: string;
 }
 
 export default function HomeCard({
   name,
-  path,
+  href,
   label,
   icon,
-  animationTime,
+  position,
 }: IHomeCardProps) {
-  const { selectCurrentPage } = useContext(NavbarContext);
+  const positionMap: Record<string, string> = {
+    "1": "md:col-start-1 md:col-end-3 lg:col-start-1 lg:col-end-4",
+    "2": "md:col-start-3 md:col-end-4 md:row-start-1 md:row-end-3 lg:col-start-4 lg:row-start-1 lg:row-end-4",
+    "3": "md:col-start-1 md:col-end-3 md:row-start-2 md:row-end-3 lg:col-start-1 lg:col-end-4 lg:row-start-1 lg:row-end-3",
+  };
+
+  const gridPos = positionMap[position];
+
+  const sectionMap: Record<NameTypes, ReactNode> = {
+    kanban: <KanbanSection />,
+    todo: <ToDoSection />,
+    note: <NoteSection />,
+  };
 
   return (
-    <Link
-      href={path}
-      aria-label={label}
-      className="w-60 h-40 sm:w-72 sm:h-48 animate-move-in opacity-0"
-      style={{ animationDelay: `${animationTime}ms` }}
-      onClick={() => {
-        selectCurrentPage(name);
-      }}
+    <article
+      className={`flex flex-col ${gridPos} rounded-lg border p-2 gap-2 duration-300 ease-in-out border-woodsmoke-950/25 dark:border-woodsmoke-100/25 hover:border-woodsmoke-950/50 dark:hover:border-woodsmoke-100/50`}
     >
-      <article
-        className={`
-        flex flex-col items-center p-8 border rounded-2xl shadow-[0_8px_4px] bg-woodsmoke-50 text-woodsmoke-950 border-woodsmoke-200 shadow-black/25 duration-300 ease-in-out
-        hover:shadow-[0_24px_4px] hover:shadow-black/15 hover:-translate-y-5 hover:bg-woodsmoke-100 hover:border-woodsmoke-300
-        dark:bg-woodsmoke-950 dark:text-woodsmoke-50 dark:border-woodsmoke-200 
-        dark:hover:bg-woodsmoke-950 dark:hover:border-woodsmoke-900
-      `}
-      >
-        <span className="text-[4rem]">{icon}</span>
-        <h3 className="font-medium text-[2rem]">{label}</h3>
-      </article>
-    </Link>
+      <header className="flex justify-between items-center text-woodsmoke-900 dark:text-woodsmoke-100">
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-medium">{label}</h2>
+          <span className="text-2xl">{icon}</span>
+        </div>
+        <Link href={href} className="text-sm">
+          Ver detalhes
+        </Link>
+      </header>
+      {sectionMap[name]}
+    </article>
   );
 }
