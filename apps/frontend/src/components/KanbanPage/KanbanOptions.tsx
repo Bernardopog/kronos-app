@@ -34,7 +34,6 @@ export default function KanbanOptions({
               type: "delete",
               headerTitle: "Sair do Kanban",
             });
-            // removeUserFromKanban(user!.id as string);
           }}
           icon={<AiOutlineLogout />}
           extraStyles={{

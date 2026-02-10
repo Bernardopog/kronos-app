@@ -3,10 +3,12 @@ import { useContext } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import { KanbanContext } from "@/context/KanbanContext";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function ModalKanbanLeave() {
   const { toggleModal } = useContext(ModalContext);
-  const { selectedKanban } = useContext(KanbanContext);
+  const { selectedKanban, removeUserFromKanban } = useContext(KanbanContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
@@ -27,6 +29,8 @@ export default function ModalKanbanLeave() {
         type={"custom"}
         customMessage="Sair"
         action={() => {
+          if (!user) return;
+          removeUserFromKanban(user.id as string);
           toggleModal(null);
         }}
       />
