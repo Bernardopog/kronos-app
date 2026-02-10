@@ -53,13 +53,7 @@ export default function NoteList() {
           toggleFilter={toggleFilter}
         />
         <NoteFilter state={isFilterShow} />
-        <ul
-          className="
-          grid grid-cols-2 max-h-[calc(100vh-9.5rem)] mt-8 p-2 pb-32 gap-2 overflow-y-auto scrollbar-thin
-          sm:grid-cols-3
-          lg:mt-4 lg:flex lg:flex-col lg:pb-2 lg:pt-4
-      "
-        >
+        <ul className="grid grid-cols-2 max-h-[calc(100vh-9.5rem)] mt-8 p-2 pb-32 gap-2 overflow-y-auto scrollbar-base sm:grid-cols-3 lg:mt-4 lg:flex lg:flex-col lg:pb-2 lg:pt-4">
           {noteList.length > 0 &&
             noteList
               .filter((note) => {

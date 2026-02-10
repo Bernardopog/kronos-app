@@ -13,10 +13,7 @@ export default function ToDoTaskList() {
 
   return (
     <ul
-      className="
-        flex flex-col items-center max-h-[calc(100%-7rem)] w-full px-1 pb-4 gap-4 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-600
-        lg:max-h-[calc(100%-7rem)]
-      "
+      className="flex flex-col items-center max-h-[calc(100%-7rem)] w-full px-1 pb-4 gap-4 overflow-y-auto scrollbar-base lg:max-h-[calc(100%-7rem)]"
       id="td-task-list"
     >
       {toDoTaskList.length > 0 ? (

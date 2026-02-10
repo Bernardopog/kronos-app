@@ -48,9 +48,7 @@ export default function DescriptionChanger({
           onChange={(e) => setNewTaskDescription(e.target.value)}
           value={newTaskDescription}
           ref={descriptionRef}
-          className="size-full rounded-lg scrollbar-thin scrollbar-track-transparent resize-none bg-transparent scrollbar-thumb-woodsmoke-900 ease-in-out duration-300
-          focus:outline focus:outline-woodsmoke-600
-          dark:scrollbar-thumb-woodsmoke-100"
+          className="size-full rounded-lg resize-none bg-transparent ease-in-out duration-300 scrollbar-base focus:outline focus:outline-woodsmoke-600"
         />
       ) : (
         <p className="whitespace-pre-wrap">{newTaskDescription}</p>

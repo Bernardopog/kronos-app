@@ -34,7 +34,7 @@ export default function KanbanPage() {
       newParams.delete("delete");
       const urlWithoutParam = `/kanbanlist?${newParams.toString()}`.replace(
         /\?$/,
-        ""
+        "",
       );
 
       router.replace(urlWithoutParam);
@@ -50,10 +50,7 @@ export default function KanbanPage() {
       id="main"
     >
       <section
-        className={`flex flex-col w-full p-2 gap-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950 overflow-y-auto
-        dark:scrollbar-thumb-woodsmoke-100
-        ${authorizedKanbanList.length > 0 && "max-h-[50%]"}
-      `}
+        className={`flex flex-col w-full p-2 gap-2 scrollbar-base overflow-y-auto ${authorizedKanbanList.length > 0 && "max-h-[50%]"}`}
       >
         <div className="flex items-center w-full justify-end text-woodsmoke-900 dark:text-woodsmoke-100">
           Seu ID:{" "}
@@ -105,11 +102,7 @@ export default function KanbanPage() {
         </div>
       </section>
       {authorizedKanbanList.length > 0 && (
-        <section
-          className="flex flex-col w-full p-2 gap-2 max-h-[50%] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950 overflow-y-auto
-        dark:scrollbar-thumb-woodsmoke-100
-      "
-        >
+        <section className="flex flex-col w-full p-2 gap-2 max-h-[50%] scrollbar-base overflow-y-auto">
           <h2 className="w-full text-2xl font-bold">Outros Kanbans</h2>
           <div className="flex flex-wrap gap-2">
             {authorizedKanbanList.map((kanban) => (

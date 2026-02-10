@@ -50,9 +50,7 @@ export default function ModalCreateTag() {
 
         <ul
           className={`
-          grid grid-cols-4 rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800 ease-in-out duration-300
-          ${showTagList ? "h-24 p-2 border overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950" : "h-0 overflow-clip p-0 border-none"}
-        `}
+          grid grid-cols-4 rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800 ease-in-out duration-300 ${showTagList ? "h-24 p-2 border overflow-y-auto scrollbar-base" : "h-0 overflow-clip p-0 border-none"}`}
           aria-hidden={!showTagList}
         >
           {tagList.map((tag) => (

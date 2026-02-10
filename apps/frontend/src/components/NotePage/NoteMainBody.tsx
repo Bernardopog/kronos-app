@@ -22,7 +22,7 @@ export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
     setNoteDescription(
       selectedNote?.description === ""
         ? "Digite Aqui"
-        : (selectedNote?.description ?? "Digite Aqui")
+        : (selectedNote?.description ?? "Digite Aqui"),
     );
   }, [editableDesc, selectedNote]);
 
@@ -30,12 +30,7 @@ export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
     <div className="size-full py-4 px-6">
       {editableDesc ? (
         <textarea
-          className="
-          w-full min-h-full p-2 rounded-lg bg-transparent scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-900 ease-in-out duration-300 
-          focus:outline focus:outline-woodsmoke-600
-          dark:bg-woodsmoke-950 dark:scrollbar-thumb-woodsmoke-100
-          dark:focus:outline-woodsmoke-100
-        "
+          className="w-full min-h-full p-2 rounded-lg bg-transparent scrollbar-base ease-in-out duration-300 focus:outline focus:outline-woodsmoke-600 dark:bg-woodsmoke-950 dark:focus:outline-woodsmoke-100"
           name="description"
           id="description"
           ref={descInputRef}

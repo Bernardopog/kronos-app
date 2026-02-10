@@ -1,6 +1,6 @@
 @layer components {
-  .scrollbar {
-    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950 dark:scrollbar-thumb-woodsmoke-100;
+  .scrollbar-base {
+    @apply scrollbar scrollbar-w-1.5 scrollbar-track-transparent scrollbar-thumb-woodsmoke-950/50 scrollbar-hover:scrollbar-thumb-woodsmoke-950 dark:scrollbar-thumb-woodsmoke-100/50 dark:scrollbar-hover:scrollbar-thumb-woodsmoke-100 scrollbar-thumb-rounded-lg;
   }
   .page {
     @apply bg-woodsmoke-50 dark:bg-woodsmoke-925 p-2 size-full duration-300 ease-in-out;

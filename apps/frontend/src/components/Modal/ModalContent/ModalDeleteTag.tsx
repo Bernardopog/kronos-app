@@ -26,10 +26,7 @@ export default function ModalDeleteTag() {
           </p>
         )}
         <ul
-          className={`
-          grid grid-cols-4 rounded-lg gap-2 border-woodsmoke-200 dark:border-woodsmoke-800 ease-in-out duration-300
-          ${true ? "h-24 p-2 border overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950" : "h-0 overflow-clip p-0 border-none"}
-        `}
+          className={`grid grid-cols-4 rounded-lg gap-2 border-woodsmoke-200 dark:border-woodsmoke-800 ease-in-out duration-300 ${true ? "h-24 p-2 border overflow-y-auto scrollbar-base" : "h-0 overflow-clip p-0 border-none"}`}
         >
           {tagList.map((tag) => (
             <li

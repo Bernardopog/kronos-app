@@ -36,7 +36,7 @@ export default function KanbanModal() {
     useState<TaskPriorityType>("low");
   const [newColumn, setNewColumn] = useState<IColumnFullKanban | null>(null);
   const [newCompletionDate, setNewCompletionDate] = useState<Date | null>(
-    selectedKanbanTask?.completionDate ?? null
+    selectedKanbanTask?.completionDate ?? null,
   );
 
   const [isColumnOptionsOpen, setIsColumnOptionsOpen] =
@@ -54,7 +54,7 @@ export default function KanbanModal() {
     setNewCompletionDate(
       selectedKanbanTask?.completionDate
         ? new Date(selectedKanbanTask?.completionDate)
-        : null
+        : null,
     );
     setIsColumnOptionsOpen(false);
     setIsEditingDescription(false);
@@ -65,7 +65,7 @@ export default function KanbanModal() {
         return column.tasks
           ?.map((task) => task.id)
           .includes(selectedKanbanTask?.id ?? "");
-      })
+      }),
     );
   }, [selectedKanbanTask, columnList]);
 
@@ -95,7 +95,7 @@ export default function KanbanModal() {
 
   return (
     <form
-      className="max-h-dvh overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-400 scrollbar-track-transparent lg:pr-8"
+      className="max-h-dvh overflow-y-auto scrollbar-base lg:pr-8"
       onSubmit={handleSubmit}
     >
       <Button

@@ -5,7 +5,7 @@ import linkList from "@/shared/linkList";
 export default function Home() {
   return (
     <main
-      className="flex flex-col bg-woodsmoke-50 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-woodsmoke-100 duration-300 ease-in-out dark:bg-woodsmoke-925"
+      className="flex flex-col bg-woodsmoke-50 overflow-y-auto scrollbar-base duration-300 ease-in-out dark:bg-woodsmoke-925"
       id="main"
     >
       <header className="px-8 py-2 lg:fixed lg:top-2 lg:left-1/2 lg:w-full lg:-translate-x-1/2">

@@ -56,14 +56,9 @@ export default function NoteOptions() {
       )}
       {selectedNote && (
         <aside
-          className={`
-          flex flex-col fixed top-0 size-full gap-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300
+          className={`flex flex-col fixed top-0 size-full gap-y-2 overflow-y-auto scrollbar-base bg-woodsmoke-100 ease-in-out duration-300
           dark:bg-woodsmoke-925 dark:shadow-[0_0_24px] dark:shadow-woodsmoke-100/10
-          lg:static lg:translate-x-0 lg:bg-woodsmoke-50
-          ${!selectedNote && "hidden"}
-          ${optionsShowControl ? "right-0" : "-right-full"}
-          ${isMenuOpen ? "px-2 pt-4" : "closed px-0 pt-14"}
-        `}
+          lg:static lg:translate-x-0 lg:bg-woodsmoke-50 ${!selectedNote && "hidden"} ${optionsShowControl ? "right-0" : "-right-full"} ${isMenuOpen ? "px-2 pt-4" : "closed px-0 pt-14"}`}
           id="nt-options"
         >
           <TabCloseButton

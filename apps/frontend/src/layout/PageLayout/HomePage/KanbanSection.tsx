@@ -48,7 +48,7 @@ export default function KanbanSection() {
   }, [socketKanban]);
 
   return (
-    <section className="pr-2 overflow-y-auto scrollbar-thin scrollbar-track-woodsmoke-100 scrollbar-thumb-woodsmoke-950">
+    <section className="pr-2 overflow-y-auto scrollbar-base">
       <KanbanSectionController
         showMyKanbans={showMyKanbans}
         setShowMyKanbans={setShowMyKanbans}

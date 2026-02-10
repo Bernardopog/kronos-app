@@ -11,12 +11,7 @@ export default function NoteMain() {
   return (
     <>
       {selectedNote ? (
-        <article
-          className="
-            w-full h-[calc(100%)] bg-woodsmoke-100 text-woodsmoke-950 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950 overflow-y-auto ease-in-out duration-300
-            dark:bg-woodsmoke-950 dark:text-woodsmoke-200
-          "
-        >
+        <article className="size-full bg-woodsmoke-100 text-woodsmoke-950 scrollbar-base overflow-y-auto ease-in-out duration-300 dark:bg-woodsmoke-950 dark:text-woodsmoke-200">
           <NoteMainHeader selectedNote={selectedNote} />
           <NoteMainBody selectedNote={selectedNote} />
         </article>

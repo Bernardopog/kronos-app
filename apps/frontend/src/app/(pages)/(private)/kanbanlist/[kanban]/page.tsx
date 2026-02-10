@@ -40,7 +40,7 @@ export default function Kanban() {
   const handleDragStart = (
     ev: DragEvent<HTMLLIElement>,
     itemId: string,
-    originalColumnId: string
+    originalColumnId: string,
   ) => {
     ev.dataTransfer.setData("itemId", itemId);
     ev.dataTransfer.setData("originalColumnId", originalColumnId);
@@ -59,7 +59,7 @@ export default function Kanban() {
       if (
         user.id !== selectedKanban?.userId &&
         !selectedKanban?.authorizedUsers.map((authUser) =>
-          authUser.userId.includes(user.id!)
+          authUser.userId.includes(user.id!),
         )
       ) {
         return;
@@ -82,9 +82,7 @@ export default function Kanban() {
       {selectedKanban && (
         <main
           id="main"
-          className={`page relative px-2 pb-4 flex flex-col gap-4 overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-woodsmoke-950
-      lg:px-4 lg:overflow-y-clip
-      dark:scrollbar-thumb-woodsmoke-600`}
+          className={`page relative px-2 pb-4 flex flex-col gap-4 overflow-auto scrollbar-base lg:px-4 lg:overflow-y-clip`}
         >
           <header className="flex items-center justify-between">
             {editingTitle ? (
