@@ -15,6 +15,18 @@ export interface IKanban {
   authorizedUsers: IAuthorizedUser[];
 }
 
+export interface IKanbanWithSections {
+  id: string;
+  title: string;
+  columns: {
+    id: string;
+    columnName: string;
+    icon: string;
+    color: number[];
+    _count: { tasks: number };
+  }[];
+}
+
 const mockKanbanList: IKanban[] = [
   {
     id: "1234567890abcdef",

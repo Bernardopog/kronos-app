@@ -23,9 +23,9 @@ export default function HomeCard({
   position,
 }: IHomeCardProps) {
   const positionMap: Record<string, string> = {
-    "1": "md:col-start-1 md:col-end-3 lg:col-start-1 lg:col-end-4",
-    "2": "md:col-start-3 md:col-end-4 md:row-start-1 md:row-end-3 lg:col-start-4 lg:row-start-1 lg:row-end-4",
-    "3": "md:col-start-1 md:col-end-3 md:row-start-2 md:row-end-3 lg:col-start-1 lg:col-end-4 lg:row-start-1 lg:row-end-3",
+    "1": "md:col-start-1 md:col-end-3 lg:col-start-1 lg:col-end-4 lg:row-start-1 lg:row-end-3",
+    "2": "md:col-start-3 md:col-end-4 md:row-start-1 md:row-end-3 lg:col-start-4 lg:row-start-1 lg:row-end-3",
+    "3": "md:col-start-1 md:col-end-3 md:row-start-2 md:row-end-3 lg:col-start-1 lg:col-end-5 lg:row-start-3 lg:row-end-4",
   };
 
   const gridPos = positionMap[position];

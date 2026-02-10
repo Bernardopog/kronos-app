@@ -4,9 +4,15 @@ interface ICheckboxProps {
   label: string;
   htmlFor: string;
   action: () => void;
+  selected?: boolean;
 }
 
-export default function Checkbox({ label, htmlFor, action }: ICheckboxProps) {
+export default function Checkbox({
+  label,
+  htmlFor,
+  action,
+  selected,
+}: ICheckboxProps) {
   return (
     <label htmlFor={htmlFor} className="flex items-center gap-x-2 relative">
       <input
@@ -15,6 +21,7 @@ export default function Checkbox({ label, htmlFor, action }: ICheckboxProps) {
         id={htmlFor}
         onChange={action}
         tabIndex={0}
+        checked={selected}
       />
       <div
         className="
