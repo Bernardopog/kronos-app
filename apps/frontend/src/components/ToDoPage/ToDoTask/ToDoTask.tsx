@@ -5,7 +5,7 @@ interface IToDoTaskProps {
   taskData: IToDoTask;
   animationDelay: number;
   piority: string;
-  readonly: boolean;
+  readonly?: boolean;
 }
 
 export default function ToDoTask({
