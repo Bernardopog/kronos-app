@@ -1,37 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { Button } from "@/ui/Button/";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface IThemeTogglerProps {
   menuStatus?: boolean;
-  themeIsDark: boolean
+  themeIsDark: boolean;
 }
 
-export default function ThemeToggler({ menuStatus,themeIsDark }: IThemeTogglerProps) {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(themeIsDark);
+export default function ThemeToggler({
+  menuStatus,
+  themeIsDark,
+}: IThemeTogglerProps) {
+  const { toggleTheme, setInitialTheme } = useContext(ThemeContext);
 
   const handleTheme = async () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(!isDarkMode);
+    const newTheme = !themeIsDark;
 
-    if ('cookieStore' in window) {
+    if ("cookieStore" in window) {
       await window.cookieStore?.set({
-        name: 'theme',
-        value: newTheme ? 'dark' : 'light',
-        path: '/',
+        name: "theme",
+        value: newTheme ? "dark" : "light",
+        path: "/",
       });
     } else {
       // biome-ignore lint/suspicious/noDocumentCookie: <For browsers that not support cookieStore>
-      document.cookie = `theme=${newTheme ? 'dark' : 'light'}; path=/`;
+      document.cookie = `theme=${newTheme ? "dark" : "light"}; path=/`;
     }
-    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle("dark");
+    if (toggleTheme) {
+      toggleTheme();
+    }
   };
 
   useEffect(() => {
-    setIsDarkMode(themeIsDark);
-  }, [themeIsDark]);
+    setInitialTheme(themeIsDark ? "dark" : "light");
+  }, [themeIsDark, setInitialTheme]);
 
   return (
     <div className="self-center">
@@ -42,14 +48,12 @@ export default function ThemeToggler({ menuStatus,themeIsDark }: IThemeTogglerPr
           dark:text-woodsmoke-50
         "
         >
-          {isDarkMode ? "Escuro" : "Claro"}
+          {themeIsDark ? "Escuro" : "Claro"}
         </span>
       )}
       <Button
         ariaLabel={
-          isDarkMode
-            ? "Alterar para Modo Claro"
-            : "Alterar para Modo Escuro"
+          themeIsDark ? "Alterar para Modo Claro" : "Alterar para Modo Escuro"
         }
         extraStyles={{
           button: `
@@ -65,7 +69,7 @@ export default function ThemeToggler({ menuStatus,themeIsDark }: IThemeTogglerPr
             ${menuStatus && "translate-x-6 dark:-translate-x-6"}
           `}
         >
-          {isDarkMode ? <BsMoon /> : <BsSun />}
+          {themeIsDark ? <BsMoon /> : <BsSun />}
         </div>
       </Button>
     </div>

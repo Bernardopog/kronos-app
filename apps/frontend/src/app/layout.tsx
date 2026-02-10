@@ -13,6 +13,7 @@ import { KanbanProvider } from "@/context/KanbanContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { SocketProvider } from "@/context/SocketContext";
 import { cookies } from "next/headers";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -29,37 +30,38 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const themeIsDark = (await cookies()).get("theme")?.value === "dark";
 
   return (
     <html lang="pt-BR" className={`${themeIsDark ? "dark" : ""}`}>
-      <AuthProvider>
-        <SocketProvider>
-          <DeviceScreenProvider>
-            <NavbarProvider>
-              <ToDoProvider>
-                <ToDoCategoryProvider>
-                  <NoteProvider>
-                    <KanbanProvider>
-                      <ModalProvider>
-                        <body
-                          className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
-                        >
-                          <Modal />
-                          <Header themeIsDark={themeIsDark}/>
-                          <Navbar themeIsDark={themeIsDark}/>
-                          {children}
-                        </body>
-                      </ModalProvider>
-                    </KanbanProvider>
-                  </NoteProvider>
-                </ToDoCategoryProvider>
-              </ToDoProvider>
-            </NavbarProvider>
-          </DeviceScreenProvider>
-        </SocketProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <SocketProvider>
+            <DeviceScreenProvider>
+              <NavbarProvider>
+                <ToDoProvider>
+                  <ToDoCategoryProvider>
+                    <NoteProvider>
+                      <KanbanProvider>
+                        <ModalProvider>
+                          <body
+                            className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                          >
+                            <Modal />
+                            <Header themeIsDark={themeIsDark} />
+                            <Navbar themeIsDark={themeIsDark} />
+                            {children}
+                          </body>
+                        </ModalProvider>
+                      </KanbanProvider>
+                    </NoteProvider>
+                  </ToDoCategoryProvider>
+                </ToDoProvider>
+              </NavbarProvider>
+            </DeviceScreenProvider>
+          </SocketProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </html>
   );
 }

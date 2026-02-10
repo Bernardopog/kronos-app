@@ -27,6 +27,13 @@ export default function NoteList() {
     setIsFilterShow(!isFilterShow);
   };
 
+  const handleSelectItem = (noteId: string) => {
+    toggleList("close");
+
+    const storage = window.localStorage;
+    storage.setItem("lastViewedNote", noteId);
+  };
+
   return (
     <Inert
       style={`fixed top-0 z-10 size-full pt-4 scrollbar-thumb-woodsmoke-950 scrollbar-track-transparent bg-woodsmoke-100 ease-in-out duration-300 
@@ -53,26 +60,27 @@ export default function NoteList() {
           lg:mt-4 lg:flex lg:flex-col lg:pb-2 lg:pt-4
       "
         >
-          {noteList.length > 0 && noteList
-            .filter((note) => {
-              if (filterFavorite === "all") return true;
-              else if (filterFavorite === "favorites")
-                return note.isFavorite === true;
-              else return note.isFavorite === false;
-            })
-            .filter((note) => {
-              if (filterTag === "all") return true;
-              else return note.tags.includes(filterTag);
-            })
-            .map((note) => {
-              return (
-                <NoteListItem
-                  key={note.id}
-                  data={note}
-                  action={() => toggleList("close")}
-                />
-              );
-            })}
+          {noteList.length > 0 &&
+            noteList
+              .filter((note) => {
+                if (filterFavorite === "all") return true;
+                else if (filterFavorite === "favorites")
+                  return note.isFavorite === true;
+                else return note.isFavorite === false;
+              })
+              .filter((note) => {
+                if (filterTag === "all") return true;
+                else return note.tags.includes(filterTag);
+              })
+              .map((note) => {
+                return (
+                  <NoteListItem
+                    key={note.id}
+                    data={note}
+                    action={() => handleSelectItem(note.id)}
+                  />
+                );
+              })}
         </ul>
       </section>
     </Inert>

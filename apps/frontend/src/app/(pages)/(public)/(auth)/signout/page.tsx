@@ -6,6 +6,7 @@ import { useContext, useEffect } from "react";
 export default function SignOutPage() {
   const { logout } = useContext(AuthContext);
   useEffect(() => {
+    window.localStorage.removeItem("lastViewedNote");
     logout();
     window.location.href = "/signin";
   });

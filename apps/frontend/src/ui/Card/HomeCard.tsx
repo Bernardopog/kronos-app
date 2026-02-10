@@ -38,7 +38,7 @@ export default function HomeCard({
 
   return (
     <article
-      className={`flex flex-col ${gridPos} rounded-lg border p-2 gap-2 duration-300 ease-in-out border-woodsmoke-950/25 dark:border-woodsmoke-100/25 hover:border-woodsmoke-950/50 dark:hover:border-woodsmoke-100/50`}
+      className={`flex flex-col ${gridPos} rounded-lg border p-2 gap-2 duration-300 ease-in-out overflow-hidden border-woodsmoke-950/25 dark:border-woodsmoke-100/25 hover:border-woodsmoke-950/50 dark:hover:border-woodsmoke-100/50`}
     >
       <header className="flex justify-between items-center text-woodsmoke-900 dark:text-woodsmoke-100">
         <div className="flex items-center gap-2">

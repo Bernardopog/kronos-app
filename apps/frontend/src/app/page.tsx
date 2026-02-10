@@ -12,7 +12,7 @@ export default function Home() {
         <WelcomeMessage />
       </header>
 
-      <section className="flex-1 grid grid-cols-1 grid-rows-3 m-2 gap-2 p-2 pb-16 rounded-lg md:grid-cols-3 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3">
+      <section className="flex-1 grid grid-cols-1 grid-rows-[repeat(3,60vh)] m-2 gap-2 p-2 pb-16 rounded-lg md:grid-cols-3 md:grid-rows-[1fr_50vh] lg:grid-cols-4 lg:grid-rows-[20vh_20vh_1fr]">
         {linkList.map((linkData, index) => (
           <HomeCard
             name={linkData.name}
