@@ -15,6 +15,14 @@ export class KanbanService {
     return await this.prismaService.kanban.findMany({ where: { userId } });
   }
 
+  async getKanbanUsers(kanbanId: string) {
+    return await this.prismaService.kanban.findMany({
+      where: { id: kanbanId },
+      include: { authorizedUsers: { select: { userId: true } } },
+      omit: { id: true, userId: true, title: true },
+    });
+  }
+
   async getKanbanFull(id: string, userId: string) {
     const kanban = await this.prismaService.kanban.findUnique({
       where: { id },
@@ -50,6 +58,53 @@ export class KanbanService {
       return null;
 
     return kanban;
+  }
+
+  async getKanbanSection(userId: string) {
+    const userKanbans = await this.prismaService.kanban.findMany({
+      where: { userId },
+      select: {
+        id: true,
+        title: true,
+        columns: {
+          orderBy: { createAt: 'asc' },
+          select: {
+            id: true,
+            columnName: true,
+            icon: true,
+            color: true,
+            _count: {
+              select: {
+                tasks: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    const authorizedKanbans = await this.prismaService.kanban.findMany({
+      where: { authorizedUsers: { some: { userId } } },
+      select: {
+        id: true,
+        title: true,
+        columns: {
+          orderBy: { createAt: 'asc' },
+          select: {
+            id: true,
+            columnName: true,
+            icon: true,
+            color: true,
+            _count: {
+              select: {
+                tasks: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return { userKanbans, authorizedKanbans };
   }
 
   async createKanban(userId: string, data: CreateKanbanDTO) {

@@ -1,7 +1,9 @@
+import { JwtService } from '@nestjs/jwt';
 import {
   ConnectedSocket,
   MessageBody,
   OnGatewayInit,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -25,23 +27,55 @@ import { KanbanTaskService } from 'src/services/kanbantask.service';
 
 @WebSocketGateway({
   namespace: '/kanbansocket',
-  cors: { origin: process.env.ORIGIN ?? 'http://localhost:3000', credentials: false },
+  cors: {
+    origin: process.env.ORIGIN ?? 'http://localhost:3000',
+    credentials: false,
+  },
 })
-export class KanbanGateway implements OnGatewayInit {
+export class KanbanGateway implements OnGatewayInit, OnGatewayConnection {
   constructor(
     private readonly kanbanService: KanbanService,
     private readonly columnService: ColumnService,
     private readonly kanbanTaskService: KanbanTaskService,
+    private readonly jwtService: JwtService,
   ) {}
 
   @WebSocketServer() server: Server;
 
+  async handleConnection(client: Socket) {
+    try {
+      const authToken: string = client.handshake.auth.token;
+      const token = authToken.length > 0 ? authToken.split(' ')[1] : null;
+
+      if (!token) throw new Error('No token found');
+
+      const payload = this.jwtService.verify(token);
+      const userId = payload.id;
+
+      client.data.user = { id: userId };
+
+      await client.join(`user_${userId}`);
+    } catch (err) {
+      console.log('Erro de autenticação no Socket', err.message);
+      client.disconnect();
+    }
+  }
+
   afterInit(server: Server) {
     if (!jwtConstants.secret) {
-      console.error("JWT secret not found");
+      console.error('JWT secret not found');
       return;
-    };
+    }
     server.use(socketAuthMiddleware(jwtConstants.secret));
+  }
+
+  async refreshKanbanDashoard(kanbanId: string) {
+    const kanbanUsers: { authorizedUsers: { userId: string }[] }[] =
+      await this.kanbanService.getKanbanUsers(kanbanId);
+
+    for (const user of kanbanUsers[0].authorizedUsers) {
+      this.server.to(`user_${user.userId}`).emit('refreshKanbanDashboard');
+    }
   }
 
   @SubscribeMessage('joinKanban')
@@ -66,6 +100,14 @@ export class KanbanGateway implements OnGatewayInit {
     const userId = client.data['user'].id as string;
     const kanbans = await this.kanbanService.getKanbans(userId);
     client.emit('kanbanListFetched', kanbans);
+  }
+
+  @SubscribeMessage('getKanbanSections')
+  async getKanbanSections(@ConnectedSocket() client: Socket) {
+    const userId = client.data['user'].id as string;
+
+    const kanbanSection = await this.kanbanService.getKanbanSection(userId);
+    client.emit('kanbanSectionFetched', kanbanSection);
   }
 
   @SubscribeMessage('getAuthorizedKanbans')
@@ -114,6 +156,8 @@ export class KanbanGateway implements OnGatewayInit {
     const userId = client.data['user'].id as string;
     const createdColumn = await this.columnService.createColumn(userId, title);
     this.server.in(createdColumn.kanbanId).emit('columnCreated');
+
+    await this.refreshKanbanDashoard(createdColumn.kanbanId);
   }
 
   @SubscribeMessage('updateColumn')
@@ -125,6 +169,8 @@ export class KanbanGateway implements OnGatewayInit {
       body.data,
     );
     this.server.in(updatedColumn.kanbanId).emit('columnUpdated');
+
+    await this.refreshKanbanDashoard(updatedColumn.kanbanId);
   }
 
   @SubscribeMessage('renameColumn')
@@ -136,12 +182,16 @@ export class KanbanGateway implements OnGatewayInit {
       body.columnName,
     );
     this.server.in(updatedColumn.kanbanId).emit('columnRenamed');
+
+    await this.refreshKanbanDashoard(updatedColumn.kanbanId);
   }
 
   @SubscribeMessage('deleteColumn')
   async deleteColumn(@MessageBody() id: string) {
     const deletedColumn = await this.columnService.deleteColumn(id);
     this.server.in(deletedColumn.kanbanId).emit('columnDeleted');
+
+    await this.refreshKanbanDashoard(deletedColumn.kanbanId);
   }
 
   @SubscribeMessage('createKanbanTask')
@@ -150,6 +200,8 @@ export class KanbanGateway implements OnGatewayInit {
   ) {
     await this.kanbanTaskService.createKanbanTask(body.data);
     this.server.in(body.kanbanId).emit('kanbanTaskCreated');
+
+    await this.refreshKanbanDashoard(body.kanbanId);
   }
 
   @SubscribeMessage('updateKanbanTask')
@@ -171,6 +223,8 @@ export class KanbanGateway implements OnGatewayInit {
   ) {
     await this.kanbanTaskService.deleteKanbanTask(body.id);
     this.server.in(body.kanbanId).emit('kanbanTaskDeleted');
+
+    await this.refreshKanbanDashoard(body.kanbanId);
   }
 
   @SubscribeMessage('moveKanbanTaskToColumn')
@@ -184,6 +238,8 @@ export class KanbanGateway implements OnGatewayInit {
   ) {
     await this.kanbanTaskService.moveKanbanTaskToColumn(body.id, body.columnId);
     this.server.in(body.kanbanId).emit('kanbanTaskMoved');
+
+    await this.refreshKanbanDashoard(body.kanbanId);
   }
 
   @SubscribeMessage('completeKanbanTask')
