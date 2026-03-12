@@ -127,11 +127,11 @@ export default function SignUpPage() {
             />
             <PasswordHint
               pass={password.length >= 8}
-              text="Mínimo de 8 Caractéres"
+              text="Mínimo de 8 Caracteres"
             />
             <PasswordHint
               pass={password.length <= 48 && password.length >= 8}
-              text="Máximo de 48 Caractéres"
+              text="Máximo de 48 Caracteres"
             />
             <PasswordHint
               pass={lowerChar.test(password)}
