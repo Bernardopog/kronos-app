@@ -1,7 +1,6 @@
 "use client";
 
 import SelectRow from "@/components/Select/SelectRow";
-import { ToDoContext } from "@/context/ToDoContext";
 import { PriorityType } from "@/mock/mockToDoList";
 import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
@@ -9,23 +8,30 @@ import { ModalContext } from "@/context/ModalContext";
 import { Input } from "@/ui/Input/";
 import TextArea from "@/ui/TextArea";
 import SelectCategory from "@/components/Select/SelectCategory";
+import { useToDoStore } from "@/store/ToDoStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalToDoUpdate() {
   const { toggleModal } = useContext(ModalContext);
-  const { selectedTask, updateTask } = useContext(ToDoContext);
+  const { updateTask, selectedTask } = useToDoStore(
+    useShallow((s) => ({
+      updateTask: s.updateTask,
+      selectedTask: s.selectedTask,
+    })),
+  );
 
   const [newTitle, setNewTitle] = useState<string>(selectedTask?.title ?? "");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [newDescription, setNewDescription] = useState<string>(
-    selectedTask?.description ?? ""
+    selectedTask?.description ?? "",
   );
 
   const [newPriority, setNewPriority] = useState<PriorityType>(
-    selectedTask?.priority ?? "level_0"
+    selectedTask?.priority ?? "level_0",
   );
   const [newCategory, setNewCategory] = useState<string>(
-    selectedTask?.categoryId ?? ""
+    selectedTask?.categoryId ?? "",
   );
 
   const checkTitle = () => {

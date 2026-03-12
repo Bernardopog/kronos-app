@@ -1,15 +1,18 @@
 "use client";
 
 import { Input } from "@/ui/Input/";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
 
 export default function ModalToDoCreateCategory() {
+  const createCategory = useToDoCategoryStore((s) => s.createCategory);
+
   const [categoryName, setCategoryName] = useState<string>("");
+
   const { toggleModal } = useContext(ModalContext);
-  const { createCategory } = useContext(ToDoCategoryContext);
+
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const checkName = () => {

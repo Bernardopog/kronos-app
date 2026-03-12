@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/ui/Button";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
 
 interface IToDoCategoryProps {
   id: string;
@@ -16,7 +16,7 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
   const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
 
   const { toggleModal } = useContext(ModalContext);
-  const { selectCategory } = useContext(ToDoCategoryContext);
+  const selectCategory = useToDoCategoryStore((s) => s.selectCategory);
 
   return (
     <li
@@ -31,10 +31,7 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
             ariaLabel="Renomear Categoria"
             label="Renomear"
             extraStyles={{
-              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
-                dark:border-woodsmoke-500 dark:text-woodsmoke-200
-                hover:bg-crud-update-dark
-                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-dark/25`,
+              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out dark:border-woodsmoke-500 dark:text-woodsmoke-200 hover:bg-crud-update-dark dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-update-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}
@@ -53,10 +50,7 @@ export default function ToDoCategory({ id, title }: IToDoCategoryProps) {
             ariaLabel="Deletar Categoria"
             label="Deletar"
             extraStyles={{
-              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out
-                dark:border-woodsmoke-500 dark:text-woodsmoke-200
-                hover:bg-crud-delete-dark
-                dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-dark/25`,
+              button: `px-2 border-woodsmoke-500 text-woodsmoke-800 shadow-none duration-300 ease-in-out dark:border-woodsmoke-500 dark:text-woodsmoke-200 hover:bg-crud-delete-dark dark:hover:shadow-[0_0_5px_3px] dark:hover:shadow-crud-delete-dark/25`,
               label: "text-sm",
               icon: "text-lg",
             }}

@@ -4,8 +4,6 @@ import "./globals.css";
 import { Header, Navbar } from "@/layout/MainLayout/";
 import Modal from "@/components/Modal/Modal";
 import { NavbarProvider } from "@/context/NavbarContext";
-import { ToDoProvider } from "@/context/ToDoContext";
-import { ToDoCategoryProvider } from "@/context/ToDoCategoryContext";
 import { ModalProvider } from "@/context/ModalContext";
 import { DeviceScreenProvider } from "@/context/DeviceScreenContext";
 import { NoteProvider } from "@/context/NoteContext";
@@ -37,24 +35,20 @@ export default async function RootLayout({
         <SocketProvider>
           <DeviceScreenProvider>
             <NavbarProvider>
-              <ToDoProvider>
-                <ToDoCategoryProvider>
-                  <NoteProvider>
-                    <KanbanProvider>
-                      <ModalProvider>
-                        <body
-                          className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
-                        >
-                          <Modal />
-                          <Header themeIsDark={themeIsDark} />
-                          <Navbar themeIsDark={themeIsDark} />
-                          {children}
-                        </body>
-                      </ModalProvider>
-                    </KanbanProvider>
-                  </NoteProvider>
-                </ToDoCategoryProvider>
-              </ToDoProvider>
+              <NoteProvider>
+                <KanbanProvider>
+                  <ModalProvider>
+                    <body
+                      className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                    >
+                      <Modal />
+                      <Header themeIsDark={themeIsDark} />
+                      <Navbar themeIsDark={themeIsDark} />
+                      {children}
+                    </body>
+                  </ModalProvider>
+                </KanbanProvider>
+              </NoteProvider>
             </NavbarProvider>
           </DeviceScreenProvider>
         </SocketProvider>

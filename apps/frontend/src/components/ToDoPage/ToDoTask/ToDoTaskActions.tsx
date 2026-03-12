@@ -1,8 +1,10 @@
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
 import { IToDoTask } from "@/mock/mockToDoList";
+import { useToDoStore } from "@/store/ToDoStore";
+import _ from "lodash";
 import { useContext } from "react";
 import { AiFillCheckCircle, AiFillInfoCircle } from "react-icons/ai";
+import { useShallow } from "zustand/shallow";
 
 export default function ToDoTaskActions({
   taskData,
@@ -11,7 +13,12 @@ export default function ToDoTaskActions({
   taskData: IToDoTask;
   readonly: boolean;
 }) {
-  const { toggleTaskCompletion, selectTask } = useContext(ToDoContext);
+  const { toggleTaskCompletion, selectTask } = useToDoStore(
+    useShallow((s) => ({
+      toggleTaskCompletion: s.toggleTaskCompletion,
+      selectTask: s.selectTask,
+    })),
+  );
   const { toggleModal } = useContext(ModalContext);
 
   return (
@@ -31,7 +38,7 @@ export default function ToDoTaskActions({
         </div>
       </button>
       {!readonly && (
-        <button onClick={() => toggleTaskCompletion(taskData)}>
+        <button onClick={() => toggleTaskCompletion(taskData.id)}>
           <div className="to-do-btn">
             {taskData.isCompleted && <AiFillCheckCircle />}
           </div>

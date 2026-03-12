@@ -2,34 +2,51 @@
 import { Button } from "@/ui/Button";
 import ToDoTask from "@/components/ToDoPage/ToDoTask/ToDoTask";
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
-import React, { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
+import { useToDoStore } from "@/store/ToDoStore";
+import { useShallow } from "zustand/shallow";
+import { useToDoFilterStore } from "@/store/ToDoFilterStore";
 
 export default function ToDoTaskList() {
-  const { toDoTaskList, filterStatus, filterPriority, filterCategory } =
-    useContext(ToDoContext);
   const { toggleModal } = useContext(ModalContext);
+
+  const { toDoData, getToDos } = useToDoStore(
+    useShallow((s) => ({
+      toDoData: s.toDoData,
+      getToDos: s.getToDos,
+    })),
+  );
+
+  const filter = useToDoFilterStore((s) => s.filter);
+
+  const { fetched, list: tasks } = toDoData;
+  const { category, status, priority } = filter;
+
+  useEffect(() => {
+    if (fetched) return;
+    getToDos();
+  }, [fetched, getToDos]);
 
   return (
     <ul
       className="flex flex-col items-center max-h-[calc(100%-7rem)] w-full px-1 pb-4 gap-4 overflow-y-auto scrollbar-base lg:max-h-[calc(100%-7rem)]"
       id="td-task-list"
     >
-      {toDoTaskList.length > 0 ? (
-        toDoTaskList
+      {tasks.length > 0 ? (
+        tasks
           .filter((task) => {
-            if (filterCategory === "all") return true;
-            else return task.categoryId === filterCategory;
+            if (category === "all") return true;
+            else return task.categoryId === category;
           })
           .filter((task) => {
-            if (filterStatus === "all") return true;
-            else if (filterStatus === "completed") return task.isCompleted;
+            if (status === "all") return true;
+            else if (status === "completed") return task.isCompleted;
             else return !task.isCompleted;
           })
           .sort((a, b) => {
-            if (filterPriority === "all") return 0;
-            else if (filterPriority === "high") {
+            if (priority === "all") return 0;
+            else if (priority === "high") {
               if (
                 +a.priority.replace("level_", "") >
                 +b.priority.replace("level_", "")
@@ -41,7 +58,7 @@ export default function ToDoTaskList() {
               )
                 return 1;
               else return 0;
-            } else if (filterPriority === "low") {
+            } else if (priority === "low") {
               if (
                 +a.priority.replace("level_", "") >
                 +b.priority.replace("level_", "")

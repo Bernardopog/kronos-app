@@ -4,29 +4,50 @@ import { Button } from "@/ui/Button";
 import Divider from "@/ui/Divider";
 import RecentTask from "@/ui/RecentTask";
 import ToDoCategory from "@/components/ToDoPage/ToDoCategory/ToDoCategory";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AiFillPlusCircle, AiOutlineClose } from "react-icons/ai";
 import { TabCloseButton } from "@/ui/Button";
 import Inert from "@/ui/Inert";
 import { DeviceScreenContext } from "@/context/DeviceScreenContext";
+import { useToDoGeneralStore } from "@/store/ToDoGeneralStore";
+import { useShallow } from "zustand/shallow";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
 
 export default function ToDoGeneralInfo() {
-  const { isGeneralShow, generalShowControl, toggleGeneral, recentList } =
-    useContext(ToDoContext);
+  const { isGeneralShowing, generalShowControl, recentList, toggleGeneral } =
+    useToDoGeneralStore(
+      useShallow((s) => ({
+        isGeneralShowing: s.isGeneralShowing,
+        generalShowControl: s.generalShowControl,
+        recentList: s.recentList,
+        toggleGeneral: s.toggleGeneral,
+      })),
+    );
+  const { categoryData, getCategories } = useToDoCategoryStore(
+    useShallow((s) => ({
+      categoryData: s.categoryData,
+      getCategories: s.getCategories,
+    })),
+  );
+
   const { device } = useContext(DeviceScreenContext);
   const { toggleModal } = useContext(ModalContext);
-  const { categoryList } = useContext(ToDoCategoryContext);
+
+  const { fetched, list: categories } = categoryData;
+
+  useEffect(() => {
+    if (fetched) return;
+    getCategories();
+  }, [fetched, getCategories]);
 
   return (
-    <Inert value={isGeneralShow || device === "desktop"}>
+    <Inert value={isGeneralShowing || device === "desktop"}>
       <section
         className={`
           flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
           dark:bg-woodsmoke-950 dark:text-woodsmoke-200
-          lg:static lg:translate-y-[16px] lg:rounded-t-lg
+          lg:static lg:translate-y-4 lg:rounded-t-lg
           ${generalShowControl ? "right-0" : "-right-full"}
         `}
         id="td-general"
@@ -40,7 +61,7 @@ export default function ToDoGeneralInfo() {
         <Divider />
         <section>
           <div className="flex justify-between items-center">
-            <h5 className="tab-title">Categorias ({categoryList.length})</h5>
+            <h5 className="tab-title">Categorias ({categories.length})</h5>
             <Button
               ariaLabel="Criar categoria"
               label="Criar Categoria"
@@ -62,7 +83,7 @@ export default function ToDoGeneralInfo() {
             />
           </div>
           <ul className="flex flex-col max-h-52 mt-4 p-2 gap-y-2 rounded-lg bg-woodsmoke-200 overflow-y-auto sscrollbar-base duration-300 ease-in-out dark:bg-woodsmoke-925">
-            {categoryList.map((category) => {
+            {categories.map((category) => {
               return (
                 <ToDoCategory
                   key={category.id}

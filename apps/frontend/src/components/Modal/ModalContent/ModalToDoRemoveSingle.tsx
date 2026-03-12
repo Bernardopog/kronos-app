@@ -1,13 +1,19 @@
 "use client";
 
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
+import { useToDoStore } from "@/store/ToDoStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalToDoRemoveSingle() {
   const { toggleModal } = useContext(ModalContext);
-  const { deleteSpecificTask, selectedTask } = useContext(ToDoContext);
+  const { deleteSpecificTask, selectedTask } = useToDoStore(
+    useShallow((s) => ({
+      deleteSpecificTask: s.deleteSpecificTask,
+      selectedTask: s.selectedTask,
+    })),
+  );
 
   return (
     <>

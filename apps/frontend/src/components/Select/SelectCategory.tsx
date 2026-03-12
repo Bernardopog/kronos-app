@@ -1,5 +1,5 @@
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
+import { Dispatch, SetStateAction, useState } from "react";
 import { IoMdArrowDropup } from "react-icons/io";
 
 interface ISelectCategoryProps {
@@ -11,7 +11,9 @@ export default function SelectCategory({
   value,
   setValue,
 }: ISelectCategoryProps) {
-  const { categoryList } = useContext(ToDoCategoryContext);
+  const categoryData = useToDoCategoryStore((s) => s.categoryData);
+
+  const { list: categories } = categoryData;
 
   const [isSelectMenuOpen, setIsSelectMenuOpen] = useState<boolean>(false);
 
@@ -30,7 +32,7 @@ export default function SelectCategory({
         className="relative w-full p-1 rounded-lg border border-woodsmoke-200 text-woodsmoke-950 dark:text-woodsmoke-50"
         onClick={() => setIsSelectMenuOpen(!isSelectMenuOpen)}
       >
-        {categoryList.find((category) => category.id === value)?.title ??
+        {categories.find((category) => category.id === value)?.title ??
           "Escolha uma Categoria"}
         <div className="flex items-center justify-center absolute top-0 right-0 h-full w-8 rounded-r-lg bg-woodsmoke-900">
           <span
@@ -49,7 +51,7 @@ export default function SelectCategory({
           aria-labelledby="categoryLabel"
           className="grid grid-cols-3 mt-1 gap-2 animate-move-in opacity-0"
         >
-          {categoryList.map((category) => {
+          {categories.map((category) => {
             return (
               <li
                 className="

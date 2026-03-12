@@ -5,32 +5,42 @@ import Tab from "@/ui/Tab";
 import Inert from "@/ui/Inert";
 import Radio from "@/ui/Radio";
 import { DeviceScreenContext } from "@/context/DeviceScreenContext";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
-import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { useToDoFilterStore } from "@/store/ToDoFilterStore";
+import { useShallow } from "zustand/shallow";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
 
 export default function ToDoTaskFilter() {
   const {
-    changeFilterStatus,
-    changeFilterPriority,
-    changeFilterCategory,
-    isFilterShow,
     filterShowControl,
-    filterCategory,
+    isFilterShowing,
     toggleFilter,
-  } = useContext(ToDoContext);
+    filterController,
+    filterCategory,
+  } = useToDoFilterStore(
+    useShallow((s) => ({
+      filterShowControl: s.filterShowControl,
+      isFilterShowing: s.isFilterShowing,
+      toggleFilter: s.toggleFilter,
+      filterController: s.filterController,
+      filterCategory: s.filter.category,
+    })),
+  );
+
+  const categoryData = useToDoCategoryStore((s) => s.categoryData);
+
   const { device } = useContext(DeviceScreenContext);
 
-  const { categoryList } = useContext(ToDoCategoryContext);
+  const { list: categories } = categoryData;
 
   return (
-    <Inert value={isFilterShow || device === "desktop"}>
+    <Inert value={isFilterShowing || device === "desktop"}>
       <section
         className={`
             flex flex-col fixed top-0 size-full p-4 gap-y-2 bg-woodsmoke-100 text-woodsmoke-950 duration-300 ease-in-out
             dark:bg-woodsmoke-950 dark:text-woodsmoke-200
-            lg:static lg:translate-y-[16px] lg:rounded-t-lg
+            lg:static lg:translate-y-4 lg:rounded-t-lg
             ${filterShowControl ? "left-0" : "-left-full"}
           `}
         id="td-filter"
@@ -49,21 +59,21 @@ export default function ToDoTaskFilter() {
             htmlFor="allStatus"
             collection="status"
             selected={true}
-            action={() => changeFilterStatus("all")}
+            action={() => filterController("status", "all")}
           />
           <Radio
             label="Tarefas Completas"
             value="completed"
             htmlFor="completedStatus"
             collection="status"
-            action={() => changeFilterStatus("completed")}
+            action={() => filterController("status", "completed")}
           />
           <Radio
             label="Tarefas Incompletas"
             value="uncompleted"
             htmlFor="uncompletedStatus"
             collection="status"
-            action={() => changeFilterStatus("uncompleted")}
+            action={() => filterController("status", "uncompleted")}
           />
         </Tab>
         <Tab title="Prioridade">
@@ -73,21 +83,21 @@ export default function ToDoTaskFilter() {
             htmlFor="allPriority"
             collection="priority"
             selected={true}
-            action={() => changeFilterPriority("all")}
+            action={() => filterController("priority", "all")}
           />
           <Radio
             label="Maior Prioridade"
             value="high"
             htmlFor="highPriority"
             collection="priority"
-            action={() => changeFilterPriority("high")}
+            action={() => filterController("priority", "high")}
           />
           <Radio
             label="Menor Prioridade"
             value="low"
             htmlFor="lowPriority"
             collection="priority"
-            action={() => changeFilterPriority("low")}
+            action={() => filterController("priority", "low")}
           />
         </Tab>
         <Tab title="Categorias">
@@ -99,7 +109,7 @@ export default function ToDoTaskFilter() {
             <li>
               <Button
                 label="Todas"
-                action={() => changeFilterCategory("all")}
+                action={() => filterController("category", "all")}
                 extraStyles={{
                   button: `size-full text-woodsmoke-900
                     dark:text-woodsmoke-300
@@ -109,12 +119,12 @@ export default function ToDoTaskFilter() {
                 }}
               />
             </li>
-            {categoryList.map((category) => {
+            {categories.map((category) => {
               return (
                 <li key={category.id}>
                   <Button
                     label={category.title}
-                    action={() => changeFilterCategory(category.id)}
+                    action={() => filterController("category", category.id)}
                     extraStyles={{
                       button: `size-full text-woodsmoke-900
                         dark:text-woodsmoke-300

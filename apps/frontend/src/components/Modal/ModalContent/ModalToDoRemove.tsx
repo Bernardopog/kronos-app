@@ -1,14 +1,14 @@
 "use client";
 
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
 import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { Button } from "@/ui/Button";
+import { useToDoStore } from "@/store/ToDoStore";
 
 export default function ModalToDoRemove() {
   const { toggleModal } = useContext(ModalContext);
-  const { deleteManyTasks } = useContext(ToDoContext);
+  const deleteManyTasks = useToDoStore((s) => s.deleteManyTasks);
 
   const [removalType, setRemovalType] = useState<
     "all" | "completed" | "uncompleted"

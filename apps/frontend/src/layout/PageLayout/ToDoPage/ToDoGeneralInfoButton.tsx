@@ -1,15 +1,20 @@
 "use client";
 import { TabButton } from "@/ui/Button";
-import { ToDoContext } from "@/context/ToDoContext";
-import { useContext } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
+import { useToDoGeneralStore } from "@/store/ToDoGeneralStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ToDoGeneralInfoButton() {
-  const { toggleGeneral, isGeneralShow } = useContext(ToDoContext);
+  const { toggleGeneral, isGeneralShowing } = useToDoGeneralStore(
+    useShallow((s) => ({
+      toggleGeneral: s.toggleGeneral,
+      isGeneralShowing: s.isGeneralShowing,
+    })),
+  );
 
   return (
     <>
-      {!isGeneralShow && (
+      {!isGeneralShowing && (
         <TabButton
           action={() => {
             toggleGeneral("open");

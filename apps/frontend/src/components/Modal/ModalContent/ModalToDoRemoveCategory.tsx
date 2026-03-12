@@ -1,11 +1,19 @@
 import { useContext } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
 import { ModalContext } from "@/context/ModalContext";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
+import { useShallow } from "zustand/shallow";
+import { useToDoFilterStore } from "@/store/ToDoFilterStore";
 
 export default function ModalToDoRemoveCategory() {
   const { toggleModal } = useContext(ModalContext);
-  const { selectedCategory, deleteCategory } = useContext(ToDoCategoryContext);
+  const { selectedCategory, deleteCategory } = useToDoCategoryStore(
+    useShallow((s) => ({
+      selectedCategory: s.selectedCategory,
+      deleteCategory: s.deleteCategory,
+    })),
+  );
+  const filterController = useToDoFilterStore((s) => s.filterController);
 
   return (
     <>
@@ -27,6 +35,7 @@ export default function ModalToDoRemoveCategory() {
         type={"delete"}
         action={() => {
           deleteCategory(selectedCategory?.id ?? "");
+          filterController("category", "all");
           toggleModal(null);
         }}
       />

@@ -1,14 +1,27 @@
 "use client";
 import ToDoTask from "@/components/ToDoPage/ToDoTask/ToDoTask";
-import { ToDoContext } from "@/context/ToDoContext";
-import { useContext } from "react";
+import { useToDoStore } from "@/store/ToDoStore";
+import { useEffect } from "react";
+import { useShallow } from "zustand/shallow";
 
 export default function ToDoSection() {
-  const { toDoTaskList } = useContext(ToDoContext);
+  const { toDoData, getToDos } = useToDoStore(
+    useShallow((s) => ({
+      toDoData: s.toDoData,
+      getToDos: s.getToDos,
+    })),
+  );
+
+  const { fetched, list: tasks } = toDoData;
+
+  useEffect(() => {
+    if (fetched) return;
+    getToDos();
+  }, [fetched, getToDos]);
 
   return (
     <ul className="flex flex-col items-center gap-2 scrollbar-base">
-      {toDoTaskList.map((task, index) => (
+      {tasks.map((task, index) => (
         <ToDoTask
           key={task.id}
           taskData={task}

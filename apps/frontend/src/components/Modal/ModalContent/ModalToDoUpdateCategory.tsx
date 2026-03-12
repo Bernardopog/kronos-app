@@ -1,12 +1,18 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { Input } from "@/ui/Input/";
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalToDoUpdateCategory() {
   const { toggleModal } = useContext(ModalContext);
-  const { selectedCategory, updateCategory } = useContext(ToDoCategoryContext);
+  const { selectedCategory, updateCategory } = useToDoCategoryStore(
+    useShallow((s) => ({
+      selectedCategory: s.selectedCategory,
+      updateCategory: s.updateCategory,
+    })),
+  );
   const [newName, setNewName] = useState<string>(selectedCategory?.title ?? "");
   const [errorMessage, setErrorMessage] = useState<string>("");
 

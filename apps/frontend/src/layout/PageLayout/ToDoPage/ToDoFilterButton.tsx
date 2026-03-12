@@ -1,15 +1,20 @@
 "use client";
 import { TabButton } from "@/ui/Button";
-import { ToDoContext } from "@/context/ToDoContext";
-import { useContext } from "react";
 import { AiFillFilter } from "react-icons/ai";
+import { useToDoFilterStore } from "@/store/ToDoFilterStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ToDoFilterButton() {
-  const { toggleFilter, isFilterShow } = useContext(ToDoContext);
+  const { isFilterShowing, toggleFilter } = useToDoFilterStore(
+    useShallow((s) => ({
+      isFilterShowing: s.isFilterShowing,
+      toggleFilter: s.toggleFilter,
+    })),
+  );
 
   return (
     <>
-      {!isFilterShow && (
+      {!isFilterShowing && (
         <TabButton
           action={() => {
             toggleFilter("open");

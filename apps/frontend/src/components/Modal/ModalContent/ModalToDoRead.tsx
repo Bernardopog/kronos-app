@@ -1,17 +1,21 @@
 "use client";
 
-import { ToDoContext } from "@/context/ToDoContext";
 import { useContext } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
 import { Button } from "@/ui/Button";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { ToDoCategoryContext } from "@/context/ToDoCategoryContext";
+import { useToDoStore } from "@/store/ToDoStore";
+import { useToDoCategoryStore } from "@/store/ToDoCategoryStore";
 
 export default function ModalToDoRead() {
-  const { selectedTask } = useContext(ToDoContext);
+  const categoryData = useToDoCategoryStore((s) => s.categoryData);
+
+  const { list } = categoryData;
+
+  const selectedTask = useToDoStore((s) => s.selectedTask);
   const { toggleModal, changeModalData } = useContext(ModalContext);
-  const { categoryList } = useContext(ToDoCategoryContext);
+
   return (
     <>
       <div className="flex flex-col gap-2 p-2 text-woodsmoke-950 dark:text-woodsmoke-300">
@@ -96,7 +100,7 @@ export default function ModalToDoRead() {
         <div className="flex justify-between items-center">
           <h3 className="font-bold">Categoria:</h3>
           <p className="p-1 border rounded-lg border-woodsmoke-200 dark:border-woodsmoke-800">
-            {categoryList.find((category) => {
+            {list.find((category) => {
               return category.id === selectedTask?.categoryId;
             })?.title ?? (
               <span className="italic text-woodsmoke-950/50 dark:text-woodsmoke-300/50">

@@ -6,9 +6,9 @@ import TextArea from "@/ui/TextArea";
 import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
 import { ModalContext } from "@/context/ModalContext";
-import { ToDoContext } from "@/context/ToDoContext";
 import { PriorityType } from "@/mock/mockToDoList";
 import SelectCategory from "@/components/Select/SelectCategory";
+import { useToDoStore } from "@/store/ToDoStore";
 
 export default function ModalToDoCreate() {
   const [title, setTitle] = useState<string>("");
@@ -19,7 +19,7 @@ export default function ModalToDoCreate() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { toggleModal } = useContext(ModalContext);
-  const { createTask } = useContext(ToDoContext);
+  const createTask = useToDoStore((s) => s.createTask);
 
   const checkTitle = () => {
     if (title.trim() === "") {
