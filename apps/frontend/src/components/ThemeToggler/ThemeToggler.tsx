@@ -16,17 +16,16 @@ export default function ThemeToggler({
   const [isDark, setIsDark] = useState<boolean>(themeIsDark);
 
   const handleThemeChange = async () => {
-    const newTheme = !themeIsDark;
     setIsDark(!isDark);
 
     if ("cookieStore" in window) {
       await window.cookieStore?.set({
         name: "theme",
-        value: newTheme ? "dark" : "light",
+        value: !isDark ? "dark" : "light",
         path: "/",
       });
     } else {
-      document.cookie = `theme=${newTheme ? "dark" : "light"}; path=/`;
+      document.cookie = `theme=${isDark ? "dark" : "light"}; path=/`;
     }
     document.documentElement.classList.toggle("dark");
   };
