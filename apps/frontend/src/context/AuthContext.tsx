@@ -22,7 +22,7 @@ interface IAuthContext {
   logout: () => void;
   signUp: (
     newUser: Partial<IUser>,
-    confirmPassword: string
+    confirmPassword: string,
   ) => Promise<boolean>;
   updateUserDisplayName: (displayName: string) => void;
   setError: (error: IFieldError) => void;
@@ -45,37 +45,37 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const userFetcher = new Fetcher("user");
 
   useEffect(() => {
-    setErrorStatus({
-      error: false,
-      fields: [],
-      message: "",
-    });
     const token = sessionStorage.getItem("accessToken");
     const noSessionTokenLogout = async () => {
-      if (pathname === '/signout' || pathname === '/signin' || pathname === '/signup') return
+      if (
+        pathname === "/signout" ||
+        pathname === "/signin" ||
+        pathname === "/signup"
+      )
+        return;
       try {
-        const res = await fetch('/api/auth/', {
-          method: "GET"
-        })
+        const res = await fetch("/api/auth/", {
+          method: "GET",
+        });
         const data = await res.json();
-        route.push('/signin')
+        route.push("/signin");
         if (data.error) {
           setErrorStatus(data);
           return false;
         }
       } catch (err) {
-          if (err instanceof Error) {
-            console.log("Error =>",err);
-            setErrorStatus({
-              error: true,
-              fields: ["all"],
-              message: err.message,
-            });
-            return false;
+        if (err instanceof Error) {
+          console.log("Error =>", err);
+          setErrorStatus({
+            error: true,
+            fields: ["all"],
+            message: err.message,
+          });
+          return false;
         }
       }
-    }
-    if (!token) noSessionTokenLogout()
+    };
+    if (!token) noSessionTokenLogout();
 
     const getMe = async () => {
       const userData = (await new Fetcher("auth").get({ endpoint: "me" })) as {
@@ -85,8 +85,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     const publicRoutes = ["/signin", "/signup", "/signout"];
     if (!user && !publicRoutes.some((route) => route === pathname)) getMe();
-  }, [pathname, user, route.push]);
-
+  }, [pathname, user, route]);
 
   const login = async (email: string, password: string) => {
     const result = checkFieldsSignIn(email, password);
@@ -97,22 +96,29 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const res = await fetch('/api/auth/', {
+      const res = await fetch("/api/auth/", {
         method: "POST",
-        body: JSON.stringify({ email, password })
-      })
+        body: JSON.stringify({ email, password }),
+      });
       const data = await res.json();
-      if (!data.accessToken) return;
+      if (!data.accessToken && data.message) {
+        setErrorStatus({
+          error: true,
+          fields: ["all"],
+          message: data.message,
+        });
+        return;
+      }
       sessionStorage.setItem("accessToken", data.accessToken);
     } catch (err) {
-        if (err instanceof Error) {
-          console.log("Error =>",err);
-          setErrorStatus({
-            error: true,
-            fields: ["all"],
-            message: err.message,
-          });
-          return false;
+      if (err instanceof Error) {
+        console.log("Error =>", err);
+        setErrorStatus({
+          error: true,
+          fields: ["all"],
+          message: err.message,
+        });
+        return false;
       }
     }
 
@@ -131,23 +137,23 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      const res = await fetch('/api/auth/', {
-        method: "GET"
-      })
+      const res = await fetch("/api/auth/", {
+        method: "GET",
+      });
       const data = await res.json();
       if (data.error) {
         setErrorStatus(data);
         return false;
       }
     } catch (err) {
-        if (err instanceof Error) {
-          console.log("Error =>",err);
-          setErrorStatus({
-            error: true,
-            fields: ["all"],
-            message: err.message,
-          });
-          return false;
+      if (err instanceof Error) {
+        console.log("Error =>", err);
+        setErrorStatus({
+          error: true,
+          fields: ["all"],
+          message: err.message,
+        });
+        return false;
       }
     }
     setUser(null);
@@ -162,7 +168,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       newUser.username,
       newUser.email,
       newUser.password,
-      confirmPassword
+      confirmPassword,
     );
 
     if (result.error) {
