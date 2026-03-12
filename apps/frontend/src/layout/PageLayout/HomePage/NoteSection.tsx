@@ -1,13 +1,11 @@
 "use client";
 import { NoteContext } from "@/context/NoteContext";
-import { ThemeContext } from "@/context/ThemeContext";
 import { icons } from "@/icons/icons";
 import formaterText from "@/modules/noteTextFormatter";
 import Link from "next/link";
 import { useContext, useState } from "react";
 
 export default function NoteSection() {
-  const { theme } = useContext(ThemeContext);
   const { selectNote, noteList, tagList } = useContext(NoteContext);
   const [lastNote] = useState<string>(() =>
     typeof window !== "undefined"
@@ -71,10 +69,7 @@ export default function NoteSection() {
         onClick={() => selectNote(noteData)}
         className="flex-1 overflow-clip h-full min-h-0"
       >
-        <div
-          className="relative h-full min-h-0 max-h-full p-1 animate-fade-in"
-          key={theme}
-        >
+        <div className="relative h-full min-h-0 max-h-full p-1 animate-fade-in">
           <p
             className="dark:text-woodsmoke-100"
             dangerouslySetInnerHTML={{

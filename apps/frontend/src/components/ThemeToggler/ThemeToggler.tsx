@@ -1,9 +1,8 @@
 "use client";
 
-import { useContext, useEffect } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { Button } from "@/ui/Button/";
-import { ThemeContext } from "@/context/ThemeContext";
+import { useState } from "react";
 
 interface IThemeTogglerProps {
   menuStatus?: boolean;
@@ -14,10 +13,11 @@ export default function ThemeToggler({
   menuStatus,
   themeIsDark,
 }: IThemeTogglerProps) {
-  const { toggleTheme, setInitialTheme } = useContext(ThemeContext);
+  const [isDark, setIsDark] = useState<boolean>(themeIsDark);
 
-  const handleTheme = async () => {
+  const handleThemeChange = async () => {
     const newTheme = !themeIsDark;
+    setIsDark(!isDark);
 
     if ("cookieStore" in window) {
       await window.cookieStore?.set({
@@ -26,18 +26,10 @@ export default function ThemeToggler({
         path: "/",
       });
     } else {
-      // biome-ignore lint/suspicious/noDocumentCookie: <For browsers that not support cookieStore>
       document.cookie = `theme=${newTheme ? "dark" : "light"}; path=/`;
     }
     document.documentElement.classList.toggle("dark");
-    if (toggleTheme) {
-      toggleTheme();
-    }
   };
-
-  useEffect(() => {
-    setInitialTheme(themeIsDark ? "dark" : "light");
-  }, [themeIsDark, setInitialTheme]);
 
   return (
     <div className="self-center">
@@ -48,12 +40,12 @@ export default function ThemeToggler({
           dark:text-woodsmoke-50
         "
         >
-          {themeIsDark ? "Escuro" : "Claro"}
+          {isDark ? "Escuro" : "Claro"}
         </span>
       )}
       <Button
         ariaLabel={
-          themeIsDark ? "Alterar para Modo Claro" : "Alterar para Modo Escuro"
+          isDark ? "Alterar para Modo Claro" : "Alterar para Modo Escuro"
         }
         extraStyles={{
           button: `
@@ -61,7 +53,7 @@ export default function ThemeToggler({
           ${menuStatus ? "w-20 h-8 rounded-full border border-woodsmoke-800 dark:border-woodsmoke-100 hover:border-woodsmoke-900 dark:hover:border-woodsmoke-50" : "border-none"}`,
           icon: "text-xl text-woodsmoke-950 dark:text-woodsmoke-50",
         }}
-        action={() => handleTheme()}
+        action={() => handleThemeChange()}
       >
         <div
           className={`
@@ -69,7 +61,7 @@ export default function ThemeToggler({
             ${menuStatus && "translate-x-6 dark:-translate-x-6"}
           `}
         >
-          {themeIsDark ? <BsMoon /> : <BsSun />}
+          {isDark ? <BsMoon /> : <BsSun />}
         </div>
       </Button>
     </div>
