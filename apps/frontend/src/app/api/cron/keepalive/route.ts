@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL || "http://localhost:3030"}/keepalive`,
+      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3030"}/keepalive`,
       {
         headers: {
           Authorization: `Bearer ${secret}`,
