@@ -6,6 +6,7 @@ import { NoteModule } from './modules/note.module';
 import { TagModule } from './modules/tag.module';
 import { KanbanModule } from './modules/kanban.module';
 import { UserModule } from './modules/user.module';
+import { KeepaliveModule } from './modules/keepalive.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from './modules/user.module';
     NoteModule,
     TagModule,
     KanbanModule,
+    KeepaliveModule,
   ],
 })
 export class AppModule {}
