@@ -46,6 +46,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
+    setErrorStatus({ error: false, fields: [], message: "" });
     const noSessionTokenLogout = async () => {
       if (
         pathname === "/signout" ||
@@ -160,14 +161,38 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signUp = async (newUser: Partial<IUser>, confirmPassword: string) => {
-    if (!newUser.username || !newUser.email || !newUser.password) return false;
-    newUser.username.toLowerCase().trim();
-    newUser.email.toLowerCase().trim();
+    const { username, email, password } = newUser;
+    if (!username) {
+      setErrorStatus({
+        error: true,
+        fields: ["username"],
+        message: "Preencha o campo username",
+      });
+      return false;
+    }
+    if (!email) {
+      setErrorStatus({
+        error: true,
+        fields: ["email"],
+        message: "Preencha o campo email",
+      });
+      return false;
+    }
+    if (!password) {
+      setErrorStatus({
+        error: true,
+        fields: ["password"],
+        message: "Preencha o campo password",
+      });
+      return false;
+    }
+    username.toLowerCase().trim();
+    email.toLowerCase().trim();
 
     const result = checkFieldsSignUp(
-      newUser.username,
-      newUser.email,
-      newUser.password,
+      username,
+      email,
+      password,
       confirmPassword,
     );
 

@@ -29,7 +29,7 @@ export default function SignUpPage() {
         password,
         username: formatFields(username),
       },
-      confirmPassword
+      confirmPassword,
     );
 
     if (res) {
@@ -47,10 +47,7 @@ export default function SignUpPage() {
 
   return (
     <main className="page flex items-center justify-center pt-0" id="main">
-      <section
-        className="flex flex-col items-center min-w-[300px] w-[90%] max-w-[568px] max-h-[calc(100%-120px)] px-4 pt-8 pb-4 border rounded-lg gap-y-4
-        dark:border-woodsmoke-800 border-woodsmoke-300 overflow-y-auto "
-      >
+      <section className="flex flex-col items-center min-w-[300px] w-[90%] max-w-[568px] max-h-[calc(100%-120px)] px-4 pt-8 pb-4 border rounded-lg gap-y-4 dark:border-woodsmoke-800 border-woodsmoke-300 overflow-y-auto scrollbar-base">
         <form
           onSubmit={(ev) => handleSubmit(ev)}
           className="flex flex-col gap-y-8 w-full"
