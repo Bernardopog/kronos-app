@@ -5,12 +5,14 @@ import { INote } from "@/mock/mockNote";
 import Divider from "@/ui/Divider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ModalContext } from "@/context/ModalContext";
-import { NoteContext } from "@/context/NoteContext";
 import { icons } from "@/icons/icons";
 import { FaQuestion } from "react-icons/fa";
 import { Button } from "@/ui/Button/";
 
 import HyperTextModal from "../Modal/HyperTextModal/HyperTextModal";
+import { useNoteStore } from "@/store/NoteStore";
+import { useShallow } from "zustand/shallow";
+import { useNoteTagStore } from "@/store/NoteTagStore";
 
 interface INoteMainHeaderProps {
   selectedNote: INote;
@@ -24,13 +26,31 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const { renameNote, chooseIcon, tagList } = useContext(NoteContext);
+  const { tagData, getTags } = useNoteTagStore(
+    useShallow((s) => ({
+      tagData: s.tagData,
+      getTags: s.getTags,
+    })),
+  );
+  const { fetched, list: tags } = tagData;
+
   const { toggleModal } = useContext(ModalContext);
+  const { renameNote, changeNoteIcon } = useNoteStore(
+    useShallow((s) => ({
+      renameNote: s.renameNote,
+      changeNoteIcon: s.changeNoteIcon,
+    })),
+  );
 
   const noteCreateDate = selectedNote?.creationDate;
   const noteUpdateDate = selectedNote?.updateDate;
 
   const icon = selectedNote.icon ? icons[selectedNote.icon] : null;
+
+  useEffect(() => {
+    if (fetched) return;
+    getTags();
+  }, [getTags, fetched]);
 
   useEffect(() => {
     if (editableTitle && titleInputRef.current) titleInputRef.current.focus();
@@ -73,7 +93,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
                       `,
                     }}
                     action={() => {
-                      chooseIcon(iconkey as keyof typeof icons);
+                      changeNoteIcon(iconkey as keyof typeof icons);
                       setIsIconListShow(false);
                     }}
                     icon={icons[iconkey as keyof typeof icons]}
@@ -136,7 +156,7 @@ export default function NoteMainHeader({ selectedNote }: INoteMainHeaderProps) {
               return (
                 <li key={tag}>
                   <p className="capitalize">
-                    {tagList[tagList.findIndex((t) => t.id === tag)].tagName}
+                    {tags[tags.findIndex((t) => t.id === tag)].tagName}
                     {idx === selectedNote.tags!.length - 1 ? "." : ","}
                   </p>
                 </li>

@@ -6,7 +6,6 @@ import Modal from "@/components/Modal/Modal";
 import { NavbarProvider } from "@/context/NavbarContext";
 import { ModalProvider } from "@/context/ModalContext";
 import { DeviceScreenProvider } from "@/context/DeviceScreenContext";
-import { NoteProvider } from "@/context/NoteContext";
 import { KanbanProvider } from "@/context/KanbanContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { SocketProvider } from "@/context/SocketContext";
@@ -35,20 +34,18 @@ export default async function RootLayout({
         <SocketProvider>
           <DeviceScreenProvider>
             <NavbarProvider>
-              <NoteProvider>
-                <KanbanProvider>
-                  <ModalProvider>
-                    <body
-                      className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
-                    >
-                      <Modal />
-                      <Header themeIsDark={themeIsDark} />
-                      <Navbar themeIsDark={themeIsDark} />
-                      {children}
-                    </body>
-                  </ModalProvider>
-                </KanbanProvider>
-              </NoteProvider>
+              <KanbanProvider>
+                <ModalProvider>
+                  <body
+                    className={`grid min-h-dvh main-layout duration-300 ease-in-out overflow-hidden ${roboto.className}`}
+                  >
+                    <Modal />
+                    <Header themeIsDark={themeIsDark} />
+                    <Navbar themeIsDark={themeIsDark} />
+                    {children}
+                  </body>
+                </ModalProvider>
+              </KanbanProvider>
             </NavbarProvider>
           </DeviceScreenProvider>
         </SocketProvider>

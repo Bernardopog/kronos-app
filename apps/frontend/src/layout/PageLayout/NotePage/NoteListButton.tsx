@@ -1,11 +1,16 @@
 "use client";
 import { TabButton } from "@/ui/Button";
-import { NoteContext } from "@/context/NoteContext";
-import { useContext } from "react";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import { useNoteListStore } from "@/store/NoteListStore";
+import { useShallow } from "zustand/shallow";
 
 export default function NoteListButton() {
-  const { toggleList, isListShow } = useContext(NoteContext);
+  const { toggleList, isListShow } = useNoteListStore(
+    useShallow((s) => ({
+      toggleList: s.toggleList,
+      isListShow: s.isListShowing,
+    })),
+  );
 
   return (
     <>

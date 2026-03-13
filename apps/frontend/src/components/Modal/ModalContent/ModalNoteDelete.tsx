@@ -1,12 +1,18 @@
 "use client";
 
 import { ModalContext } from "@/context/ModalContext";
-import { NoteContext } from "@/context/NoteContext";
 import { useContext } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
+import { useNoteStore } from "@/store/NoteStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalNoteDelete() {
-  const { deleteNote, selectedNote } = useContext(NoteContext);
+  const { deleteNote, selectedNote } = useNoteStore(
+    useShallow((s) => ({
+      deleteNote: s.deleteNote,
+      selectedNote: s.selectedNote,
+    })),
+  );
   const { toggleModal } = useContext(ModalContext);
 
   return (

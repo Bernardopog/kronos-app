@@ -1,13 +1,19 @@
 "use client";
 import { useContext, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
-import { NoteContext } from "@/context/NoteContext";
 import { Input } from "@/ui/Input/";
 import Checkbox from "@/ui/Checkbox";
 import { ModalContext } from "@/context/ModalContext";
+import { useNoteTagStore } from "@/store/NoteTagStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalCreateTag() {
-  const { createTag, tagList } = useContext(NoteContext);
+  const { createTag, tagList } = useNoteTagStore(
+    useShallow((s) => ({
+      createTag: s.createTag,
+      tagList: s.tagData.list,
+    })),
+  );
   const { toggleModal } = useContext(ModalContext);
 
   const [tagName, setTagName] = useState<string>("");

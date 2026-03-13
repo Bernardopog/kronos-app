@@ -1,13 +1,35 @@
-import React, { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
-import { NoteContext } from "@/context/NoteContext";
 import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { ModalContext } from "@/context/ModalContext";
 import { Button } from "@/ui/Button";
+import { useNoteStore } from "@/store/NoteStore";
+import { useNoteTagStore } from "@/store/NoteTagStore";
+import { useShallow } from "zustand/shallow";
 
 export default function ModalReadTag() {
-  const { tagList, selectedNote, addTag, removeTag } = useContext(NoteContext);
+  const { addTag, removeTag, selectedNote } = useNoteStore(
+    useShallow((s) => ({
+      addTag: s.addTag,
+      removeTag: s.removeTag,
+      selectedNote: s.selectedNote,
+    })),
+  );
+
+  const { tagData, getTags } = useNoteTagStore(
+    useShallow((s) => ({
+      tagData: s.tagData,
+      getTags: s.getTags,
+    })),
+  );
+  const { fetched, list: tags } = tagData;
+
   const { changeModalData } = useContext(ModalContext);
+
+  useEffect(() => {
+    if (fetched) return;
+    getTags();
+  }, [fetched, getTags]);
 
   return (
     <>
@@ -17,7 +39,7 @@ export default function ModalReadTag() {
             Tags Disponíveis:
           </h4>
           <ul className="grid grid-cols-4 p-2 border rounded-lg gap-1 border-woodsmoke-200 dark:border-woodsmoke-800">
-            {tagList.map((tag) => {
+            {tags.map((tag) => {
               return (
                 <li key={tag.id}>
                   <Button
@@ -104,11 +126,9 @@ export default function ModalReadTag() {
                       action={() => {
                         removeTag(tag);
                       }}
-                      label={
-                        tagList[tagList.findIndex((t) => t.id === tag)].tagName
-                      }
+                      label={tags[tags.findIndex((t) => t.id === tag)].tagName}
                       ariaLabel={`Remover Tag ${
-                        tagList[tagList.findIndex((t) => t.id === tag)].tagName
+                        tags[tags.findIndex((t) => t.id === tag)].tagName
                       }`}
                     />
                   </li>

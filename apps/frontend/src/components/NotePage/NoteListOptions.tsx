@@ -2,8 +2,7 @@
 
 import { AiFillFilter, AiOutlineClose } from "react-icons/ai";
 import { Button, CreateNoteButton } from "@/ui/Button/";
-import { useContext } from "react";
-import { NoteContext } from "@/context/NoteContext";
+import { useNoteStore } from "@/store/NoteStore";
 
 interface INoteListOptionsProps {
   isFilterShow: boolean;
@@ -14,7 +13,7 @@ export default function NoteListOptions({
   isFilterShow,
   toggleFilter,
 }: INoteListOptionsProps) {
-  const { createNote } = useContext(NoteContext);
+  const createNote = useNoteStore((s) => s.createNote);
 
   return (
     <section className="relative h-16 p-2 pt-8 lg:mt-0">

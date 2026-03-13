@@ -1,21 +1,51 @@
 "use client";
-import { NoteContext } from "@/context/NoteContext";
 import { icons } from "@/icons/icons";
 import formaterText from "@/modules/noteTextFormatter";
+import { useNoteStore } from "@/store/NoteStore";
+import { useNoteTagStore } from "@/store/NoteTagStore";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/shallow";
 
 export default function NoteSection() {
-  const { selectNote, noteList, tagList } = useContext(NoteContext);
+  const { tagData, getTags } = useNoteTagStore(
+    useShallow((s) => ({
+      tagData: s.tagData,
+      getTags: s.getTags,
+    })),
+  );
+  const { fetched: tagFetched, list: tags } = tagData;
+
+  const { selectNote, noteData, getNotes, selectedNote } = useNoteStore(
+    useShallow((s) => ({
+      selectNote: s.selectNote,
+      noteData: s.noteData,
+      getNotes: s.getNotes,
+      selectedNote: s.selectedNote,
+    })),
+  );
+  const { fetched: noteFetched, list: notes } = noteData;
+
   const [lastNote] = useState<string>(() =>
     typeof window !== "undefined"
       ? window.localStorage.getItem("lastViewedNote") || ""
       : "",
   );
 
-  const noteData = noteList.find((note) => note.id === lastNote) ?? null;
+  useEffect(() => {
+    if (tagFetched) return;
+    getTags();
+  }, [tagFetched, getTags]);
 
-  if (lastNote === "" || !noteData)
+  useEffect(() => {
+    if (noteFetched) return;
+    const noteSpecificData = notes.find((note) => note.id === lastNote) ?? null;
+    if (!noteSpecificData) return;
+    selectNote(noteSpecificData);
+    getNotes();
+  });
+
+  if (lastNote === "" || !selectedNote)
     return (
       <div className="flex items-center justify-center size-full">
         <p className="text-woodsmoke-950/75 text-lg italic">
@@ -32,19 +62,19 @@ export default function NoteSection() {
             Título:
           </span>{" "}
           <span className="inline-flex items-center gap-1">
-            {noteData.title}{" "}
+            {selectedNote.title}{" "}
             <span className="text-lg">
-              {icons[noteData.icon as keyof typeof icons]}
+              {icons[selectedNote.icon as keyof typeof icons]}
             </span>
           </span>
         </p>
-        {noteData.tags.length > 0 && (
+        {selectedNote.tags.length > 0 && (
           <p>
             <span className="font-medium text-woodsmoke-950 dark:text-woodsmoke-100">
               Tags:{" "}
             </span>
-            {tagList
-              .filter((tag) => noteData.tags.includes(tag.id))
+            {tags
+              .filter((tag) => selectedNote.tags.includes(tag.id))
               .map((tag) => tag.tagName)
               .join(", ")}
           </p>
@@ -53,27 +83,27 @@ export default function NoteSection() {
           <span className="font-medium text-woodsmoke-950 dark:text-woodsmoke-100">
             Data criação:{" "}
           </span>
-          {new Date(noteData.creationDate).toLocaleDateString()}
+          {new Date(selectedNote.creationDate).toLocaleDateString()}
         </p>
-        {noteData?.updateDate && (
+        {selectedNote?.updateDate && (
           <p>
             <span className="font-medium text-woodsmoke-950 dark:text-woodsmoke-100">
               Data edição:{" "}
             </span>
-            {new Date(noteData.updateDate).toLocaleDateString()}
+            {new Date(selectedNote.updateDate).toLocaleDateString()}
           </p>
         )}
       </header>
       <Link
         href={`/note`}
-        onClick={() => selectNote(noteData)}
+        onClick={() => selectNote(selectedNote)}
         className="flex-1 overflow-clip h-full min-h-0"
       >
         <div className="relative h-full min-h-0 max-h-full p-1 animate-fade-in">
           <p
             className="dark:text-woodsmoke-100"
             dangerouslySetInnerHTML={{
-              __html: formaterText(noteData.description ?? ""),
+              __html: formaterText(selectedNote.description ?? ""),
             }}
           ></p>
           <div className="absolute top-0 left-0 bg-linear-to-b from-transparent to-woodsmoke-50 z-10 size-full duration-300 ease-in-out opacity-100 dark:to-woodsmoke-925 group-hover:opacity-0"></div>

@@ -3,7 +3,6 @@
 import { Button } from "@/ui/Button";
 import { TabCloseButton } from "@/ui/Button";
 import { ModalContext } from "@/context/ModalContext";
-import { NoteContext } from "@/context/NoteContext";
 import { useContext, useEffect, useState } from "react";
 import {
   AiFillDelete,
@@ -14,11 +13,25 @@ import {
   AiOutlineHeart,
 } from "react-icons/ai";
 import { BsFiletypeTxt } from "react-icons/bs";
+import { useNoteStore } from "@/store/NoteStore";
+import { useShallow } from "zustand/shallow";
+import { useNoteOptionsStore } from "@/store/NoteOptionsStore";
 
 export default function NoteOptions() {
-  const { selectedNote, toggleFavorite, toggleOptions, optionsShowControl } =
-    useContext(NoteContext);
   const { toggleModal } = useContext(ModalContext);
+
+  const { toggleOptions, optionsShowControl } = useNoteOptionsStore(
+    useShallow((s) => ({
+      toggleOptions: s.toggleOptions,
+      optionsShowControl: s.optionsShowControl,
+    })),
+  );
+  const { selectedNote, toggleFavorite } = useNoteStore(
+    useShallow((s) => ({
+      selectedNote: s.selectedNote,
+      toggleFavorite: s.toggleFavorite,
+    })),
+  );
 
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [url, setUrl] = useState<string | null>(null);

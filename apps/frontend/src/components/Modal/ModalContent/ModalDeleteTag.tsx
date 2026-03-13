@@ -1,14 +1,35 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalFooter from "../../../ui/Modal/ModalFooter";
-import { NoteContext } from "@/context/NoteContext";
 import { ModalContext } from "@/context/ModalContext";
+import { useNoteTagStore } from "@/store/NoteTagStore";
+import { useShallow } from "zustand/shallow";
+import { useNoteStore } from "@/store/NoteStore";
 
 export default function ModalDeleteTag() {
-  const { tagList, deleteTag } = useContext(NoteContext);
+  const { tagData, deleteTag, getTags } = useNoteTagStore(
+    useShallow((s) => ({
+      tagData: s.tagData,
+      deleteTag: s.deleteTag,
+      getTags: s.getTags,
+    })),
+  );
+  const { fetched, list: tags } = tagData;
+
+  const { clearDeletedTags } = useNoteStore(
+    useShallow((s) => ({
+      clearDeletedTags: s.clearDeletedTags,
+    })),
+  );
+
   const { toggleModal } = useContext(ModalContext);
 
   const [tagToDelete, setTagToDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (fetched) return;
+    getTags();
+  }, [fetched, getTags]);
 
   return (
     <>
@@ -17,7 +38,7 @@ export default function ModalDeleteTag() {
           <p className="text-woodsmoke-800 text-center dark:text-woodsmoke-100">
             Você tem certeza que deseja excluir a nota: <br />
             <span className="font-bold text-2xl text-woodsmoke-950 dark:text-woodsmoke-50">
-              {tagList.find((tag) => tag.id === tagToDelete)?.tagName}
+              {tags.find((tag) => tag.id === tagToDelete)?.tagName}
             </span>
           </p>
         ) : (
@@ -28,7 +49,7 @@ export default function ModalDeleteTag() {
         <ul
           className={`grid grid-cols-4 rounded-lg gap-2 border-woodsmoke-200 dark:border-woodsmoke-800 ease-in-out duration-300 ${true ? "h-24 p-2 border overflow-y-auto scrollbar-base" : "h-0 overflow-clip p-0 border-none"}`}
         >
-          {tagList.map((tag) => (
+          {tags.map((tag) => (
             <li
               key={tag.id}
               className="btn-base text-woodsmoke-950 cursor-pointer
@@ -54,7 +75,9 @@ export default function ModalDeleteTag() {
       <ModalFooter
         type="delete"
         action={() => {
-          deleteTag(tagToDelete ?? "");
+          if (!tagToDelete) return;
+          deleteTag(tagToDelete);
+          clearDeletedTags(tagToDelete);
           toggleModal(null);
         }}
       />

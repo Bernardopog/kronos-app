@@ -1,9 +1,9 @@
 "use client";
-import { NoteContext } from "@/context/NoteContext";
 import { icons } from "@/icons/icons";
 import { INote } from "@/mock/mockNote";
-import { useContext } from "react";
+import { useNoteStore } from "@/store/NoteStore";
 import { AiFillStar } from "react-icons/ai";
+import { useShallow } from "zustand/shallow";
 
 interface INoteListItemProps {
   data: INote;
@@ -11,7 +11,12 @@ interface INoteListItemProps {
 }
 
 export default function NoteListItem({ data, action }: INoteListItemProps) {
-  const { selectNote, selectedNote } = useContext(NoteContext);
+  const { selectNote, selectedNote } = useNoteStore(
+    useShallow((s) => ({
+      selectNote: s.selectNote,
+      selectedNote: s.selectedNote,
+    })),
+  );
 
   return (
     <li

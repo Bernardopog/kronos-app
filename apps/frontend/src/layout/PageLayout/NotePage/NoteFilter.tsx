@@ -4,12 +4,30 @@ import { Button } from "@/ui/Button";
 import Tab from "@/ui/Tab";
 import Inert from "@/ui/Inert";
 import Radio from "@/ui/Radio";
-import { NoteContext } from "@/context/NoteContext";
-import { useContext } from "react";
+import { useEffect } from "react";
+import { useNoteTagStore } from "@/store/NoteTagStore";
+import { useShallow } from "zustand/shallow";
+import { useNoteFilterStore } from "@/store/NoteFilterStore";
 
 export default function NoteFilter({ state }: { state: boolean }) {
-  const { changeFilterFavorite, changeFilterTag, tagList, filterTag } =
-    useContext(NoteContext);
+  const { filterController, filter } = useNoteFilterStore(
+    useShallow((s) => ({
+      filterController: s.filterController,
+      filter: s.filter,
+    })),
+  );
+  const { tagData, getTags } = useNoteTagStore(
+    useShallow((s) => ({
+      tagData: s.tagData,
+      getTags: s.getTags,
+    })),
+  );
+  const { fetched, list: tags } = tagData;
+
+  useEffect(() => {
+    if (fetched) return;
+    getTags();
+  }, [fetched, getTags]);
 
   return (
     <Inert
@@ -28,21 +46,21 @@ export default function NoteFilter({ state }: { state: boolean }) {
           htmlFor="allFavorites"
           collection="favorite"
           selected={true}
-          action={() => changeFilterFavorite("all")}
+          action={() => filterController("favorite", "all")}
         />
         <Radio
           label="Favoritos"
           value="favorites"
           htmlFor="favoritedFavorites"
           collection="favorite"
-          action={() => changeFilterFavorite("favorites")}
+          action={() => filterController("favorite", "favorites")}
         />
         <Radio
           label="Não Favoritos"
           value="notFavorites"
           htmlFor="notFavorites"
           collection="favorite"
-          action={() => changeFilterFavorite("notFavorites")}
+          action={() => filterController("favorite", "notFavorites")}
         />
       </Tab>
       <Tab title="Tag">
@@ -59,24 +77,24 @@ export default function NoteFilter({ state }: { state: boolean }) {
             <Button
               extraStyles={{
                 button: `size-full 
-                ${filterTag === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+                ${filter.tag === "all" && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
               }}
               action={() => {
-                changeFilterTag("all");
+                filterController("tag", "all");
               }}
               label="Todas"
             />
           </li>
-          {tagList.map((tag) => {
+          {tags.map((tag) => {
             return (
               <li key={tag.id}>
                 <Button
                   extraStyles={{
                     button: `size-full truncate
-                    ${tag.id === filterTag && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
+                    ${tag.id === filter.tag && "bg-woodsmoke-200 dark:bg-woodsmoke-900"}`,
                   }}
                   action={() => {
-                    changeFilterTag(tag.id);
+                    filterController("tag", tag.id);
                   }}
                   label={tag.tagName}
                 />

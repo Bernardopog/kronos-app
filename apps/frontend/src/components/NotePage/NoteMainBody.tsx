@@ -1,20 +1,20 @@
 "use client";
 
-import { NoteContext } from "@/context/NoteContext";
 import { INote } from "@/mock/mockNote";
 import formaterText from "@/modules/noteTextFormatter";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useNoteStore } from "@/store/NoteStore";
+import { useEffect, useRef, useState } from "react";
 
 interface INoteMainBodyProps {
   selectedNote: INote;
 }
 
 export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
-  const { changeContent } = useContext(NoteContext);
+  const changeNoteContent = useNoteStore((s) => s.changeNoteContent);
 
   const descInputRef = useRef<HTMLTextAreaElement>(null);
 
-  const [noteDescription, setNoteDescription] = useState<string>("Digite Aqui");
+  const [noteDescription, setNoteDescription] = useState<string>("");
   const [editableDesc, setEditableDesc] = useState<boolean>(false);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function NoteMainBody({ selectedNote }: INoteMainBodyProps) {
             else setNoteDescription(ev.target.value);
           }}
           onBlur={() => {
-            changeContent(noteDescription);
+            changeNoteContent(noteDescription);
             setEditableDesc(false);
           }}
         />

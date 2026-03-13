@@ -2,11 +2,10 @@
 
 import NoteMainBody from "@/components/NotePage/NoteMainBody";
 import NoteMainHeader from "@/components/NotePage/NoteMainHeader";
-import { NoteContext } from "@/context/NoteContext";
-import { useContext } from "react";
+import { useNoteStore } from "@/store/NoteStore";
 
 export default function NoteMain() {
-  const { selectedNote } = useContext(NoteContext);
+  const selectedNote = useNoteStore((s) => s.selectedNote);
 
   return (
     <>
